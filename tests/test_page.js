@@ -1215,3 +1215,30 @@ test("calendrier : avec les vraies données publiées, jamais plus de lignes que
   assert.ok(v.lignes.length <= q.avenir.length);
   assert.ok(v.lignes.length > 0);
 });
+
+test("calendrier : date mal formée, adversaire ou salle qui ne sont pas du texte = « Ligne illisible. », jamais « undefined » ni « null »", async () => {
+  const d = donneesCalendrier();
+  d.equipes[0].avenir.push(
+    { date: "2026-13-05", lieu: "E", adv: "MOIS 13", heure: "16:00" },
+    { date: "bientot", lieu: "E", adv: "DATE TEXTE", heure: "16:00" },
+    { date: "2026-12-20", lieu: "E", heure: "16:00" }, // adversaire absent
+    { date: "2026-12-21", lieu: "E", adv: null },
+    { date: "2026-12-22", lieu: "E", adv: "SALLE OBJET", salle: { x: 1 } },
+    { date: "2026-12-23", lieu: "E", adv: "BIEN FORMEE", heure: "18:00", salle: "SALLE C" });
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  const v = vueEquipe(p);
+  assert.doesNotMatch(v.cal.textContent, /undefined|null|NaN|\[object/);
+  assert.equal((v.cal.textContent.match(/Ligne illisible\./g) || []).length, 5);
+  assert.doesNotMatch(v.cal.textContent, /MOIS 13|DATE TEXTE|SALLE OBJET/);
+  assert.match(v.cal.textContent, /BIEN FORMEE.*SALLE C/);
+  assert.match(v.cal.textContent, /CE SOIR/);
+});
+
+test("calendrier : une date de dernière lecture illisible n'efface pas le calendrier", async () => {
+  const d = donneesCalendrier(); d.equipes[0].nonlu = true; d.equipes[0].lu = "pas une date";
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  const v = vueEquipe(p);
+  assert.match(v.cal.textContent, /CE SOIR/);
+  assert.match(v.cal.textContent, /Dernières données connues/);
+  assert.doesNotMatch(v.cal.textContent, /illisibles/);
+});

@@ -217,13 +217,16 @@ function blocCalendrier(q){
     if(!Array.isArray(q.avenir))return null;
     const auj=aujourdhuiParis(),h=heureParis();
     s.append(el("h2",null,"Calendrier"),el("p","poule","Matchs à venir"));
-    if(q.nonlu)s.append(el("p","note","Dernières données connues"+(q.lu?" du "+dateLue(q.lu):"")));
+    if(q.nonlu){let d="";try{d=q.lu?" du "+dateLue(q.lu):""}catch(x){}s.append(el("p","note","Dernières données connues"+d))}
     const vus=q.avenir.filter(m=>m&&typeof m==="object"&&!(typeof m.date==="string"&&dejaJoue(m,auj,h)));
+    const iso=/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
     if(!vus.length)s.append(el("p","qui","Aucun match à venir."));
     const ul=el("ul","mts");
     vus.forEach(m=>{
       const li=el("li","mt");
       try{
+        // champs lus tels quels : une date mal formée, un adversaire ou une salle qui ne sont pas du texte = ligne illisible
+        if(typeof m.date!=="string"||!iso.test(m.date)||typeof m.adv!=="string"||(m.salle!=null&&typeof m.salle!=="string")||(m.heure!=null&&typeof m.heure!=="string"))throw new Error("ligne illisible");
         const t=el("div","mt-txt"),qui=el("p","qui");
         t.append(el("p","mt-carte",jour(m.date)+(m.heure?" · "+m.heure.replace(":"," h "):" · sans heure")));
         if(m.lieu==="D"||m.lieu==="E")qui.append(el("span","lieu",m.lieu==="D"?"Domicile":"Extérieur"));
