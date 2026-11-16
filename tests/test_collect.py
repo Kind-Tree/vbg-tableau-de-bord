@@ -567,3 +567,58 @@ class PlanificationTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# ---- Tri des résultats d'un même jour (nuit du 16/11/2026) ----
+def bcd_avec_heures(h001, h002):
+    """Page de la Coupe de Bretagne dont BCD001 et BCD002 (même jour, 15/11) reçoivent ces heures."""
+    p = page("coupe_bcd")
+    for code, h in (("BCD001", h001), ("BCD002", h002)):
+        m = re.search(r">" + code + r"</td><td[^>]*>15/11/26</td><td[^>]*>([^<]*)</td>", p)
+        assert m, code
+        p = p[:m.start(1)] + (h or "") + p[m.end(1):]
+    return p
+
+
+class TriMemeJourTest(unittest.TestCase):
+    def advs(self, h001, h002):
+        r = collect.analyser(bcd_avec_heures(h001, h002), BCD, AUJ, coupe=True)
+        return [x["adv"] for x in r["resultats"]]
+
+    MAEN, LIFF = "MAEN ROCH VOLLEY BALL", "UNION SPORTIVE LIFFREENNE"
+
+    def test_page_de_test_modifiee_comme_prevu(self):
+        r = collect.analyser(bcd_avec_heures("11:00", "09:00"), BCD, AUJ, coupe=True)
+        self.assertEqual([(x["adv"], x["heure"]) for x in r["resultats"]],
+                         [(self.LIFF, "11:00"), (self.MAEN, "09:00")])
+
+    def test_l_heure_decide_avant_le_code(self):
+        # BCD002 a le code le plus grand mais l'heure la plus tôt : le plus tardif passe en premier
+        self.assertEqual(self.advs("11:00", "09:00"), [self.LIFF, self.MAEN])
+        self.assertEqual(self.advs("09:00", "11:00"), [self.MAEN, self.LIFF])
+
+    def test_a_heure_egale_le_code_decide_le_plus_grand_d_abord(self):
+        self.assertEqual(self.advs("11:00", "11:00"), [self.MAEN, self.LIFF])
+
+    def test_sans_heure_compte_comme_la_fin_de_journee_comme_dans_la_vue_semaine(self):
+        # pas d'heure : après les matchs horaires dans la journée, donc en premier dans une liste récent-en-premier
+        self.assertEqual(self.advs("11:00", None), [self.MAEN, self.LIFF])
+        self.assertEqual(self.advs(None, "11:00"), [self.LIFF, self.MAEN])
+        self.assertEqual(self.advs(None, None), [self.MAEN, self.LIFF])
+
+    def test_un_autre_jour_prime_toujours_sur_l_heure(self):
+        r = collect.analyser(page("n3m_complet"), N3M, AUJ)
+        dates = [x["date"] for x in r["resultats"]]
+        self.assertEqual(dates, sorted(dates, reverse=True))
+
+    def test_poules_fusionnees_meme_jour_heure_puis_code(self):
+        def j(code, heure, adv):
+            return {"date": "2026-11-07", "lieu": "D", "adv": adv, "code": code, "pour": 3, "contre": 0, "sets": "", "heure": heure}
+        def lue(code, joues):
+            return {"code": code, "titre": "Titre poule A", "mes": len(joues), "joues": joues, "illisibles": 0,
+                    "prochain": None, "avenir": [], "attente": [], "classement": None}
+        cfg = {"nom": "M18M région", "poules": [{"code": "CPN", "ent": "LIBR", "club": collect.VBG},
+                                                  {"code": "CPE", "ent": "LIBR", "club": collect.VBG}]}
+        out = collect.construire(cfg, [lue("CPN", [j("CPN001", "10:00", "A")]),
+                                        lue("CPE", [j("CPE009", "14:00", "B"), j("CPE002", "14:00", "C")])])
+        self.assertEqual([x["adv"] for x in out["resultats"]], ["B", "C", "A"])

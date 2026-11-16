@@ -250,6 +250,14 @@ def joli(titre):
     return t[:1].upper() + t[1:]
 
 
+def _cle_recent(m):
+    """Clé de tri chronologique d'un match : jour, puis heure, puis code de match. Utilisée en ordre
+    décroissant (le plus récent en premier). Un match sans heure compte comme la fin de journée,
+    comme dans la vue « Cette semaine » de la page (sans heure en dernier) : il passe donc devant les
+    matchs horaires du même jour dans une liste « récent en premier »."""
+    return (m["date"], m.get("heure") or "99:99", m.get("code", ""))
+
+
 def analyser_poule(page, p, aujourdhui, heure=None):
     """Page de poule -> infos brutes du club. Lève PouleIllisible."""
     code, club = p["code"], p["club"]
@@ -265,7 +273,7 @@ def analyser_poule(page, p, aujourdhui, heure=None):
     moi = [r for r in cl if r["club"] == club]
     if cl and len(moi) != 1:
         raise PouleIllisible("club %r absent du classement (%d lignes)" % (club, len(moi)))
-    joues = sorted((m for m in mes if "pour" in m), key=lambda m: (m["date"], m["code"]), reverse=True)
+    joues = sorted((m for m in mes if "pour" in m), key=_cle_recent, reverse=True)
 
     def a_venir_ok(m):
         if "pour" in m or m.get("illisible") or m["date"] < aujourdhui.isoformat():
@@ -309,7 +317,7 @@ def construire(cfg, lues, coupe=False):
                 if m:
                     r["compet"] = m.group(1)[:1].upper() + m.group(1)[1:]
             res.append(r)
-    res.sort(key=lambda r: (r["date"], r.get("code", "")), reverse=True)
+    res.sort(key=_cle_recent, reverse=True)
     res = [{k: v for k, v in r.items() if k != "code"} for r in res]
     prochain = {k: v for k, v in active["prochain"].items() if k != "code"} if active["prochain"] else None
     out = {"nom": cfg["nom"], "prochain": prochain, "resultats": res[:NB_RESULTATS],
