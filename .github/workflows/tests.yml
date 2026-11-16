@@ -1,0 +1,29 @@
+name: Tests
+
+# À chaque push. Indépendant de la collecte planifiée : un échec ici
+# n'empêche jamais la mise à jour des données.
+on:
+  push: {}
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Tests Python (collecte)
+        run: python -m unittest discover -s tests
+
+      - name: Tests de la page
+        run: node --test tests/test_page.js

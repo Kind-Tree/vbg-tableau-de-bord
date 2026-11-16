@@ -1,0 +1,65 @@
+name: Collecte FFvolley
+
+# Passages : dimanche 21 h et 23 h, lundi 7 h, heure de Paris.
+# Le cron GitHub est en UTC : on programme les deux saisons (heure d'été = UTC+2,
+# heure d'hiver = UTC+1) et l'étape « Saison » laisse passer seulement celle qui
+# correspond à l'heure légale du moment. Pas de double passage.
+on:
+  schedule:
+    - cron: "0 19 * * 0"   # été  : dimanche 21 h
+    - cron: "0 21 * * 0"   # été  : dimanche 23 h
+    - cron: "0 5 * * 1"    # été  : lundi 7 h
+    - cron: "0 20 * * 0"   # hiver : dimanche 21 h
+    - cron: "0 22 * * 0"   # hiver : dimanche 23 h
+    - cron: "0 6 * * 1"    # hiver : lundi 7 h
+  workflow_dispatch: {}     # lancement manuel : toujours exécuté
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collecte
+  cancel-in-progress: false
+
+jobs:
+  collecte:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Saison (heure d'été ou d'hiver à Paris)
+        id: saison
+        run: |
+          decalage=$(TZ=Europe/Paris date +%z)          # +0200 (été) ou +0100 (hiver)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "go=oui" >> "$GITHUB_OUTPUT"
+          else
+            case "${{ github.event.schedule }}" in
+              "0 19 * * 0"|"0 21 * * 0"|"0 5 * * 1") planifie=+0200 ;;
+              *) planifie=+0100 ;;
+            esac
+            if [ "$planifie" = "$decalage" ]; then echo "go=oui" >> "$GITHUB_OUTPUT"; else echo "go=non" >> "$GITHUB_OUTPUT"; echo "Passage ignoré : la planification $planifie ne correspond pas à l'heure de Paris ($decalage)."; fi
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.saison.outputs.go == 'oui'
+
+      - uses: actions/setup-python@v5
+        if: steps.saison.outputs.go == 'oui'
+        with:
+          python-version: "3.12"
+
+      # Aucun test ici : un test en échec ne doit jamais empêcher la mise à jour du dimanche
+      # (les tests ont leur propre workflow, « Tests »).
+      - name: Collecte
+        if: steps.saison.outputs.go == 'oui'
+        run: |
+          python collect.py || code=$?
+          # code 2 = au moins une poule non lue (données précédentes conservées) : on publie quand même.
+          if [ "${code:-0}" -ge 3 ] || [ "${code:-0}" = 1 ]; then exit "${code}"; fi
+
+      - name: Publication de data.json
+        if: steps.saison.outputs.go == 'oui'
+        run: |
+          git config user.name "collecte-vbg"
+          git config user.email "collecte-vbg@users.noreply.github.com"
+          git add docs/data.json
+          if git diff --cached --quiet; then echo "Aucun changement."; else git commit -m "Mise à jour des données"; git pull --rebase; git push; fi

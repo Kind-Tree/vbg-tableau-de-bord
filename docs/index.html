@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111111">
+<title>VBG – Tableau de bord</title>
+<style>
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:#111111;color:#FFFFFF;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.35;padding:16px 12px 32px}
+.page{max-width:960px;margin:0 auto}
+.haut,.barre,.tete{display:flex;justify-content:space-between;gap:12px}
+.haut,.barre{align-items:center}
+h1{font-size:20px;font-weight:bold;text-transform:uppercase}
+.logo{width:56px;height:56px;flex:none;border:1px dashed #6B6B6B;display:flex;align-items:center;justify-content:center;font-size:11px;color:#D9D9D9}
+.logo img{width:100%;height:100%;object-fit:contain}
+.barre{margin:14px 0 16px}
+.maj{font-size:13px;color:#D9D9D9}
+.maj b{display:block;color:#FFFFFF;font-size:15px}
+button{background:#F26910;color:#1A1A1A;border:0;border-radius:8px;font:bold 15px Arial,Helvetica,sans-serif;text-transform:uppercase;min-height:48px;padding:0 18px}
+button:disabled{opacity:.6}
+.grille{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.carte{background:#1F1F1F;border-radius:12px;padding:14px}
+h2{color:#F26910;font-size:22px;font-weight:bold;text-transform:uppercase}
+.poule,.bilan,.salle,.note{font-size:13px;color:#D9D9D9}
+.rang{text-align:right;white-space:nowrap;font-size:13px;color:#D9D9D9}
+.rang b{display:block;color:#F26910;font-size:28px;line-height:1}
+.proch{background:#111111;border-radius:8px;padding:10px 12px;margin:12px 0}
+.pastille{display:inline-block;background:#F26910;color:#1A1A1A;font-size:11px;font-weight:bold;text-transform:uppercase;border-radius:999px;padding:3px 10px}
+.quand{font-size:18px;font-weight:bold;text-transform:uppercase;margin-top:8px}
+.qui,.salle,.note{margin-top:4px}
+.lieu{display:inline-block;border:1px solid #D9D9D9;border-radius:4px;font-size:11px;font-weight:bold;padding:1px 6px;margin-right:6px}
+.res{list-style:none;padding:0}
+.res li{display:flex;gap:10px;align-items:flex-start;padding:6px 0}
+.vd{flex:none;width:28px;height:28px;border-radius:50%;color:#FFFFFF;font-weight:bold;font-size:14px;display:flex;align-items:center;justify-content:center}
+.v{background:#1E7A3C}.d{background:#B3261E}
+.sc{flex:none;width:34px;font-weight:bold;line-height:28px}
+.adv{font-size:14px;line-height:1.3;padding-top:5px}
+.adv small{display:block;font-size:12px;color:#D9D9D9}
+h3{font-size:16px;font-weight:bold;text-transform:uppercase;margin-top:14px}
+h3 small{display:block;font-size:13px;font-weight:normal;text-transform:none;color:#D9D9D9}
+.encart{margin-top:16px;border-top:1px solid #6B6B6B;padding-top:12px}
+.encart p{font-size:13px;color:#D9D9D9;margin-top:4px}
+.nonlu{display:inline-block;border:1px solid #D9D9D9;border-radius:4px;font-size:11px;font-weight:bold;text-transform:uppercase;padding:1px 6px;margin-top:6px}
+.choix{margin:0 0 12px}
+select{display:block;width:100%;height:48px;background:#1F1F1F;color:#FFFFFF;border:1px solid #D9D9D9;border-radius:8px;font:16px Arial,Helvetica,sans-serif;padding:0 12px;color-scheme:dark}
+option{background:#1F1F1F;color:#FFFFFF}
+option:checked{background:#F26910;color:#1A1A1A}
+.lien-coupe{display:flex;align-items:center;min-height:48px;margin:0 0 12px;padding:0 14px;background:#1F1F1F;border:1px solid #F26910;border-radius:8px;color:#FFFFFF;font-size:15px;font-weight:bold;text-decoration:none}
+.lien-coupe[hidden]{display:none}
+.lien-coupe::after{content:"\203A";margin-left:auto;font-size:24px;line-height:1}
+button:focus-visible,select:focus-visible,.lien-coupe:focus-visible{outline:3px solid #F26910;outline-offset:2px}
+.grille.une{grid-template-columns:minmax(0,560px)}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="haut">
+    <h1>Volley-Ball Grégorien</h1>
+    <!-- Logo : remplacer LOGO par <img src="logo-vbg.png" alt="VBG"> -->
+    <div class="logo">LOGO</div>
+  </div>
+  <div class="barre">
+    <p class="maj"><span id="src">Dernière mise à jour</span><b id="maj">–</b></p>
+    <button id="btn" type="button">Actualiser</button>
+  </div>
+  <div class="choix"><select id="vue" aria-label="Choisir l'équipe"></select></div>
+  <a class="lien-coupe" id="lien-coupe" href="#coupes" hidden>Match de coupe cette semaine</a>
+  <div class="grille" id="grille"></div>
+  <div class="encart" id="encart" hidden></div>
+</div>
+<script>
+// Données de secours : copie de data.json du 15/11/2026 (toutes les équipes), à régénérer avec la collecte.
+// data.json (même format) les remplace dès qu'il existe à côté de cette page.
+// lieu : "D" = domicile, "E" = extérieur. pour/contre et sets : du point de vue du VBG.
+const SECOURS={"maj":"2026-11-15T21:16:37+01:00","equipes":[{"nom":"N3M","prochain":{"date":"2026-11-22","lieu":"E","adv":"C.P.B. RENNES 35","heure":"16:00","salle":"GYMNASE CDT BOUGOUIN"},"resultats":[{"date":"2026-11-08","lieu":"D","adv":"CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2","pour":3,"contre":0,"sets":"25-18 28-26 25-15"},{"date":"2026-11-01","lieu":"E","adv":"HEOL SANTEC","pour":0,"contre":3,"sets":"14-25 24-26 23-25"},{"date":"2026-10-25","lieu":"D","adv":"JEANNE D ARC DE RENNES","pour":1,"contre":3,"sets":"17-25 22-25 25-20 17-25"},{"date":"2026-10-11","lieu":"D","adv":"LES NEPTUNES NANTES VOLLEY ASSOCIATION","pour":1,"contre":3,"sets":"29-31 26-24 19-25 12-25"},{"date":"2026-10-04","lieu":"E","adv":"VOLLEY CLUB HEROUVILLE","pour":3,"contre":0,"sets":"25-19 25-20 25-23"}],"poule":"Nationale 3 masculine · Poule F","rang":8,"sur":12,"pts":6,"g":2,"p":4,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"PNF","prochain":{"date":"2026-11-21","lieu":"E","adv":"PLANCOET VOLLEY-BALL","heure":"19:00","salle":"SALLE OMNISPORTS JOSEPH SAMSON"},"resultats":[{"date":"2026-11-08","lieu":"D","adv":"E.SP. CANTON DE PIPRIAC V.B.","pour":3,"contre":1,"sets":"25-21 25-20 19-25 25-20"},{"date":"2026-10-25","lieu":"E","adv":"UNION SPORTIVE LAILLE","pour":2,"contre":3,"sets":"20-25 25-20 25-18 18-25 12-15"},{"date":"2026-10-11","lieu":"D","adv":"CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR","pour":2,"contre":3,"sets":"25-18 25-27 25-22 20-25 13-15"},{"date":"2026-10-04","lieu":"E","adv":"SAINT-MEDARD TORCE VOLLEY-BALL","pour":1,"contre":3,"sets":"24-26 16-25 25-22 24-26"},{"date":"2026-09-20","lieu":"E","adv":"VANNES VOLLEY 56","pour":0,"contre":3,"sets":"20-25 18-25 12-25"}],"poule":"Prenationale feminine","rang":11,"sur":12,"pts":5,"g":1,"p":4,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"PRM","prochain":{"date":"2026-11-21","lieu":"E","adv":"RENNES CPB 4","heure":"18:30","salle":"STADE CDT BOUGOUIN"},"resultats":[{"date":"2026-11-07","lieu":"D","adv":"UGS CESSON CHANTEPIE VERN 3","pour":3,"contre":0,"sets":"25-18 25-17 25-23"},{"date":"2026-10-24","lieu":"E","adv":"GUICHEN 2","pour":3,"contre":1,"sets":"25-20 19-25 25-19 25-20"},{"date":"2026-10-10","lieu":"D","adv":"LIFFRE 1","pour":3,"contre":0,"sets":"25-19 25-20 25-21"},{"date":"2026-10-03","lieu":"E","adv":"LAILLE 1","pour":3,"contre":0,"sets":"25-13 25-14 25-19"}],"poule":"Pré-régionale masculine · ST GREGOIRE 2","rang":1,"sur":10,"pts":12,"g":4,"p":0,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"D1F","prochain":{"date":"2026-11-21","lieu":"D","adv":"UGS CCV 3","heure":"18:00","salle":"SALLE DU COSEC"},"resultats":[{"date":"2026-11-07","lieu":"D","adv":"JANZE CORPS NUDS 1","pour":3,"contre":1,"sets":"25-13 25-20 23-25 25-18"},{"date":"2026-10-24","lieu":"D","adv":"MAEN ROCH 1","pour":0,"contre":3,"sets":"21-25 13-25 16-25"},{"date":"2026-10-17","lieu":"D","adv":"BROCELIANDE 3","pour":0,"contre":3,"sets":"15-25 17-25 10-25"}],"poule":"D1 feminine · ST GREGOIRE 2","rang":7,"sur":9,"pts":3,"g":1,"p":2,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"D2M","prochain":{"date":"2026-11-21","lieu":"D","adv":"RENNES TA 1","heure":"21:00","salle":"SALLE DU COSEC"},"resultats":[{"date":"2026-11-07","lieu":"E","adv":"MAEN ROCH 2","pour":0,"contre":3,"sets":"22-25 15-25 20-25"},{"date":"2026-10-24","lieu":"D","adv":"THORIGNE FOUILLARD 1","pour":3,"contre":0,"sets":"25-17 25-18 25-19"},{"date":"2026-10-10","lieu":"E","adv":"LE RHEU 3","pour":3,"contre":1,"sets":"25-19 20-25 25-18 27-25"}],"poule":"Departementale 2 masculine A · ST GREGOIRE 3","rang":3,"sur":7,"pts":6,"g":2,"p":1,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"M18M région","prochain":{"date":"2026-11-21","lieu":"E","adv":"ETOILE ST LAURENT VB METROPOLE BREST","heure":"13:30","salle":"PEN AR C'HLEUZ"},"resultats":[{"date":"2026-11-07","lieu":"D","adv":"FOUGERES VOLLEY-BALL","pour":0,"contre":3,"sets":"18-25 25-27 22-25","compet":"Poule E"},{"date":"2026-10-31","lieu":"E","adv":"UNION SPORTIVE VERN","pour":0,"contre":3,"sets":"22-25 21-25 24-26","compet":"Poule E"},{"date":"2026-10-03","lieu":"E","adv":"VOLLEY BALL CLUB MALOUIN","pour":1,"contre":3,"sets":"13-25 21-25 25-22 19-25","compet":"Poule E"}],"poule":"M18M performance poule C","noteRang":"Classement de la poule pas encore publié.","lu":"2026-11-15T21:16:37+01:00"},{"nom":"M18M départemental","prochain":{"date":"2026-11-21","lieu":"E","adv":"TINTENIAC","heure":null,"salle":"SALLE DES SPORTS"},"resultats":[{"date":"2026-11-07","lieu":"D","adv":"COMBOURG","pour":0,"contre":3,"sets":"14-25 18-25 21-25"}],"poule":"M18 masculins honneur poule B · ST GREGOIRE","rang":5,"sur":6,"pts":0,"g":0,"p":1,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"M18F 1","prochain":{"date":"2026-11-21","lieu":"D","adv":"LA CANE VOLLEY","heure":null,"salle":"SALLE DU COSEC"},"resultats":[{"date":"2026-11-07","lieu":"E","adv":"PLEUMELEUC/BEDEE","pour":3,"contre":0,"sets":"25-17 25-14 25-17"},{"date":"2026-10-03","lieu":"D","adv":"RENNES TA","pour":3,"contre":2,"sets":"21-25 25-21 24-26 25-22 15-10"}],"poule":"M18 filles honneurs poule D · ST GREGOIRE 1","rang":2,"sur":6,"pts":5,"g":2,"p":0,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"M18F 2","prochain":{"date":"2026-11-21","lieu":"D","adv":"GEVEZE","heure":null,"salle":"SALLE DU COSEC"},"resultats":[{"date":"2026-11-07","lieu":"E","adv":"DINARD 3","pour":3,"contre":1,"sets":"21-25 25-22 25-17 25-19"},{"date":"2026-10-03","lieu":"D","adv":"COMBOURG","pour":0,"contre":3,"sets":"22-25 11-25 18-25"}],"poule":"M18 filles honneurs poule B · ST GREGOIRE 2","rang":3,"sur":6,"pts":3,"g":1,"p":1,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"M15F","prochain":{"date":"2026-11-28","lieu":"D","adv":"LOUVIGNE DE BAIS","heure":null,"salle":"SALLE DU COSEC"},"resultats":[{"date":"2026-10-17","lieu":"E","adv":"LIFFRE","pour":0,"contre":3,"sets":"14-25 14-25 15-25"},{"date":"2026-10-10","lieu":"D","adv":"MAEN ROCH","pour":0,"contre":3,"sets":"6-25 23-25 12-25"}],"poule":"M15 filles honneurs poule C · ST GREGOIRE","rang":6,"sur":6,"pts":0,"g":0,"p":2,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"M15M","prochain":{"date":"2026-11-28","lieu":"D","adv":"RENNES JA","heure":null,"salle":"SALLE DU COSEC"},"resultats":[{"date":"2026-10-31","lieu":"E","adv":"ACIGNE (mixte)","pour":3,"contre":0,"sets":"25-15 25-21 25-14"},{"date":"2026-10-17","lieu":"E","adv":"RENNES JA","pour":2,"contre":3,"sets":"25-21 14-25 25-11 22-25 12-15"}],"poule":"M15 masculins honneurs poule B · ST GREGOIRE","rang":2,"sur":3,"pts":4,"g":1,"p":1,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"M13F","prochain":{"date":"2026-11-21","lieu":"E","adv":"CHATEAUBOURG MARPIRE 35 V 2","heure":null,"salle":"LIFFRE"},"resultats":[{"date":"2026-11-07","lieu":"D","adv":"MAEN ROCH VB","pour":0,"contre":2,"sets":"15-25 20-25"}],"poule":"M13 féminines bronze poule C · VB GREGORIEN","rang":5,"sur":6,"pts":1,"g":0,"p":1,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"M13M","prochain":{"date":"2026-11-21","lieu":"D","adv":"VIC COMBOURG (mixte)","heure":null,"salle":"ST GREGOIRE COSEC"},"resultats":[{"date":"2026-11-07","lieu":"D","adv":"ANTRAIN US (mixte)","pour":2,"contre":1,"sets":"25-15 17-25 15-10"}],"poule":"M13 masculins et mixtes cuivre D · VB GREGORIEN (masc)","rang":4,"sur":6,"pts":2,"g":1,"p":0,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"Loisir Compet'Lib 1","prochain":{"date":"2026-11-23","lieu":"D","adv":"RENNES ASLC 3","heure":null,"salle":"la ricoquais"},"resultats":[{"date":"2026-11-09","lieu":"E","adv":"RENNES JA 2","pour":3,"contre":1,"sets":"25-12 30-32 25-17 25-23"},{"date":"2026-10-19","lieu":"D","adv":"THORIGNE FOUILLARD 3","pour":3,"contre":0,"sets":"25-16 25-14 25-18"},{"date":"2026-10-05","lieu":"D","adv":"FOUGERES 2","pour":2,"contre":3,"sets":"21-25 22-25 25-15 25-12 14-16"}],"poule":"Compet lib' poule Z · ST GREGOIRE 1","rang":1,"sur":6,"pts":7,"g":2,"p":1,"lu":"2026-11-15T21:16:37+01:00"},{"nom":"Loisir Compet'Lib 2","prochain":{"date":"2026-11-23","lieu":"D","adv":"QUEDILLAC","heure":null,"salle":"la ricoquais"},"resultats":[{"date":"2026-10-19","lieu":"D","adv":"LA CHAPELLE DES FGTZ 1","pour":1,"contre":3,"sets":"14-25 25-18 23-25 15-25"},{"date":"2026-10-05","lieu":"E","adv":"LA CANE VOLLEY 3","pour":1,"contre":3,"sets":"20-25 19-25 25-21 25-27"}],"poule":"Compet lib' poule X · ST GREGOIRE 2","rang":4,"sur":6,"pts":0,"g":0,"p":2,"lu":"2026-11-15T21:16:37+01:00"}],"coupes":[{"nom":"Coupe de France fédérale masculine","prochain":null,"resultats":[{"date":"2026-11-14","lieu":"E","adv":"MAEN ROCH VOLLEY BALL","pour":3,"contre":0,"sets":"25-13 25-11 25-11"}],"equipe":"N3M","lu":"2026-11-15T21:16:37+01:00"},{"nom":"Coupe de Bretagne M18M","prochain":null,"resultats":[{"date":"2026-11-15","lieu":"D","adv":"MAEN ROCH VOLLEY BALL","pour":2,"contre":0,"sets":"26-24 25-11"},{"date":"2026-11-15","lieu":"E","adv":"UNION SPORTIVE LIFFREENNE","pour":2,"contre":0,"sets":"25-13 25-18"}],"equipe":"M18M région","lu":"2026-11-15T21:16:37+01:00"},{"nom":"Coupe CD35 masculine","prochain":{"date":"2026-12-12","lieu":"E","adv":"ROMILLE 1","heure":null,"salle":"SALLE ANITA CONTI"},"resultats":[{"date":"2026-11-14","lieu":"E","adv":"BROCELIANDE 1","pour":3,"contre":0,"sets":"25-22 25-17 25-22"}],"equipe":"PRM","lu":"2026-11-15T21:16:37+01:00"}],"nonsuivies":[]};
+const JOURS=["dim.","lun.","mar.","mer.","jeu.","ven.","sam."];
+const MOIS=["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function jour(iso){const [a,m,j]=iso.split("-").map(Number);return JOURS[new Date(Date.UTC(a,m-1,j)).getUTCDay()]+" "+j+" "+MOIS[m-1]}
+function court(iso){const p=iso.split("-");return p[2]+"/"+p[1]}
+function dateLue(iso){return new Intl.DateTimeFormat("fr-FR",{timeZone:"Europe/Paris",day:"numeric",month:"short"}).format(new Date(iso))}
+function nonLu(q){const d=el("div");d.append(el("span","nonlu","Non lu"),el("p","note","Dernières données connues"+(q.lu?" du "+dateLue(q.lu):"")));return d}
+function aujourdhuiParis(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Paris"}).format(new Date())}
+function blocProchain(m,note,lu){
+  const p=el("div","proch");p.append(el("span","pastille","Prochain match"));
+  if(m&&m.date<aujourdhuiParis()){p.append(el("p","note","Prochain match passé"+(lu?" : données du "+dateLue(lu):", données non actualisées.")))}
+  else if(m){const qui=el("p","qui");
+    p.append(el("p","quand",jour(m.date)+(m.heure?" · "+m.heure.replace(":"," h "):"")));
+    qui.append(el("span","lieu",m.lieu==="D"?"DOMICILE":"EXTÉRIEUR"),m.adv);p.append(qui);
+    if(m.salle)p.append(el("p","salle",m.salle));
+  }else p.append(el("p","note",note||"Aucun match programmé."));
+  return p}
+function listeResultats(rs){
+  const ul=el("ul","res");
+  (rs||[]).forEach(r=>{
+    const v=r.pour>r.contre,li=el("li"),a=el("span","adv",r.adv);
+    a.append(el("small",null,[court(r.date),r.lieu==="D"?"dom.":"ext.",r.compet,r.sets].filter(Boolean).join(" · ")));
+    li.append(el("span","vd "+(v?"v":"d"),v?"V":"D"),el("span","sc",r.pour+"–"+r.contre),a);ul.append(li)});
+  return ul}
+function carte(q){
+  const c=el("article","carte"),t=el("div","tete"),g=el("div");
+  g.append(el("h2",null,q.nom),el("p","poule",q.poule||""));
+  if(q.g!=null)g.append(el("p","bilan",q.g+" V · "+q.p+" D"));
+  else if(q.noteRang)g.append(el("p","bilan",q.noteRang));
+  t.append(g);
+  if(q.rang){const r=el("div","rang");r.append(el("b",null,q.rang+(q.rang===1?"er":"e")),"sur "+q.sur+" · "+q.pts+" pts");t.append(r)}
+  c.append(t);
+  if(q.nonlu)c.append(nonLu(q));
+  c.append(blocProchain(q.prochain,q.nonlu&&!q.lu?"Aucune donnée lue pour l'instant.":q.noteProchain,q.lu),listeResultats(q.resultats));
+  if(q.noteResultats)c.append(el("p","note",q.noteResultats));
+  return c}
+function carteCoupes(cs){
+  const c=el("article","carte");c.append(el("h2",null,"Coupes"));
+  cs.forEach(k=>{
+    const h=el("h3",null,k.nom);if(k.equipe)h.append(el("small",null,"Équipe "+k.equipe));c.append(h);
+    if(k.nonlu)c.append(nonLu(k));
+    c.append(blocProchain(k.prochain,k.nonlu&&!k.lu?"Aucune donnée lue pour l'instant.":null,k.lu),listeResultats(k.resultats))});
+  return c}
+// Dans les 7 jours (date de Paris, matchs à venir seulement) : la carte Coupes passe en tête.
+function coupeProche(cs){
+  const auj=aujourdhuiParis().split("-").map(Number);
+  const t0=Date.UTC(auj[0],auj[1]-1,auj[2]);
+  return cs.some(k=>{try{const [a,m,j]=k.prochain.date.split("-").map(Number);const n=(Date.UTC(a,m-1,j)-t0)/864e5;return n>=0&&n<=7}catch(e){return false}})}
+function slug(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")}
+const CLE="vbg-vue";
+function lireChoix(){try{return localStorage.getItem(CLE)}catch(e){return null}}
+function ecrireChoix(v){try{localStorage.setItem(CLE,v)}catch(e){}}
+function lireAdresse(){try{return decodeURIComponent((location.hash||"").slice(1)).toLowerCase()}catch(e){return ""}}
+function ecrireAdresse(v){try{history.replaceState(null,"","#"+v)}catch(e){}}
+function listeVues(d){const o=d.equipes.map(q=>({v:slug(q.nom),t:q.nom}));if((d.coupes||[]).length)o.push({v:"coupes",t:"Coupes"});o.push({v:"toutes",t:"Toutes les équipes"});return o}
+function valide(o,v){return v&&o.some(x=>x.v===v)?v:null}
+// L'adresse l'emporte sur le choix mémorisé ; à défaut, N3M.
+function vueInitiale(o,adresse,memo){return valide(o,adresse)||valide(o,memo)||valide(o,"n3m")||o[0].v}
+let donnees=null,choix=null;
+function rendre(){
+  const d=donnees,cs=d.coupes||[],o=listeVues(d);
+  choix=valide(o,choix)||vueInitiale(o,lireAdresse(),lireChoix());
+  // Une donnée illisible n'abîme que sa propre carte, jamais la page ni le menu.
+  const sure=(f,nom)=>{try{return f()}catch(e){const c=el("article","carte");c.append(el("h2",null,nom),el("p","note","Données de cette carte illisibles."));return c}};
+  const carteSure=q=>sure(()=>carte(q),q.nom);
+  let cartes;
+  if(choix==="toutes"){cartes=d.equipes.map(carteSure);if(cs.length){const k=sure(()=>carteCoupes(cs),"Coupes");if(coupeProche(cs))cartes.unshift(k);else cartes.push(k)}}
+  else if(choix==="coupes")cartes=[sure(()=>carteCoupes(cs),"Coupes")];
+  else cartes=[carteSure(d.equipes.find(q=>slug(q.nom)===choix))];
+  const g=document.getElementById("grille");g.className="grille"+(cartes.length===1?" une":"");g.replaceChildren(...cartes);
+  const sel=document.getElementById("vue");
+  sel.replaceChildren(...o.map(x=>{const op=el("option",null,x.t);op.value=x.v;return op}));sel.value=choix;
+  document.getElementById("lien-coupe").hidden=!(choix!=="toutes"&&choix!=="coupes"&&cs.length&&coupeProche(cs));
+  ecrireAdresse(choix)}
+function changer(v){choix=v;ecrireChoix(v);rendre()}
+function afficher(d,libelle){
+  // Seul l'essentiel est exigé ; le reste est toléré carte par carte.
+  d={...d,equipes:(Array.isArray(d.equipes)?d.equipes:[]).filter(q=>q&&typeof q.nom==="string"&&slug(q.nom)),
+     coupes:(Array.isArray(d.coupes)?d.coupes:[]).filter(k=>k&&typeof k==="object")};
+  if(!d.equipes.length)throw new Error("aucune équipe");
+  let maj="–";try{maj=new Intl.DateTimeFormat("fr-FR",{timeZone:"Europe/Paris",weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}).format(new Date(d.maj))}catch(e){}
+  document.getElementById("src").textContent=libelle;
+  document.getElementById("maj").textContent=maj;
+  const ns=d.nonsuivies||[],en=document.getElementById("encart");
+  en.replaceChildren(...ns.map(n=>el("p",null,"Compétition non suivie : "+n.code+", "+n.libelle)));en.hidden=!ns.length;
+  donnees=d;rendre()}
+async function actualiser(){
+  const b=document.getElementById("btn");b.disabled=true;
+  const c=new AbortController(),t=setTimeout(()=>c.abort(),10000); // pas d'attente infinie
+  try{const r=await fetch("data.json?t="+Date.now(),{cache:"no-store",signal:c.signal});if(!r.ok)throw 0;afficher(await r.json(),"Dernière mise à jour")}
+  catch(e){
+    // Hors ligne : on garde les données déjà affichées ; les données intégrées ne servent qu'au premier chargement.
+    if(donnees)document.getElementById("src").textContent="Actualisation impossible, données du";
+    else{try{afficher(SECOURS,"Données intégrées du")}catch(e2){}}}
+  finally{clearTimeout(t);b.disabled=false}}
+document.getElementById("btn").addEventListener("click",actualiser);
+document.getElementById("vue").addEventListener("change",e=>changer(e.target.value));
+document.getElementById("lien-coupe").addEventListener("click",e=>{e.preventDefault();changer("coupes")});
+window.addEventListener("hashchange",()=>{if(!donnees)return;const v=valide(listeVues(donnees),lireAdresse());if(v&&v!==choix){choix=v;ecrireChoix(v);rendre()}});
+actualiser();
+</script>
+</body>
+</html>
