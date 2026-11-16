@@ -88,20 +88,21 @@ test("slug : accents, espaces et apostrophes", async () => {
   assert.equal(slug("N3M"), "n3m");
 });
 
-test("par défaut : N3M seule, adresse #n3m", async () => {
+test("par défaut : « Cette semaine », adresse #semaine", async () => {
   const p = await charger();
-  assert.deepEqual(p.titres(), ["N3M"]);
-  assert.equal(p.el("vue").value, "n3m");
-  assert.equal(p.location.hash, "#n3m");
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
+  assert.equal(p.el("vue").value, "semaine");
+  assert.equal(p.location.hash, "#semaine");
 });
 
-test("menu : équipes dans l'ordre des cartes, puis Coupes, puis Toutes les équipes", async () => {
+test("menu : « Cette semaine » en tête, puis équipes dans l'ordre des cartes, Coupes, Toutes les équipes", async () => {
   const p = await charger();
   const o = p.options();
-  assert.deepEqual(o.slice(0, 5).map(x => x.t), ["N3M", "PNF", "PRM", "D1F", "D2M"]);
+  assert.deepEqual(o[0], { v: "semaine", t: "Cette semaine" });
+  assert.deepEqual(o.slice(1, 6).map(x => x.t), ["N3M", "PNF", "PRM", "D1F", "D2M"]);
   assert.deepEqual(o.slice(-2).map(x => x.t), ["Coupes", "Toutes les équipes"]);
-  assert.equal(o.length, DATA.equipes.length + 2);
-  assert.deepEqual(o.slice(0, DATA.equipes.length).map(x => x.t), DATA.equipes.map(e => e.nom));
+  assert.equal(o.length, DATA.equipes.length + 3);
+  assert.deepEqual(o.slice(1, 1 + DATA.equipes.length).map(x => x.t), DATA.equipes.map(e => e.nom));
 });
 
 test("l'adresse l'emporte sur le choix mémorisé", async () => {
@@ -115,14 +116,14 @@ test("sans adresse, le choix mémorisé est repris et reflété dans l'adresse",
   assert.equal(p.location.hash, "#d1f");
 });
 
-test("adresse inconnue : retour au choix mémorisé, puis à N3M", async () => {
+test("adresse inconnue : retour au choix mémorisé, puis à « Cette semaine »", async () => {
   assert.deepEqual((await charger({ hash: "#nimporte", memo: "pnf" })).titres(), ["PNF"]);
-  assert.deepEqual((await charger({ hash: "#nimporte", memo: "nimporte" })).titres(), ["N3M"]);
+  assert.deepEqual((await charger({ hash: "#nimporte", memo: "nimporte" })).titres(), ["Cette semaine"]);
 });
 
 test("adresse avec accents encodés (#m18m-r%C3%A9gion n'existe pas, #m18m-region oui)", async () => {
   assert.deepEqual((await charger({ hash: "#m18m-region" })).titres(), ["M18M région"]);
-  assert.deepEqual((await charger({ hash: "#%ZZ" })).titres(), ["N3M"]); // adresse mal formée : pas de plantage
+  assert.deepEqual((await charger({ hash: "#%ZZ" })).titres(), ["Cette semaine"]); // adresse mal formée : pas de plantage
 });
 
 test("changer d'équipe : carte, adresse et mémoire", async () => {
@@ -156,11 +157,13 @@ test("Toutes les équipes : Coupes en tête si un match de coupe a lieu dans les
 });
 
 test("ligne « Match de coupe cette semaine » : seulement en vue d'une équipe et dans les 7 jours", async () => {
-  const loin = await charger();
+  const loin = await charger({ hash: "#n3m" });
   assert.equal(loin.el("lien-coupe").hidden, true);
-  const p = await charger({ aujourdhui: "2026-12-08T12:00:00Z" });
+  const p = await charger({ hash: "#n3m", aujourdhui: "2026-12-08T12:00:00Z" });
   assert.equal(p.el("lien-coupe").hidden, false);
   assert.match(HTML, /Match de coupe cette semaine/);
+  await p.choisir("semaine");
+  assert.equal(p.el("lien-coupe").hidden, true);
   await p.choisir("toutes");
   assert.equal(p.el("lien-coupe").hidden, true);
   await p.choisir("coupes");
@@ -170,13 +173,13 @@ test("ligne « Match de coupe cette semaine » : seulement en vue d'une équipe 
 });
 
 test("un match de coupe passé ou à plus de 7 jours ne déclenche pas la ligne", async () => {
-  assert.equal((await charger({ aujourdhui: "2026-12-04T12:00:00Z" })).el("lien-coupe").hidden, true); // 8 jours
-  assert.equal((await charger({ aujourdhui: "2026-12-05T12:00:00Z" })).el("lien-coupe").hidden, false); // 7 jours
-  assert.equal((await charger({ aujourdhui: "2026-12-13T12:00:00Z" })).el("lien-coupe").hidden, true); // passé
+  assert.equal((await charger({ hash: "#n3m", aujourdhui: "2026-12-04T12:00:00Z" })).el("lien-coupe").hidden, true); // 8 jours
+  assert.equal((await charger({ hash: "#n3m", aujourdhui: "2026-12-05T12:00:00Z" })).el("lien-coupe").hidden, false); // 7 jours
+  assert.equal((await charger({ hash: "#n3m", aujourdhui: "2026-12-13T12:00:00Z" })).el("lien-coupe").hidden, true); // passé
 });
 
 test("la ligne de coupe ouvre la carte Coupes", async () => {
-  const p = await charger({ aujourdhui: "2026-12-08T12:00:00Z" });
+  const p = await charger({ hash: "#n3m", aujourdhui: "2026-12-08T12:00:00Z" });
   await p.clic("lien-coupe");
   assert.deepEqual(p.titres(), ["Coupes"]);
   assert.equal(p.location.hash, "#coupes");
@@ -203,7 +206,7 @@ test("heure de mise à jour et encart « non suivie » visibles dans toutes les 
   const d = JSON.parse(JSON.stringify(DATA));
   d.nonsuivies = [{ code: "ZZZ", libelle: "Coupe nouvelle", source: "page hebdo" }];
   const p = await charger({ donnees: d });
-  for (const v of ["n3m", "coupes", "toutes"]) {
+  for (const v of ["semaine", "n3m", "coupes", "toutes"]) {
     await p.choisir(v);
     assert.notEqual(p.el("maj").textContent, "–", v);
     assert.equal(p.el("encart").hidden, false, v);
@@ -213,7 +216,7 @@ test("heure de mise à jour et encart « non suivie » visibles dans toutes les 
 
 test("localStorage bloqué : la page fonctionne quand même", async () => {
   const p = await charger({ stockageCasse: true });
-  assert.deepEqual(p.titres(), ["N3M"]);
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
   await p.choisir("pnf");
   assert.deepEqual(p.titres(), ["PNF"]);
 });
@@ -221,7 +224,7 @@ test("localStorage bloqué : la page fonctionne quand même", async () => {
 test("hors ligne : données intégrées affichées avec le même menu", async () => {
   const p = await charger({ reseau: false });
   assert.equal(p.el("src").textContent, "Données intégrées du");
-  assert.deepEqual(p.titres(), ["N3M"]);
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
   assert.ok(p.options().length > 3);
 });
 
@@ -234,9 +237,9 @@ test("coupes absentes de data.json : pas d'entrée « Coupes », pas de plantage
   assert.equal(p.titres().length, d.equipes.length);
 });
 
-test("équipe mémorisée absente des nouvelles données : retour à N3M", async () => {
+test("équipe mémorisée absente des nouvelles données : retour à « Cette semaine »", async () => {
   const p = await charger({ memo: "equipe-disparue" });
-  assert.deepEqual(p.titres(), ["N3M"]);
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
 });
 
 test("charte : pas de bleu, pas de dégradé, focus et tap-highlight orange/transparent", () => {
@@ -288,7 +291,7 @@ test("nom d'équipe nul écarté ; maj absent affiché « – » ; équipes abse
   const d = JSON.parse(JSON.stringify(DATA));
   d.equipes.push({ nom: null }); delete d.maj;
   const p = await charger({ donnees: d });
-  assert.equal(p.options().length, DATA.equipes.length + 2);
+  assert.equal(p.options().length, DATA.equipes.length + 3);
   assert.equal(p.el("maj").textContent, "–");
   const vide = JSON.parse(JSON.stringify(DATA)); delete vide.equipes;
   const p2 = await charger({ donnees: vide });
@@ -303,14 +306,14 @@ test("Actualiser hors ligne garde les données plus récentes déjà affichées"
   await p.clic("btn");
   assert.equal(p.el("maj").textContent, avant);
   assert.equal(p.el("src").textContent, "Actualisation impossible, données du");
-  assert.deepEqual(p.titres(), ["N3M"]);
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
   assert.equal(p.el("btn").disabled, false);
 });
 
 test("requête pendante au premier chargement : abandon, données intégrées, bouton réactivé", async () => {
   const p = await charger({ reseau: "pendante" });
   assert.equal(p.el("src").textContent, "Données intégrées du");
-  assert.deepEqual(p.titres(), ["N3M"]);
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
   assert.equal(p.el("btn").disabled, false);
 });
 
@@ -428,4 +431,256 @@ test("application : en-tête sous la barre d'état (pas de viewport-fit=cover) ;
   assert.doesNotMatch(TETE, /viewport-fit/);
   // sans barre de navigateur : pas de retour ni de rechargement, tout passe par le menu et le bouton
   assert.ok(IDS_HTML.has("vue") && IDS_HTML.has("btn"));
+});
+
+// ---- Vue « Cette semaine » (lot 2) ----
+// Semaine de référence : lundi 16/11/2026 au dimanche 22/11/2026 (heure de Paris, UTC+1 en novembre).
+const SAMEDI_MIDI = "2026-11-21T11:00:00Z";      // samedi 21/11, 12 h à Paris
+const DIMANCHE_2330 = "2026-11-22T22:30:00Z";    // dimanche 22/11, 23 h 30 à Paris
+const LUNDI_0030 = "2026-11-22T23:30:00Z";       // lundi 23/11, 0 h 30 à Paris
+
+function donneesSemaine() {
+  return {
+    maj: "2026-11-21T07:00:00+01:00",
+    equipes: [
+      { nom: "N3M", poule: "Nationale 3", lu: "2026-11-21T07:00:00+01:00",
+        resultats: [
+          { date: "2026-11-18", lieu: "D", adv: "ADV MERCREDI", pour: 3, contre: 0, sets: "25-18 25-20 25-15" },
+          { date: "2026-11-08", lieu: "E", adv: "HORS SEMAINE", pour: 0, contre: 3, sets: "14-25 24-26 23-25" }],
+        prochain: { date: "2026-11-21", lieu: "E", adv: "CPB RENNES", heure: "16:00", salle: "GYMNASE BOUGOUIN" },
+        avenir: [{ date: "2026-11-21", lieu: "E", adv: "CPB RENNES", heure: "16:00", salle: "GYMNASE BOUGOUIN" },
+                 { date: "2026-11-22", lieu: "D", adv: "ADV DIMANCHE", heure: "14:00", salle: null },
+                 { date: "2026-11-28", lieu: "D", adv: "SEMAINE SUIVANTE", heure: "20:00", salle: null }],
+        attente: [] },
+      { nom: "PNF", poule: "Prénationale", lu: "2026-11-21T07:00:00+01:00",
+        resultats: [], prochain: { date: "2026-11-21", lieu: "E", adv: "PLANCOET", heure: "19:00", salle: null },
+        avenir: [{ date: "2026-11-21", lieu: "E", adv: "PLANCOET", heure: "19:00", salle: null }],
+        attente: [{ date: "2026-11-20", lieu: "D", adv: "ADV ATTENTE", heure: "20:00", salle: null },
+                  { date: "2026-11-17", lieu: "E", adv: "ADV ILLISIBLE", heure: null, salle: null, illisible: true }] },
+      { nom: "M13F", poule: "M13", lu: "2026-11-21T07:00:00+01:00",
+        resultats: [], prochain: { date: "2026-11-21", lieu: "E", adv: "CHATEAUBOURG", heure: null, salle: "LIFFRE" },
+        avenir: [{ date: "2026-11-21", lieu: "E", adv: "CHATEAUBOURG", heure: null, salle: "LIFFRE" }], attente: [] },
+      { nom: "Loisir", poule: "Compet lib", lu: "2026-11-21T07:00:00+01:00",
+        resultats: [], prochain: { date: "2026-11-23", lieu: "D", adv: "ADV LUNDI", heure: "20:00", salle: "LA RICOQUAIS" },
+        avenir: [{ date: "2026-11-23", lieu: "D", adv: "ADV LUNDI", heure: "20:00", salle: "LA RICOQUAIS" }], attente: [] },
+    ],
+    coupes: [
+      { nom: "Coupe CD35 masculine", equipe: "PRM", lu: "2026-11-21T07:00:00+01:00", resultats: [],
+        prochain: { date: "2026-11-21", lieu: "E", adv: "ROMILLE", heure: "10:00", salle: null },
+        avenir: [{ date: "2026-11-21", lieu: "E", adv: "ROMILLE", heure: "10:00", salle: null }], attente: [] },
+    ],
+    nonsuivies: [],
+  };
+}
+
+// Lit la carte « Cette semaine » : [{ titre, aujourdhui, lignes: [texte, ...] }] dans l'ordre d'affichage.
+function jours(p) {
+  const out = []; let cur = null;
+  for (const n of p.cartes()[0].children) {
+    if (n.tag === "h3") { cur = { titre: n.textContent.replace("Aujourd'hui", ""), aujourdhui: n.textContent.includes("Aujourd'hui"), lignes: [] }; out.push(cur); }
+    else if (n.tag === "ul" && cur) for (const li of n.children) cur.lignes.push(li.textContent);
+  }
+  return out;
+}
+const titresJours = p => jours(p).map(j => j.titre);
+
+async function avecFuseau(tz, f) {
+  const avant = process.env.TZ;
+  process.env.TZ = tz;
+  try {
+    assert.equal(new Date("2026-11-22T22:30:00Z").getTimezoneOffset(), { "Pacific/Auckland": -780, "America/Los_Angeles": 480 }[tz], "le fuseau du téléphone doit avoir changé");
+    return await f();
+  } finally { if (avant === undefined) delete process.env.TZ; else process.env.TZ = avant; }
+}
+
+test("semaine : adresse #semaine réservée, par défaut sans adresse ni mémoire ; l'adresse puis la mémoire l'emportent", async () => {
+  assert.deepEqual((await charger({ hash: "#semaine", memo: "pnf" })).titres(), ["Cette semaine"]);
+  assert.deepEqual((await charger({ hash: "#pnf", memo: "semaine" })).titres(), ["PNF"]);
+  assert.deepEqual((await charger({ memo: "d1f" })).titres(), ["D1F"]); // la mémoire n'est pas écrasée par la vue par défaut
+  const p = await charger();
+  assert.equal(p.location.hash, "#semaine");
+  assert.equal(p.options()[0].v, "semaine");
+  await p.choisir("n3m");
+  assert.equal(p.stock["vbg-vue"], "n3m");
+  await p.hashchange("#semaine");
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
+  assert.equal(p.stock["vbg-vue"], "semaine");
+});
+
+test("semaine : lignes regroupées par jour, jour courant signalé, tri par heure (sans heure en dernier) puis ordre des cartes", async () => {
+  const p = await charger({ donnees: donneesSemaine(), aujourdhui: SAMEDI_MIDI });
+  const j = jours(p);
+  assert.deepEqual(j.map(x => x.titre), ["mardi 17/11", "mercredi 18/11", "vendredi 20/11", "samedi 21/11", "dimanche 22/11"]);
+  assert.deepEqual(j.map(x => x.aujourdhui), [false, false, false, true, false]);
+  const samedi = j[3].lignes;
+  assert.equal(samedi.length, 4);
+  // 10 h coupe, 16 h N3M, 19 h PNF, puis le match sans heure
+  assert.match(samedi[0], /10 h 00.*PRM · Coupe CD35 masculine.*ExtérieurROMILLE/);
+  assert.match(samedi[1], /16 h 00N3MExtérieurCPB RENNESGYMNASE BOUGOUIN/);
+  assert.match(samedi[2], /19 h 00PNFExtérieurPLANCOET/);
+  assert.match(samedi[3], /Sans heureM13FExtérieurCHATEAUBOURGLIFFRE/);
+  assert.match(j[4].lignes[0], /14 h 00N3MDomicileADV DIMANCHE/);
+  assert.doesNotMatch(p.cartes()[0].textContent, /SEMAINE SUIVANTE|HORS SEMAINE|ADV LUNDI/);
+  assert.match(p.cartes()[0].textContent, /Du 16\/11 au 22\/11/);
+});
+
+test("semaine : un résultat s'affiche avec pastille V ou D et score en sets", async () => {
+  const d = donneesSemaine();
+  d.equipes[0].resultats.push({ date: "2026-11-19", lieu: "E", adv: "ADV PERDU", pour: 1, contre: 3, sets: "20-25 25-20 18-25 22-25" });
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  const j = jours(p);
+  assert.match(j[1].lignes[0], /^VN3MDomicileADV MERCREDI3–0 · 25-18 25-20 25-15$/);
+  assert.match(j.find(x => x.titre === "jeudi 19/11").lignes[0], /^DN3MExtérieurADV PERDU1–3 · 20-25 25-20 18-25 22-25$/);
+});
+
+test("semaine : deux matchs de la même équipe dans la semaine sont tous deux affichés", async () => {
+  const p = await charger({ donnees: donneesSemaine(), aujourdhui: SAMEDI_MIDI });
+  const n3m = jours(p).flatMap(j => j.lignes).filter(l => l.includes("N3M"));
+  assert.equal(n3m.length, 3); // résultat de mercredi + deux matchs à venir (samedi et dimanche)
+});
+
+test("semaine : bornes lundi 0 h / dimanche 24 h en heure de Paris, téléphone réglé sur un autre fuseau", async () => {
+  for (const tz of ["Pacific/Auckland", "America/Los_Angeles"]) {
+    await avecFuseau(tz, async () => {
+      const dim = await charger({ donnees: donneesSemaine(), aujourdhui: DIMANCHE_2330 });
+      assert.match(dim.cartes()[0].textContent, /Du 16\/11 au 22\/11/, tz);
+      assert.deepEqual(titresJours(dim), ["mardi 17/11", "mercredi 18/11", "vendredi 20/11", "samedi 21/11", "dimanche 22/11"], tz);
+      assert.equal(jours(dim)[4].aujourdhui, true, tz);
+      assert.doesNotMatch(dim.cartes()[0].textContent, /ADV LUNDI/, tz);
+      const lun = await charger({ donnees: donneesSemaine(), aujourdhui: LUNDI_0030 });
+      assert.match(lun.cartes()[0].textContent, /Du 23\/11 au 29\/11/, tz);
+      assert.deepEqual(titresJours(lun), ["lundi 23/11", "samedi 28/11"], tz);
+      assert.equal(jours(lun)[0].aujourdhui, true, tz);
+      assert.match(jours(lun)[0].lignes[0], /20 h 00LoisirDomicileADV LUNDILA RICOQUAIS/, tz);
+      assert.doesNotMatch(lun.cartes()[0].textContent, /ADV DIMANCHE|ADV MERCREDI/, tz);
+    });
+  }
+});
+
+test("semaine : match passé à Paris sans score « Commencé, résultat au prochain relevé » ; sans heure, à venir jusqu'à la fin du jour", async () => {
+  const apres = await charger({ donnees: donneesSemaine(), aujourdhui: "2026-11-21T16:30:00Z" }); // samedi 17 h 30 Paris
+  const s = jours(apres).find(x => x.titre === "samedi 21/11").lignes;
+  assert.match(s.find(l => l.includes("CPB RENNES")), /Commencé, résultat au prochain relevé/);
+  assert.doesNotMatch(s.find(l => l.includes("CPB RENNES")), /^[VD]/); // pas de pastille V ou D
+  assert.doesNotMatch(s.find(l => l.includes("PLANCOET")), /Commencé/); // 19 h : pas encore
+  assert.doesNotMatch(s.find(l => l.includes("CHATEAUBOURG")), /Commencé/); // sans heure : jusqu'à la fin du jour
+  const lendemain = await charger({ donnees: donneesSemaine(), aujourdhui: "2026-11-22T08:00:00Z" });
+  const s2 = jours(lendemain).find(x => x.titre === "samedi 21/11").lignes;
+  assert.ok(s2.every(l => /Commencé, résultat au prochain relevé/.test(l)), "tous les matchs de samedi sont passés dimanche");
+});
+
+test("semaine : à l'heure exacte du match, il compte comme passé (même règle que le collecteur)", async () => {
+  const pile = await charger({ donnees: donneesSemaine(), aujourdhui: "2026-11-21T15:00:00Z" }); // 16 h 00 Paris
+  assert.match(jours(pile).find(x => x.titre === "samedi 21/11").lignes.find(l => l.includes("CPB RENNES")), /Commencé/);
+  const avant = await charger({ donnees: donneesSemaine(), aujourdhui: "2026-11-21T14:59:00Z" }); // 15 h 59
+  assert.doesNotMatch(jours(avant).find(x => x.titre === "samedi 21/11").lignes.find(l => l.includes("CPB RENNES")), /Commencé/);
+});
+
+test("semaine : matchs « attente » (pas encore publié) et score illisible", async () => {
+  const p = await charger({ donnees: donneesSemaine(), aujourdhui: SAMEDI_MIDI });
+  const j = jours(p);
+  assert.match(j.find(x => x.titre === "vendredi 20/11").lignes[0], /20 h 00PNFDomicileADV ATTENTERésultat pas encore publié sur FFvolley/);
+  assert.match(j.find(x => x.titre === "mardi 17/11").lignes[0], /Sans heurePNFExtérieurADV ILLISIBLERésultat à lire sur FFvolley/);
+});
+
+test("semaine : carte non lue, ses lignes sont marquées « non lu depuis le … »", async () => {
+  const d = donneesSemaine();
+  Object.assign(d.equipes[1], { nonlu: true, raison: "x", lu: "2026-11-15T21:16:37+01:00" });
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  const lignes = jours(p).flatMap(j => j.lignes);
+  const pnf = lignes.filter(l => l.includes("PNF"));
+  assert.equal(pnf.length, 3);
+  assert.ok(pnf.every(l => /non lu depuis le 15 nov\./.test(l)));
+  assert.ok(lignes.filter(l => !l.includes("PNF")).every(l => !/non lu/.test(l)));
+  d.equipes[1].lu = undefined;
+  assert.match(jours(await charger({ donnees: d, aujourdhui: SAMEDI_MIDI })).flatMap(j => j.lignes).find(l => l.includes("PNF")), /non lu$/);
+});
+
+test("semaine : « avenir » absent (ancien data.json) : repli sur « prochain » seul ; « avenir » présent, même vide, prime", async () => {
+  const d = donneesSemaine();
+  for (const e of [...d.equipes, ...d.coupes]) { delete e.avenir; delete e.attente; }
+  d.equipes[0].prochain = { date: "2026-11-22", lieu: "D", adv: "SEUL PROCHAIN", heure: "14:00", salle: null };
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  const lignes = jours(p).flatMap(j => j.lignes);
+  assert.ok(lignes.some(l => l.includes("SEUL PROCHAIN")));
+  assert.ok(!lignes.some(l => l.includes("ADV DIMANCHE") || l.includes("ADV ATTENTE")));
+  assert.ok(lignes.some(l => l.includes("PLANCOET")));
+  const e = donneesSemaine(); e.equipes[0].avenir = [];
+  const q = await charger({ donnees: e, aujourdhui: SAMEDI_MIDI });
+  assert.ok(!jours(q).flatMap(j => j.lignes).some(l => l.includes("CPB RENNES")), "« avenir » vide : « prochain » ignoré");
+});
+
+test("semaine : copie intégrée SECOURS (sans « avenir »), hors ligne, repli sur « prochain »", async () => {
+  const p = await charger({ reseau: false, aujourdhui: "2026-11-16T10:00:00Z" });
+  assert.equal(p.el("src").textContent, "Données intégrées du");
+  const t = p.cartes()[0].textContent;
+  assert.match(t, /samedi 21\/11/);
+  assert.match(t, /N3M.*CPB RENNES|C\.P\.B\. RENNES 35/);
+  assert.doesNotMatch(t, /LOUVIGNE DE BAIS/); // 28/11 : semaine suivante
+});
+
+test("semaine vide : message dédié, titre conservé", async () => {
+  const p = await charger({ donnees: donneesSemaine(), aujourdhui: "2026-12-30T11:00:00Z" });
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
+  assert.match(p.cartes()[0].textContent, /Aucun match du club cette semaine\./);
+  assert.equal(jours(p).length, 0);
+});
+
+test("semaine : « Actualiser » garde la vue et recharge les données", async () => {
+  const p = await charger({ donnees: donneesSemaine(), aujourdhui: SAMEDI_MIDI });
+  assert.equal(titresJours(p).length, 5);
+  const d = donneesSemaine(); d.equipes[0].avenir = []; d.equipes[0].resultats = [];
+  p.etat.donnees = d;
+  await p.clic("btn");
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
+  assert.equal(p.el("vue").value, "semaine");
+  assert.equal(p.location.hash, "#semaine");
+  assert.ok(!jours(p).flatMap(j => j.lignes).some(l => l.includes("N3M")));
+  await p.choisir("pnf");
+  await p.clic("btn");
+  assert.deepEqual(p.titres(), ["PNF"]); // une autre vue est aussi conservée
+});
+
+test("semaine : une carte ou une ligne illisible n'abîme que sa propre ligne", async () => {
+  const d = donneesSemaine();
+  d.equipes[2].avenir = "oups";                       // pas un tableau : ignoré
+  d.equipes[3] = { nom: null };                        // filtré dès le chargement
+  d.equipes[1].resultats = [{ date: "2026-11-19", lieu: "D", adv: "SCORE CASSE", pour: "3", contre: null }];
+  d.coupes[0].avenir = [null, { date: "2026-11-21", lieu: "E", adv: "ROMILLE", heure: "10:00" }];
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  const t = p.cartes()[0].textContent;
+  assert.match(t, /Ligne illisible\./);
+  assert.match(t, /CPB RENNES/);
+  assert.match(t, /ROMILLE/);
+  assert.equal(p.options().length, d.equipes.length - 1 + 3);
+});
+
+test("semaine : le libellé d'une coupe est « équipe · nom de la coupe » ; heure de mise à jour et encart visibles", async () => {
+  const d = donneesSemaine();
+  d.nonsuivies = [{ code: "ZZZ", libelle: "Coupe nouvelle", source: "page hebdo" }];
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  assert.match(p.cartes()[0].textContent, /PRM · Coupe CD35 masculine/);
+  assert.notEqual(p.el("maj").textContent, "–");
+  assert.equal(p.el("encart").hidden, false);
+  assert.equal(p.el("lien-coupe").hidden, true);
+});
+
+test("semaine : textContent uniquement, aucune bibliothèque, aucun orange hors accents", () => {
+  assert.doesNotMatch(SCRIPT, /innerHTML|insertAdjacentHTML|outerHTML/);
+  assert.doesNotMatch(HTML, /<script[^>]+src=/);
+  for (const sel of [".hre", ".mt", ".mts", ".mt-txt", ".mt-carte", ".hre.sans", "h3 .pastille"]) {
+    const r = reglesCss().regles.find(x => x.sel === sel);
+    assert.ok(r, "règle absente : " + sel);
+    assert.doesNotMatch(r.corps, /#F26910/i, sel);
+  }
+});
+
+test("semaine : à heure égale, l'ordre des cartes décide", async () => {
+  const d = donneesSemaine();
+  d.equipes[1].avenir = [{ date: "2026-11-21", lieu: "E", adv: "PLANCOET", heure: "16:00", salle: null }];
+  d.equipes[1].attente = [];
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  const samedi = jours(p).find(x => x.titre === "samedi 21/11").lignes;
+  assert.match(samedi[1], /16 h 00N3M/); // N3M avant PNF dans la liste des cartes
+  assert.match(samedi[2], /16 h 00PNF/);
 });

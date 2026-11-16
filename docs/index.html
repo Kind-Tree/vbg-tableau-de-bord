@@ -56,6 +56,14 @@ option:checked{background:#F26910;color:#1A1A1A}
 .lien-coupe::after{content:"\203A";margin-left:auto;font-size:24px;line-height:1}
 button:focus-visible,select:focus-visible,.lien-coupe:focus-visible{outline:3px solid #F26910;outline-offset:2px}
 .grille.une{grid-template-columns:minmax(0,560px)}
+h3 .pastille{margin-left:8px;vertical-align:middle}
+.mts{list-style:none;padding:0}
+.mt{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid #6B6B6B}
+.mt:first-child{border-top:0}
+.hre{flex:none;width:58px;font-size:15px;font-weight:bold;line-height:28px}
+.hre.sans{font-size:12px;font-weight:normal;color:#D9D9D9}
+.mt-txt{flex:1;min-width:0}
+.mt-carte{font-size:13px;font-weight:bold;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -121,6 +129,65 @@ function carteCoupes(cs){
     if(k.nonlu)c.append(nonLu(k));
     c.append(blocProchain(k.prochain,k.nonlu&&!k.lu?"Aucune donnée lue pour l'instant.":null,k.lu),listeResultats(k.resultats))});
   return c}
+// ---- Vue « Cette semaine » : lundi 0 h à dimanche 24 h, heure de Paris ----
+const JOURS_L=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+function heureParis(){
+  const p=new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Paris",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date());
+  const g=t=>(p.find(x=>x.type===t)||{}).value||"0";
+  return String(Number(g("hour"))%24).padStart(2,"0")+":"+String(Number(g("minute"))).padStart(2,"0")}
+function jourSemaine(iso){const [a,m,j]=iso.split("-").map(Number);return new Date(Date.UTC(a,m-1,j)).getUTCDay()}
+function ajouterJours(iso,n){const [a,m,j]=iso.split("-").map(Number);return new Date(Date.UTC(a,m-1,j+n)).toISOString().slice(0,10)}
+function semaineDe(auj){const lundi=ajouterJours(auj,-((jourSemaine(auj)+6)%7));return{debut:lundi,fin:ajouterJours(lundi,6)}}
+// Date et heure passées à Paris ; sans heure connue, le match reste « à venir » jusqu'à la fin du jour.
+function dejaJoue(m,auj,h){return m.date<auj||(m.date===auj&&!!m.heure&&m.heure<=h)}
+// Toutes les lignes de la semaine pour une carte : résultats, matchs à venir (ou « prochain » seul si « avenir » est absent), matchs en attente de score.
+function lignesDeCarte(q,nom,sem,auj,h,ordre){
+  if(!q||typeof nom!=="string")throw new Error("carte illisible");
+  const dans=d=>typeof d==="string"&&d>=sem.debut&&d<=sem.fin,liste=x=>Array.isArray(x)?x:[];
+  const base=r=>({date:r.date,heure:r.heure||null,carte:nom,lieu:r.lieu,adv:r.adv,salle:r.salle||null,nonlu:!!q.nonlu,lu:q.lu,ordre});
+  const out=[];
+  liste(q.resultats).filter(r=>r&&dans(r.date)).forEach(r=>out.push({...base(r),type:"res",pour:r.pour,contre:r.contre,sets:r.sets}));
+  (Array.isArray(q.avenir)?q.avenir:(q.prochain?[q.prochain]:[])).filter(m=>m&&dans(m.date))
+    .forEach(m=>out.push({...base(m),type:dejaJoue(m,auj,h)?"joue":"avenir"}));
+  liste(q.attente).filter(m=>m&&dans(m.date)).forEach(m=>out.push({...base(m),type:m.illisible?"illisible":"attente"}));
+  return out}
+function ligneSemaine(x){
+  const li=el("li","mt"),g=el("span","hre"),t=el("div","mt-txt");
+  if(x.type==="res"){
+    if(typeof x.pour!=="number"||typeof x.contre!=="number")throw new Error("score illisible");
+    const v=x.pour>x.contre;g.append(el("span","vd "+(v?"v":"d"),v?"V":"D"))}
+  else if(x.heure)g.textContent=x.heure.replace(":"," h ");
+  else{g.className="hre sans";g.textContent="Sans heure"}
+  const qui=el("p","qui");
+  if(x.lieu==="D"||x.lieu==="E")qui.append(el("span","lieu",x.lieu==="D"?"Domicile":"Extérieur"));
+  qui.append(x.adv);
+  t.append(el("p","mt-carte",x.carte),qui);
+  if(x.type==="res")t.append(el("p","note",x.pour+"–"+x.contre+(x.sets?" · "+x.sets:"")));
+  if(x.salle)t.append(el("p","salle",x.salle));
+  const statut={joue:"Commencé, résultat au prochain relevé",attente:"Résultat pas encore publié sur FFvolley",illisible:"Résultat à lire sur FFvolley"}[x.type];
+  if(statut)t.append(el("p","note",statut));
+  if(x.nonlu)t.append(el("p","note","non lu"+(x.lu?" depuis le "+dateLue(x.lu):"")));
+  li.append(g,t);return li}
+function carteSemaine(d){
+  const auj=aujourdhuiParis(),h=heureParis(),sem=semaineDe(auj),c=el("article","carte");
+  c.append(el("h2",null,"Cette semaine"),el("p","poule","Du "+court(sem.debut)+" au "+court(sem.fin)));
+  const cartes=d.equipes.map(q=>[q,q&&q.nom]).concat((d.coupes||[]).map(k=>[k,k&&typeof k.nom==="string"?(k.equipe?k.equipe+" · ":"")+k.nom:null]));
+  const items=[];let illisibles=0;
+  cartes.forEach(([q,nom],i)=>{try{items.push(...lignesDeCarte(q,nom,sem,auj,h,i))}catch(e){illisibles++}});
+  // Par jour, puis par heure (sans heure en dernier), puis dans l'ordre des cartes.
+  items.sort((a,b)=>(a.date<b.date?-1:a.date>b.date?1:0)||((a.heure||"99:99")<(b.heure||"99:99")?-1:(a.heure||"99:99")>(b.heure||"99:99")?1:0)||a.ordre-b.ordre);
+  if(!items.length)c.append(el("p","qui","Aucun match du club cette semaine."));
+  let jourCourant=null,ul=null;
+  items.forEach(x=>{
+    if(x.date!==jourCourant){
+      jourCourant=x.date;
+      const t=el("h3",null,JOURS_L[jourSemaine(x.date)]+" "+court(x.date));
+      if(x.date===auj)t.append(el("span","pastille","Aujourd'hui"));
+      ul=el("ul","mts");c.append(t,ul)}
+    let li;try{li=ligneSemaine(x)}catch(e){li=el("li","mt");li.append(el("p","note","Ligne illisible."))}
+    ul.append(li)});
+  if(illisibles)c.append(el("p","note","Données illisibles pour "+illisibles+" carte(s)."));
+  return c}
 // Dans les 7 jours (date de Paris, matchs à venir seulement) : la carte Coupes passe en tête.
 function coupeProche(cs){
   const auj=aujourdhuiParis().split("-").map(Number);
@@ -132,10 +199,11 @@ function lireChoix(){try{return localStorage.getItem(CLE)}catch(e){return null}}
 function ecrireChoix(v){try{localStorage.setItem(CLE,v)}catch(e){}}
 function lireAdresse(){try{return decodeURIComponent((location.hash||"").slice(1)).toLowerCase()}catch(e){return ""}}
 function ecrireAdresse(v){try{history.replaceState(null,"","#"+v)}catch(e){}}
-function listeVues(d){const o=d.equipes.map(q=>({v:slug(q.nom),t:q.nom}));if((d.coupes||[]).length)o.push({v:"coupes",t:"Coupes"});o.push({v:"toutes",t:"Toutes les équipes"});return o}
+// Noms réservés par les vues : « semaine », « coupes », « toutes » (aucune équipe ne doit s'appeler ainsi).
+function listeVues(d){const o=[{v:"semaine",t:"Cette semaine"}].concat(d.equipes.map(q=>({v:slug(q.nom),t:q.nom})));if((d.coupes||[]).length)o.push({v:"coupes",t:"Coupes"});o.push({v:"toutes",t:"Toutes les équipes"});return o}
 function valide(o,v){return v&&o.some(x=>x.v===v)?v:null}
-// L'adresse l'emporte sur le choix mémorisé ; à défaut, N3M.
-function vueInitiale(o,adresse,memo){return valide(o,adresse)||valide(o,memo)||valide(o,"n3m")||o[0].v}
+// L'adresse l'emporte sur le choix mémorisé ; à défaut, « Cette semaine ».
+function vueInitiale(o,adresse,memo){return valide(o,adresse)||valide(o,memo)||valide(o,"semaine")||o[0].v}
 let donnees=null,choix=null;
 function rendre(){
   const d=donnees,cs=d.coupes||[],o=listeVues(d);
@@ -144,13 +212,14 @@ function rendre(){
   const sure=(f,nom)=>{try{return f()}catch(e){const c=el("article","carte");c.append(el("h2",null,nom),el("p","note","Données de cette carte illisibles."));return c}};
   const carteSure=q=>sure(()=>carte(q),q.nom);
   let cartes;
-  if(choix==="toutes"){cartes=d.equipes.map(carteSure);if(cs.length){const k=sure(()=>carteCoupes(cs),"Coupes");if(coupeProche(cs))cartes.unshift(k);else cartes.push(k)}}
+  if(choix==="semaine")cartes=[sure(()=>carteSemaine(d),"Cette semaine")];
+  else if(choix==="toutes"){cartes=d.equipes.map(carteSure);if(cs.length){const k=sure(()=>carteCoupes(cs),"Coupes");if(coupeProche(cs))cartes.unshift(k);else cartes.push(k)}}
   else if(choix==="coupes")cartes=[sure(()=>carteCoupes(cs),"Coupes")];
   else cartes=[carteSure(d.equipes.find(q=>slug(q.nom)===choix))];
   const g=document.getElementById("grille");g.className="grille"+(cartes.length===1?" une":"");g.replaceChildren(...cartes);
   const sel=document.getElementById("vue");
   sel.replaceChildren(...o.map(x=>{const op=el("option",null,x.t);op.value=x.v;return op}));sel.value=choix;
-  document.getElementById("lien-coupe").hidden=!(choix!=="toutes"&&choix!=="coupes"&&cs.length&&coupeProche(cs));
+  document.getElementById("lien-coupe").hidden=!(choix!=="semaine"&&choix!=="toutes"&&choix!=="coupes"&&cs.length&&coupeProche(cs));
   ecrireAdresse(choix)}
 function changer(v){choix=v;ecrireChoix(v);rendre()}
 function afficher(d,libelle){

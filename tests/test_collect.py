@@ -277,5 +277,163 @@ class CorrectionsDuCheckerTest(unittest.TestCase):
         self.assertFalse(any("code" in x for x in r["resultats"] + [r["prochain"]]))
 
 
+# ---- Lot 2 : « avenir » et « attente » (vue « Cette semaine ») ----
+class AvenirTest(unittest.TestCase):
+    def test_avenir_complet_et_trie(self):
+        r = collect.analyser(page("prm_complet"), PRM, AUJ)
+        brut = [m for m in collect.matchs(collect.lignes(page("prm_complet")), "1PM")
+                if PRM["club"] in (m["dom"], m["ext"]) and not m["joue"] and m["date"] >= AUJ.isoformat()]
+        self.assertGreater(len(brut), 1)
+        self.assertEqual(len(r["avenir"]), len(brut))  # toute la liste, pas seulement le prochain
+        cles = [(m["date"], m["heure"] or "") for m in r["avenir"]]
+        self.assertEqual(cles, sorted(cles))
+        self.assertEqual({m["adv"] for m in r["avenir"]} | {PRM["club"]},
+                         {m["dom"] for m in brut} | {m["ext"] for m in brut})
+
+    def test_champs_de_chaque_match_a_venir_sans_code(self):
+        avenir = collect.analyser(page("n3m_complet"), N3M, AUJ)["avenir"]
+        self.assertTrue(avenir)
+        for m in avenir:
+            self.assertEqual(set(m), {"date", "lieu", "adv", "heure", "salle"})
+
+    def test_prochain_est_le_premier_avenir_pour_une_poule(self):
+        for cfg in collect.EQUIPES + collect.COUPES:
+            if len(cfg["poules"]) != 1:
+                continue
+            with self.subTest(nom=cfg["nom"]):
+                p = cfg["poules"][0]
+                r = collect.construire(cfg, [collect.analyser_poule(page(FIXTURE_DE[p["code"]]), p, AUJ)],
+                                       coupe=cfg in collect.COUPES)
+                self.assertEqual(r["prochain"], r["avenir"][0] if r["avenir"] else None)
+                self.assertIn("attente", r)
+
+    def test_coupes_servies_aussi(self):
+        cfg = next(c for c in collect.COUPES if c["nom"] == "Coupe CD35 masculine")
+        p = cfg["poules"][0]
+        r = collect.construire(cfg, [collect.analyser_poule(page("coupe_gmc"), p, AUJ)], coupe=True)
+        self.assertEqual(r["equipe"], "PRM")
+        self.assertEqual(r["avenir"][0]["date"], "2026-12-12")
+        self.assertEqual(r["prochain"], r["avenir"][0])
+        self.assertEqual(r["attente"], [])
+        vide = collect.analyser(page("coupe_com"), COM, AUJ, coupe=True)  # coupe sans match à venir
+        self.assertEqual((vide["avenir"], vide["attente"]), ([], []))
+
+    def test_fusion_multi_poules_triee_par_date_et_heure(self):
+        cfg = next(e for e in collect.EQUIPES if e["nom"] == "M18M région")
+        lues = [collect.analyser_poule(page(FIXTURE_DE[p["code"]]), p, AUJ) for p in cfg["poules"]]
+        n0 = len(lues[0]["avenir"])
+        autre = {"code": "CPE099", "date": "2026-11-21", "lieu": "D", "adv": "AUTRE", "heure": "10:00", "salle": None}
+        avant = {"code": "CPE098", "date": "2026-11-19", "lieu": "E", "adv": "AVANT", "heure": None, "salle": None}
+        lues[1] = dict(lues[1], avenir=[autre, avant])
+        r = collect.construire(cfg, lues)
+        self.assertEqual(r["avenir"][0]["adv"], "AVANT")  # la date la plus proche passe devant, quelle que soit la poule
+        cles = [(m["date"], m["heure"] or "") for m in r["avenir"]]
+        self.assertEqual(cles, sorted(cles))
+        self.assertEqual(len(r["avenir"]), n0 + 2)
+        self.assertEqual(r["prochain"]["adv"], "ETOILE ST LAURENT VB METROPOLE BREST")  # « prochain » ne change pas
+        self.assertFalse(any("code" in m for m in r["avenir"]))
+
+    def test_attente_match_du_jour_dont_l_heure_est_passee(self):
+        jour = date(2026, 11, 21)  # PRM joue à 18 h 30
+        avant = collect.analyser(page("prm_complet"), PRM, jour, heure="10:00")
+        apres = collect.analyser(page("prm_complet"), PRM, jour, heure="19:00")
+        self.assertEqual(avant["attente"], [])
+        self.assertEqual([(m["date"], m["heure"]) for m in apres["attente"]], [("2026-11-21", "18:30")])
+        self.assertNotIn("2026-11-21", [m["date"] for m in apres["avenir"]])
+        self.assertNotIn("pour", apres["attente"][0])  # jamais de score inventé
+
+    def test_attente_le_lendemain_puis_plus_au_bout_de_7_jours(self):
+        lendemain = collect.analyser(page("prm_complet"), PRM, date(2026, 11, 22), heure="07:00")
+        self.assertEqual([m["date"] for m in lendemain["attente"]], ["2026-11-21"])
+        six = collect.analyser(page("prm_complet"), PRM, date(2026, 11, 27), heure="07:00")
+        self.assertEqual([m["date"] for m in six["attente"]], ["2026-11-21"])
+        sept = collect.analyser(page("prm_complet"), PRM, date(2026, 11, 28), heure="07:00")
+        self.assertEqual(sept["attente"], [])
+
+    def test_attente_score_illisible(self):
+        brut = page("n3m_complet")
+        i = brut.index(">3MF032<")
+        j = brut.index("class='lienblanc_pt'>3<", i)
+        brut = brut[:j] + "class='lienblanc_pt'>F<" + brut[j + len("class='lienblanc_pt'>3<"):]
+        r = collect.analyser(brut, N3M, date(2026, 11, 10))
+        ill = [m for m in r["attente"] if m.get("illisible")]
+        self.assertEqual(len(ill), 1)
+        self.assertEqual((ill[0]["date"], ill[0]["adv"], ill[0]["lieu"]), ("2026-11-08", "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2", "D"))
+        self.assertTrue(set(ill[0]) <= {"date", "lieu", "adv", "heure", "salle", "illisible"})
+        self.assertNotIn("2026-11-08", [m["date"] for m in r["avenir"]])
+        self.assertNotIn("2026-11-08", [m["date"] for m in r["resultats"]])
+        # plus de 6 jours plus tard, il quitte « attente »
+        self.assertEqual([m for m in collect.analyser(brut, N3M, AUJ)["attente"] if m.get("illisible")], [])
+
+    def test_match_joue_n_est_ni_a_venir_ni_en_attente(self):
+        r = collect.analyser(page("n3m_complet"), N3M, date(2026, 11, 9))
+        res = {(m["date"], m["adv"]) for m in r["resultats"]}
+        autres = {(m["date"], m["adv"]) for m in r["avenir"] + r["attente"]}
+        self.assertFalse(res & autres)
+
+    def test_noms_reserves_par_la_page(self):
+        import re
+        import unicodedata
+        for c in collect.EQUIPES:
+            ascii_ = unicodedata.normalize("NFD", c["nom"]).encode("ascii", "ignore").decode().lower()
+            self.assertNotIn(re.sub(r"[^a-z0-9]+", "-", ascii_).strip("-"), {"semaine", "coupes", "toutes"})
+
+
+class FusionLot2Test(unittest.TestCase):
+    def test_nouveaux_champs_recopies_pour_une_poule_lue(self):
+        e = collect.analyser(page("prm_complet"), PRM, AUJ)
+        d = collect.fusionner({}, {"PRM": e}, {}, ["PRM"], [], "2026-11-15T21:00:00+01:00", {})
+        self.assertEqual(d["equipes"][0]["avenir"], e["avenir"])
+        self.assertEqual(d["equipes"][0]["attente"], e["attente"])
+
+    def test_carte_nonlu_garde_ses_anciens_champs(self):
+        ancien = {"equipes": [{"nom": "N3M", "rang": 8, "avenir": [{"date": "2026-11-22"}], "attente": [],
+                               "lu": "2026-11-08T21:00:00+01:00"}], "coupes": []}
+        d = collect.fusionner(ancien, {}, {}, ["N3M"], [], "2026-11-15T21:00:00+01:00", {"N3M": "erreur"})
+        e = d["equipes"][0]
+        self.assertTrue(e["nonlu"])
+        self.assertEqual(e["avenir"], [{"date": "2026-11-22"}])
+        self.assertEqual(e["lu"], "2026-11-08T21:00:00+01:00")
+
+    def test_ancien_data_json_sans_les_champs_passe(self):
+        ancien = {"equipes": [{"nom": "N3M", "rang": 8, "prochain": None, "resultats": []}],
+                  "coupes": [{"nom": "C", "prochain": None, "resultats": []}]}
+        d = collect.fusionner(ancien, {}, {}, ["N3M"], ["C"], "2026-11-15T21:00:00+01:00", {"N3M": "x", "C": "y"})
+        self.assertNotIn("avenir", d["equipes"][0])  # rien d'inventé : le champ reste absent
+        self.assertTrue(d["equipes"][0]["nonlu"] and d["coupes"][0]["nonlu"])
+
+    def test_collecte_complete_hors_ligne_sur_un_ancien_fichier_sans_les_champs(self):
+        import io
+        import json
+        import re
+        import tempfile
+        from unittest import mock
+
+        def fausse_page(url, *a, **k):
+            if "planning_club_class" in url:
+                return page("club_class")
+            if "planning_club.php" in url:
+                return page("planning_semaine")
+            return page(FIXTURE_DE[re.search(r"poule=(\w+)", url).group(1)])
+
+        with tempfile.TemporaryDirectory() as dossier:
+            sortie = os.path.join(dossier, "data.json")
+            ancien = {"maj": "x", "equipes": [{"nom": "N3M", "prochain": None, "resultats": []}],
+                      "coupes": [], "nonsuivies": []}
+            with open(sortie, "w", encoding="utf-8") as f:
+                json.dump(ancien, f)
+            with mock.patch.object(collect, "telecharger", side_effect=fausse_page), \
+                    mock.patch.object(collect.time, "sleep"), mock.patch("sys.stdout", new=io.StringIO()):
+                code = collect.main(["--out", sortie])
+            self.assertEqual(code, 0)
+            with open(sortie, encoding="utf-8") as f:
+                d = json.load(f)
+        self.assertEqual(len(d["equipes"]), len(collect.EQUIPES))
+        for c in d["equipes"] + d["coupes"]:
+            self.assertIsInstance(c["avenir"], list, c["nom"])
+            self.assertIsInstance(c["attente"], list, c["nom"])
+            self.assertFalse(c.get("nonlu"), c["nom"])
+
+
 if __name__ == "__main__":
     unittest.main()

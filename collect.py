@@ -225,7 +225,7 @@ def vu_du_club(m, club):
         return None
     base = {"date": m["date"], "lieu": lieu, "adv": adv, "code": m["code"]}
     if m.get("illisible"):
-        base["illisible"] = True
+        base.update(illisible=True, heure=m["heure"], salle=m["salle"])
         return base
     if m["joue"]:
         pour, contre = (m["sd"], m["se"]) if lieu == "D" else (m["se"], m["sd"])
@@ -272,10 +272,23 @@ def analyser_poule(page, p, aujourdhui, heure=None):
         # match du jour dont l'heure est passée : résultat pas encore saisi, plus « à venir »
         return not (heure and m["date"] == aujourdhui.isoformat() and m["heure"] and m["heure"] <= heure)
     a_venir = sorted((m for m in mes if a_venir_ok(m)), key=lambda m: (m["date"], m["heure"] or ""))
+    # Matchs sans score lisible qui ne sont plus « à venir » (résultat pas encore saisi) ou dont le
+    # score est illisible, datés de moins de 7 jours : la page les garde dans la semaine en cours.
+    limite = (aujourdhui - timedelta(days=6)).isoformat()
+    attente = sorted((m for m in mes if "pour" not in m and m["date"] >= limite
+                      and (m.get("illisible") or not a_venir_ok(m))),
+                     key=lambda m: (m["date"], m["heure"] or "", m["code"]))
     return {"code": code, "titre": joli(titre), "mes": len(mes), "joues": joues,
             "illisibles": sum(1 for m in mes if m.get("illisible")),
             "prochain": a_venir[0] if a_venir else None,
+            "avenir": a_venir, "attente": attente,
             "classement": (moi[0], len(cl)) if cl else None}
+
+
+def _sans_code(listes):
+    """Fusionne des listes de matchs de plusieurs poules, trie par (date, heure) et retire le code."""
+    tous = sorted((m for liste in listes for m in liste), key=lambda m: (m["date"], m["heure"] or "", m["code"]))
+    return [{k: v for k, v in m.items() if k != "code"} for m in tous]
 
 
 def construire(cfg, lues, coupe=False):
@@ -296,7 +309,9 @@ def construire(cfg, lues, coupe=False):
     res.sort(key=lambda r: (r["date"], r.get("code", "")), reverse=True)
     res = [{k: v for k, v in r.items() if k != "code"} for r in res]
     prochain = {k: v for k, v in active["prochain"].items() if k != "code"} if active["prochain"] else None
-    out = {"nom": cfg["nom"], "prochain": prochain, "resultats": res[:NB_RESULTATS]}
+    out = {"nom": cfg["nom"], "prochain": prochain, "resultats": res[:NB_RESULTATS],
+           "avenir": _sans_code(l["avenir"] for l in lues),
+           "attente": _sans_code(l["attente"] for l in lues)}
     nb_ill = sum(l["illisibles"] for l in lues)
     if nb_ill:
         out["noteResultats"] = "%d match(s) à lire sur FFvolley (forfait ou score non numérique)." % nb_ill
