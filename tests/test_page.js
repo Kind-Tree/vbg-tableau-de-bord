@@ -370,3 +370,62 @@ test("« hidden » doit réellement masquer : aucun display explicite ne l'écra
     }
   }
 });
+
+// ---- Application iPhone (icône sur l'écran d'accueil) ----
+const TETE = HTML.slice(0, HTML.indexOf("</head>"));
+
+function dimensionsPng(fichier) {
+  const b = fs.readFileSync(path.join(RACINE, fichier));
+  assert.equal(b.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", fichier + " : signature PNG");
+  assert.equal(b.subarray(12, 16).toString("ascii"), "IHDR", fichier + " : en-tête IHDR");
+  // type de couleur 2 = RVB sans canal alpha : pas de transparence (iOS la remplirait en noir)
+  return { l: b.readUInt32BE(16), h: b.readUInt32BE(20), couleur: b[25] };
+}
+
+test("application : liens du <head> vers le manifeste et l'icône, métadonnées iOS", () => {
+  assert.match(TETE, /<link rel="manifest" href="manifest\.webmanifest">/);
+  assert.match(TETE, /<link rel="apple-touch-icon" href="apple-touch-icon\.png">/);
+  assert.match(TETE, /<meta name="apple-mobile-web-app-title" content="VBG">/);
+  assert.match(TETE, /<meta name="apple-mobile-web-app-capable" content="yes">/);
+  assert.match(TETE, /<meta name="apple-mobile-web-app-status-bar-style" content="black">/);
+});
+
+test("application : les fichiers liés existent, aux dimensions attendues, sans transparence", () => {
+  for (const [f, t] of [["apple-touch-icon.png", 180], ["icone-192.png", 192], ["icone-512.png", 512]]) {
+    assert.ok(fs.existsSync(path.join(RACINE, f)), f + " absent");
+    const d = dimensionsPng(f);
+    assert.deepEqual([d.l, d.h], [t, t], f);
+    assert.equal(d.couleur, 2, f + " : doit être RVB sans alpha");
+  }
+  assert.ok(fs.existsSync(path.join(RACINE, "manifest.webmanifest")));
+});
+
+test("application : manifeste JSON valide avec les champs attendus", () => {
+  const m = JSON.parse(fs.readFileSync(path.join(RACINE, "manifest.webmanifest"), "utf8"));
+  assert.equal(m.name, "VBG – Tableau de bord");
+  assert.equal(m.short_name, "VBG");
+  assert.equal(m.lang, "fr");
+  assert.equal(m.start_url, "./");
+  assert.equal(m.scope, "./");
+  assert.equal(m.display, "standalone");
+  assert.equal(m.background_color, "#111111");
+  assert.equal(m.theme_color, "#111111");
+  const tailles = m.icons.map(i => i.sizes).sort();
+  assert.deepEqual(tailles, ["192x192", "512x512"]);
+  for (const i of m.icons) {
+    assert.equal(i.type, "image/png");
+    const d = dimensionsPng(i.src);
+    assert.equal(i.sizes, d.l + "x" + d.h, i.src + " : taille déclarée = taille réelle");
+  }
+});
+
+test("application : pas de service worker (un cache pourrait servir un vieux data.json)", () => {
+  assert.doesNotMatch(HTML, /serviceWorker/);
+  assert.ok(!fs.existsSync(path.join(RACINE, "sw.js")));
+});
+
+test("application : en-tête sous la barre d'état (pas de viewport-fit=cover) ; menu et « Actualiser » restent la navigation", () => {
+  assert.doesNotMatch(TETE, /viewport-fit/);
+  // sans barre de navigateur : pas de retour ni de rechargement, tout passe par le menu et le bouton
+  assert.ok(IDS_HTML.has("vue") && IDS_HTML.has("btn"));
+});
