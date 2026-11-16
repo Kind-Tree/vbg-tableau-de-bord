@@ -483,6 +483,7 @@ function jours(p) {
   return out;
 }
 const titresJours = p => jours(p).map(j => j.titre);
+const programme = p => jours(p).flatMap(j => j.lignes).join("");  // texte du programme seul (hors « Semaine dernière »)
 
 async function avecFuseau(tz, f) {
   const avant = process.env.TZ;
@@ -546,13 +547,13 @@ test("semaine : bornes lundi 0 h / dimanche 24 h en heure de Paris, téléphone 
       assert.match(dim.cartes()[0].textContent, /Du 16\/11 au 22\/11/, tz);
       assert.deepEqual(titresJours(dim), ["mardi 17/11", "mercredi 18/11", "vendredi 20/11", "samedi 21/11", "dimanche 22/11"], tz);
       assert.equal(jours(dim)[4].aujourdhui, true, tz);
-      assert.doesNotMatch(dim.cartes()[0].textContent, /ADV LUNDI/, tz);
+      assert.doesNotMatch(programme(dim), /ADV LUNDI/, tz);
       const lun = await charger({ donnees: donneesSemaine(), aujourdhui: LUNDI_0030 });
       assert.match(lun.cartes()[0].textContent, /Du 23\/11 au 29\/11/, tz);
       assert.deepEqual(titresJours(lun), ["lundi 23/11", "samedi 28/11"], tz);
       assert.equal(jours(lun)[0].aujourdhui, true, tz);
       assert.match(jours(lun)[0].lignes[0], /20 h 00LoisirDomicileADV LUNDILA RICOQUAIS/, tz);
-      assert.doesNotMatch(lun.cartes()[0].textContent, /ADV DIMANCHE|ADV MERCREDI/, tz);
+      assert.doesNotMatch(programme(lun), /ADV DIMANCHE|ADV MERCREDI/, tz); // semaine du 16/11 : désormais « Semaine dernière »
     });
   }
 });
@@ -683,4 +684,167 @@ test("semaine : à heure égale, l'ordre des cartes décide", async () => {
   const samedi = jours(p).find(x => x.titre === "samedi 21/11").lignes;
   assert.match(samedi[1], /16 h 00N3M/); // N3M avant PNF dans la liste des cartes
   assert.match(samedi[2], /16 h 00PNF/);
+});
+
+// ---- Lot 3 : bloc « Semaine dernière » ----
+// Bloc de la carte « Cette semaine » : [{ titre, lignes: [texte, ...] }] ; null si le bloc est absent.
+function blocPrecedent(p) {
+  const s = p.cartes()[0].children.find(c => c.tag === "section");
+  if (!s) return null;
+  const out = []; let cur = null;
+  for (const n of s.children) {
+    if (n.tag === "h3") { cur = { titre: n.textContent.replace("Aujourd'hui", ""), aujourdhui: n.textContent.includes("Aujourd'hui"), lignes: [] }; out.push(cur); }
+    else if (n.tag === "ul" && cur) for (const li of n.children) cur.lignes.push(li.textContent);
+  }
+  return { jours: out, texte: s.textContent, titre: s.trouver(e => e.tag === "h2")[0].textContent };
+}
+
+// Semaine dernière de référence (aujourd'hui = samedi 21/11) : lundi 9/11 au dimanche 15/11.
+function donneesPrecedente() {
+  const d = donneesSemaine();
+  const n3m = d.equipes[0], pnf = d.equipes[1], m13 = d.equipes[2];
+  n3m.resultats.push(
+    { date: "2026-11-13", heure: "20:00", lieu: "D", adv: "ADV VENDREDI SOIR", pour: 3, contre: 1, sets: "25-20 20-25 25-18 25-21" },
+    { date: "2026-11-15", heure: "15:00", lieu: "E", adv: "ADV DIMANCHE PERDU", pour: 0, contre: 3, sets: "20-25 18-25 19-25" },
+    { date: "2026-11-09", lieu: "D", adv: "ADV LUNDI 9", pour: 3, contre: 0, sets: "25-10 25-10 25-10" });
+  pnf.resultats.push({ date: "2026-11-14", heure: "18:00", lieu: "E", adv: "ADV PNF SAMEDI", pour: 3, contre: 2, sets: "25-20 20-25 25-20 20-25 15-13" });
+  pnf.attente.push({ date: "2026-11-13", lieu: "D", adv: "ADV SANS SCORE", heure: "18:00", salle: "COSEC" },
+                   { date: "2026-11-15", lieu: "E", adv: "ADV FORFAIT", heure: null, salle: null, illisible: true });
+  m13.resultats.push({ date: "2026-11-16", lieu: "D", adv: "ADV CETTE SEMAINE", pour: 3, contre: 0, sets: "25-10 25-10 25-10" }); // lundi 16 : programme
+  d.coupes[0].resultats.push({ date: "2026-11-14", heure: "10:00", lieu: "E", adv: "ADV COUPE", pour: 3, contre: 0, sets: "25-13 25-11 25-11" });
+  return d;
+}
+
+test("semaine dernière : bloc permanent sous le programme, titre et dates (lundi au dimanche précédents)", async () => {
+  const p = await charger({ donnees: donneesPrecedente(), aujourdhui: SAMEDI_MIDI });
+  const b = blocPrecedent(p);
+  assert.ok(b);
+  assert.equal(b.titre, "Semaine dernière");
+  assert.match(b.texte, /Du 09\/11 au 15\/11/);
+  assert.equal(p.cartes().length, 1);                                    // même carte que le programme
+  assert.deepEqual(p.titres(), ["Cette semaine"]);
+  const enfants = p.cartes()[0].children;
+  assert.ok(enfants.indexOf(enfants.find(c => c.tag === "section")) > enfants.findLastIndex(c => c.tag === "ul")); // sous le programme
+  assert.deepEqual(titresJours(p), ["lundi 16/11", "mardi 17/11", "mercredi 18/11", "vendredi 20/11", "samedi 21/11", "dimanche 22/11"]); // programme : 16/11 compris, rien de la semaine dernière
+  assert.ok(blocPrecedent(await charger({ donnees: donneesSemaine(), aujourdhui: "2026-12-30T11:00:00Z" })), "présent même vide");
+});
+
+test("semaine dernière : résultats (V ou D, score en sets) et matchs sans score, mêmes libellés que le programme, regroupés par jour", async () => {
+  const b = blocPrecedent(await charger({ donnees: donneesPrecedente(), aujourdhui: SAMEDI_MIDI }));
+  assert.deepEqual(b.jours.map(j => j.titre), ["lundi 09/11", "vendredi 13/11", "samedi 14/11", "dimanche 15/11"]);
+  assert.ok(b.jours.every(j => !j.aujourdhui));
+  assert.match(b.jours[0].lignes[0], /^VN3MDomicileADV LUNDI 93–0 · 25-10 25-10 25-10$/);
+  const ven = b.jours[1].lignes;
+  assert.equal(ven.length, 2);
+  assert.ok(ven.some(l => /^VN3MDomicileADV VENDREDI SOIR3–1 · 25-20 20-25 25-18 25-21$/.test(l)));
+  assert.ok(ven.some(l => /^18 h 00PNFDomicileADV SANS SCORECOSECRésultat pas encore publié sur FFvolley$/.test(l)));
+  const dim = b.jours[3].lignes;
+  assert.ok(dim.some(l => /^DN3MExtérieurADV DIMANCHE PERDU0–3 · 20-25 18-25 19-25$/.test(l)));
+  assert.ok(dim.some(l => /^Sans heurePNFExtérieurADV FORFAITRésultat à lire sur FFvolley$/.test(l)));
+  assert.doesNotMatch(b.texte, /HORS SEMAINE|ADV CETTE SEMAINE|ADV MERCREDI|CPB RENNES/); // 8/11, 16/11 et la semaine en cours : absents
+});
+
+test("semaine dernière : tri par heure (résultats compris) puis ordre des cartes, coupes incluses, étiquette de coupe", async () => {
+  const d = donneesPrecedente();
+  const b = blocPrecedent(await charger({ donnees: d, aujourdhui: SAMEDI_MIDI }));
+  const ven = b.jours[1].lignes;
+  assert.match(ven[0], /PNF.*ADV SANS SCORE/);                          // 18 h avant 20 h
+  assert.match(ven[1], /ADV VENDREDI SOIR/);
+  const sam = b.jours[2].lignes;
+  assert.match(sam[0], /PRM · Coupe CD35 masculine.*ADV COUPE/);       // 10 h, coupe
+  assert.match(sam[1], /^VPNFExtérieurADV PNF SAMEDI/);                 // 18 h
+  // même heure : l'ordre des cartes décide ; résultat sans heure après les heures connues
+  d.equipes[1].resultats[0].date = "2026-11-14"; d.equipes[0].resultats.push({ date: "2026-11-14", heure: "18:00", lieu: "D", adv: "ADV N3M 18H", pour: 3, contre: 0, sets: "25-1 25-1 25-1" });
+  d.equipes[2].resultats.push({ date: "2026-11-14", lieu: "D", adv: "ADV M13 SANS HEURE", pour: 2, contre: 0, sets: "25-1 25-1" });
+  const s2 = blocPrecedent(await charger({ donnees: d, aujourdhui: SAMEDI_MIDI })).jours[2].lignes;
+  assert.match(s2[1], /N3M.*ADV N3M 18H/);
+  assert.match(s2[2], /PNF.*ADV PNF SAMEDI/);
+  assert.match(s2[3], /M13F.*ADV M13 SANS HEURE/);
+});
+
+test("semaine dernière : bloc vide, message dédié (le programme garde le sien)", async () => {
+  const p = await charger({ donnees: donneesSemaine(), aujourdhui: "2026-12-30T11:00:00Z" });
+  const b = blocPrecedent(p);
+  assert.match(b.texte, /Aucun match du club la semaine dernière\./);
+  assert.equal(b.jours.length, 0);
+  assert.match(p.cartes()[0].textContent, /Aucun match du club cette semaine\./);
+  // ancien data.json sans « heure » dans les résultats ni « attente » : pas de plantage
+  const d = donneesSemaine(); for (const e of [...d.equipes, ...d.coupes]) delete e.attente;
+  d.equipes[0].resultats.push({ date: "2026-11-13", lieu: "D", adv: "SANS HEURE", pour: 3, contre: 0, sets: "25-1 25-1 25-1" });
+  assert.match(blocPrecedent(await charger({ donnees: d, aujourdhui: SAMEDI_MIDI })).texte, /SANS HEURE/);
+});
+
+test("semaine dernière : bornes lundi 0 h / dimanche 24 h en heure de Paris, téléphone réglé sur un autre fuseau", async () => {
+  for (const tz of ["Pacific/Auckland", "America/Los_Angeles"]) {
+    await avecFuseau(tz, async () => {
+      const d = donneesPrecedente();
+      d.equipes[1].resultats.push({ date: "2026-11-22", heure: "09:00", lieu: "D", adv: "ADV DIMANCHE 22", pour: 3, contre: 0, sets: "25-1 25-1 25-1" });
+      // dimanche 15/11 23 h 30 Paris : semaine du 9 au 15, dernière semaine du 2 au 8
+      const dim = blocPrecedent(await charger({ donnees: d, aujourdhui: "2026-11-15T22:30:00Z" }));
+      assert.match(dim.texte, /Du 02\/11 au 08\/11/, tz);
+      assert.match(dim.texte, /HORS SEMAINE/, tz);                       // 8/11 : dimanche de la semaine d'avant
+      assert.doesNotMatch(dim.texte, /ADV LUNDI 9/, tz);
+      // lundi 16/11 0 h 30 Paris : la semaine du 9 au 15 devient « dernière »
+      const lun = blocPrecedent(await charger({ donnees: d, aujourdhui: "2026-11-15T23:30:00Z" }));
+      assert.match(lun.texte, /Du 09\/11 au 15\/11/, tz);
+      assert.deepEqual(lun.jours.map(j => j.titre), ["lundi 09/11", "vendredi 13/11", "samedi 14/11", "dimanche 15/11"], tz);
+      assert.doesNotMatch(lun.texte, /HORS SEMAINE|ADV CETTE SEMAINE/, tz);
+      // lundi 23/11 0 h 30 Paris : 16 au 22 (le dimanche 22 à 9 h est inclus, le lundi 9/11 non)
+      const suiv = blocPrecedent(await charger({ donnees: d, aujourdhui: "2026-11-22T23:30:00Z" }));
+      assert.match(suiv.texte, /Du 16\/11 au 22\/11/, tz);
+      assert.match(suiv.texte, /ADV DIMANCHE 22/, tz);
+      assert.match(suiv.texte, /ADV CETTE SEMAINE/, tz);
+      assert.doesNotMatch(suiv.texte, /ADV LUNDI 9|ADV VENDREDI SOIR/, tz);
+    });
+  }
+});
+
+test("semaine dernière : match sans score d'avant-hier ou resté dans « avenir » (relevé en retard) : même libellé que le programme", async () => {
+  const d = donneesSemaine();
+  d.equipes[2].avenir = [{ date: "2026-11-14", lieu: "E", adv: "RELEVE EN RETARD", heure: "14:00", salle: null }]; // jamais passé en résultat
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  const l = blocPrecedent(p).jours[0].lignes[0];
+  assert.match(l, /14 h 00M13FExtérieurRELEVE EN RETARDCommencé, résultat au prochain relevé/);
+  assert.doesNotMatch(l, /^[VD]/);
+});
+
+test("semaine dernière : carte non lue marquée, ligne ou score illisible n'abîment que leur ligne ; coupe non lue", async () => {
+  const d = donneesPrecedente();
+  Object.assign(d.equipes[1], { nonlu: true, raison: "x", lu: "2026-11-15T21:16:37+01:00" });
+  d.equipes[0].resultats.push({ date: "2026-11-12", lieu: "D", adv: "SCORE CASSE", pour: "3", contre: null });
+  d.equipes[2].resultats = [null, ...d.equipes[2].resultats];
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  const b = blocPrecedent(p);
+  assert.match(b.texte, /Ligne illisible\./);
+  assert.match(b.texte, /ADV VENDREDI SOIR/);
+  assert.ok(b.jours.flatMap(j => j.lignes).filter(l => l.includes("PNF")).every(l => /non lu depuis le 15 nov\./.test(l)));
+  assert.match(programme(p), /CPB RENNES/);                              // le programme est intact
+});
+
+test("semaine dernière : une erreur dans le bloc n'abîme pas le programme", async () => {
+  const p = await charger({ donnees: donneesPrecedente(), aujourdhui: SAMEDI_MIDI });
+  const vrai = p.sandbox.itemsSemaine; let appels = 0;
+  p.sandbox.itemsSemaine = (...a) => { if (++appels === 2) throw new Error("panne"); return vrai(...a); };
+  await p.clic("btn");
+  assert.equal(appels, 2);
+  assert.match(blocPrecedent(p).texte, /Données de la semaine dernière illisibles\./);
+  assert.match(programme(p), /CPB RENNES/);
+});
+
+test("semaine dernière : copie intégrée SECOURS (résultats des coupes des 14 et 15/11, sans « heure »)", async () => {
+  const p = await charger({ reseau: false, aujourdhui: "2026-11-16T10:00:00Z" });
+  const b = blocPrecedent(p);
+  assert.match(b.texte, /Du 09\/11 au 15\/11/);
+  assert.deepEqual(b.jours.map(j => j.titre), ["lundi 09/11", "samedi 14/11", "dimanche 15/11"]);
+  assert.match(b.jours[0].lignes[0], /^VLoisir Compet'Lib 1Extérieur/);
+  assert.equal(b.jours[1].lignes.length, 2);                             // Coupe de France + Coupe CD35
+  assert.match(b.jours[2].lignes.join(" "), /M18M région · Coupe de Bretagne M18M/);
+  assert.doesNotMatch(b.texte, /CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2/); // 8/11 : avant la semaine dernière
+});
+
+test("semaine dernière : textContent uniquement, mise en forme sans orange hors titre", () => {
+  const r = reglesCss().regles.find(x => x.sel === ".prec");
+  assert.ok(r, "règle .prec absente");
+  assert.doesNotMatch(r.corps, /#F26910/i);
+  assert.doesNotMatch(SCRIPT, /innerHTML|insertAdjacentHTML|outerHTML/);
 });

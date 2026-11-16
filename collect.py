@@ -235,7 +235,8 @@ def vu_du_club(m, club):
             if not (a.isdigit() and b.isdigit()):
                 continue
             sets.append("%s-%s" % ((a, b) if lieu == "D" else (b, a)))
-        base.update(pour=pour, contre=contre, sets=" ".join(sets))
+        # L'heure sert seulement au tri de la vue « Cette semaine » (jamais affichée pour un résultat).
+        base.update(pour=pour, contre=contre, sets=" ".join(sets), heure=m["heure"])
     else:
         base.update(heure=m["heure"], salle=m["salle"])
     return base
@@ -273,8 +274,10 @@ def analyser_poule(page, p, aujourdhui, heure=None):
         return not (heure and m["date"] == aujourdhui.isoformat() and m["heure"] and m["heure"] <= heure)
     a_venir = sorted((m for m in mes if a_venir_ok(m)), key=lambda m: (m["date"], m["heure"] or ""))
     # Matchs sans score lisible qui ne sont plus « à venir » (résultat pas encore saisi) ou dont le
-    # score est illisible, datés de moins de 7 jours : la page les garde dans la semaine en cours.
-    limite = (aujourdhui - timedelta(days=6)).isoformat()
+    # score est illisible, datés de la semaine en cours ou de la semaine précédente (lundi au dimanche,
+    # heure de Paris) : la page les garde dans « Cette semaine » et « Semaine dernière ». Un match du lundi
+    # 9/11 reste donc disponible jusqu'au dimanche 22/11 inclus, et disparaît le lundi 23/11.
+    limite = (aujourdhui - timedelta(days=aujourdhui.weekday() + 7)).isoformat()
     attente = sorted((m for m in mes if "pour" not in m and m["date"] >= limite
                       and (m.get("illisible") or not a_venir_ok(m))),
                      key=lambda m: (m["date"], m["heure"] or "", m["code"]))

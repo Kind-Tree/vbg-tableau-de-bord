@@ -1,4 +1,4 @@
-import os, sys, unittest
+import os, re, sys, unittest
 from datetime import date
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import collect
@@ -342,13 +342,37 @@ class AvenirTest(unittest.TestCase):
         self.assertNotIn("2026-11-21", [m["date"] for m in apres["avenir"]])
         self.assertNotIn("pour", apres["attente"][0])  # jamais de score inventé
 
-    def test_attente_le_lendemain_puis_plus_au_bout_de_7_jours(self):
-        lendemain = collect.analyser(page("prm_complet"), PRM, date(2026, 11, 22), heure="07:00")
-        self.assertEqual([m["date"] for m in lendemain["attente"]], ["2026-11-21"])
-        six = collect.analyser(page("prm_complet"), PRM, date(2026, 11, 27), heure="07:00")
-        self.assertEqual([m["date"] for m in six["attente"]], ["2026-11-21"])
-        sept = collect.analyser(page("prm_complet"), PRM, date(2026, 11, 28), heure="07:00")
-        self.assertEqual(sept["attente"], [])
+    def test_attente_le_lendemain_puis_jusqu_au_dimanche_de_la_semaine_suivante(self):
+        # Match du samedi 21/11 (semaine du lundi 16/11) : visible tout le reste de la semaine,
+        # puis toute la semaine suivante jusqu'au dimanche 29/11 inclus, absent le lundi 30/11.
+        for jour, present in ((date(2026, 11, 22), True), (date(2026, 11, 27), True), (date(2026, 11, 28), True),
+                              (date(2026, 11, 29), True), (date(2026, 11, 30), False)):
+            with self.subTest(jour=jour.isoformat()):
+                r = collect.analyser(page("prm_complet"), PRM, jour, heure="07:00")
+                # (les matchs suivants du calendrier deviennent aussi « sans score » avec le temps : on ne suit que celui-ci)
+                self.assertEqual([m["date"] for m in r["attente"] if m["date"] == "2026-11-21"],
+                                 ["2026-11-21"] if present else [])
+
+    def test_attente_un_lundi_reste_jusqu_au_dimanche_d_apres(self):
+        # Même match déplacé au lundi 16/11 : 13 jours plus tard (dimanche 29/11) il est encore là,
+        # ce que l'ancienne règle des 7 jours aurait déjà supprimé.
+        brut = page("prm_complet")
+        i = brut.index(">1PMA022<")
+        j = brut.index("21/11/26", i)
+        self.assertLess(j - i, 200)  # bien la date de cette ligne
+        lundi = brut[:j] + "16/11/26" + brut[j + len("21/11/26"):]
+        for jour, present in ((date(2026, 11, 17), True), (date(2026, 11, 29), True), (date(2026, 11, 30), False)):
+            with self.subTest(jour=jour.isoformat()):
+                r = collect.analyser(lundi, PRM, jour, heure="07:00")
+                self.assertEqual([m["date"] for m in r["attente"] if m["date"] == "2026-11-16"],
+                                 ["2026-11-16"] if present else [])
+
+    def test_attente_ne_contient_jamais_un_match_joue_ni_a_venir(self):
+        for jour in (date(2026, 11, 16), date(2026, 11, 22), date(2026, 11, 30)):
+            r = collect.analyser(page("prm_complet"), PRM, jour, heure="23:00")
+            vus = {(m["date"], m["adv"]) for m in r["resultats"] + r["avenir"]}
+            self.assertFalse({(m["date"], m["adv"]) for m in r["attente"]} & vus)
+            self.assertTrue(all("pour" not in m for m in r["attente"]))
 
     def test_attente_score_illisible(self):
         brut = page("n3m_complet")
@@ -362,8 +386,9 @@ class AvenirTest(unittest.TestCase):
         self.assertTrue(set(ill[0]) <= {"date", "lieu", "adv", "heure", "salle", "illisible"})
         self.assertNotIn("2026-11-08", [m["date"] for m in r["avenir"]])
         self.assertNotIn("2026-11-08", [m["date"] for m in r["resultats"]])
-        # plus de 6 jours plus tard, il quitte « attente »
-        self.assertEqual([m for m in collect.analyser(brut, N3M, AUJ)["attente"] if m.get("illisible")], [])
+        # le match du dimanche 08/11 (semaine du 02/11) reste jusqu'au dimanche 15/11, puis quitte « attente »
+        self.assertEqual(len([m for m in collect.analyser(brut, N3M, AUJ)["attente"] if m.get("illisible")]), 1)
+        self.assertEqual([m for m in collect.analyser(brut, N3M, date(2026, 11, 16))["attente"] if m.get("illisible")], [])
 
     def test_match_joue_n_est_ni_a_venir_ni_en_attente(self):
         r = collect.analyser(page("n3m_complet"), N3M, date(2026, 11, 9))
@@ -433,6 +458,111 @@ class FusionLot2Test(unittest.TestCase):
             self.assertIsInstance(c["avenir"], list, c["nom"])
             self.assertIsInstance(c["attente"], list, c["nom"])
             self.assertFalse(c.get("nonlu"), c["nom"])
+
+
+# ---- Lot 3 : bloc « Semaine dernière », collectes supplémentaires ----
+class Lot3Test(unittest.TestCase):
+    def test_resultats_portent_l_heure_pour_le_tri_de_la_page(self):
+        r = collect.analyser(page("n3m_complet"), N3M, AUJ)
+        self.assertTrue(all("heure" in x for x in r["resultats"]))
+        self.assertEqual(r["resultats"][0]["heure"], "15:00")
+        sans = collect.analyser(page("coupe_bcd"), BCD, AUJ, coupe=True)
+        self.assertTrue(all("heure" in x for x in sans["resultats"]))  # None si FFvolley n'en donne pas
+
+    def test_resultats_contiennent_tous_les_matchs_joues_de_la_semaine_precedente(self):
+        """VALABLE POUR LES PAGES DE TEST SEULEMENT (au plus 2 matchs par carte sur deux semaines) : le plafond
+        de 5 résultats par carte ne l'est pas par construction, voir test_plafond_de_5_limite_connue. Pour chaque carte et chaque semaine, tous les matchs joués de la semaine précédente figurent
+        dans « resultats » pendant toute la semaine où la page les affiche (lundi au dimanche suivants)."""
+        from datetime import timedelta
+        verifies = 0
+        for c in collect.EQUIPES + collect.COUPES:
+            tous = []
+            for p in c["poules"]:
+                for m in collect.matchs(collect.lignes(page(FIXTURE_DE[p["code"]])), p["code"]):
+                    v = collect.vu_du_club(m, p["club"])
+                    if v and "pour" in v:
+                        tous.append(v)
+            for d0 in {date.fromisoformat(v["date"]) for v in tous}:
+                lundi = d0 - timedelta(days=d0.weekday())
+                attendus = {(v["date"], v["adv"]) for v in tous
+                            if lundi.isoformat() <= v["date"] <= (lundi + timedelta(days=6)).isoformat()}
+                for jour in (lundi + timedelta(days=7), lundi + timedelta(days=13)):  # lundi et dimanche d'après
+                    lues = [collect.analyser_poule(page(FIXTURE_DE[p["code"]]), p, jour, "23:59") for p in c["poules"]]
+                    # les pages de test datent du 15/11 : on ne garde que ce qui était déjà joué ce jour-là
+                    lues = [dict(l, joues=[r for r in l["joues"] if r["date"] <= jour.isoformat()]) for l in lues]
+                    if not any(l["mes"] for l in lues):
+                        continue
+                    out = collect.construire(c, lues, coupe=c in collect.COUPES)
+                    presents = {(r["date"], r["adv"]) for r in out["resultats"]}
+                    with self.subTest(carte=c["nom"], jour=jour.isoformat()):
+                        self.assertLessEqual(attendus, presents)
+                    verifies += 1
+        self.assertGreater(verifies, 40)  # le test a bien parcouru les semaines de toutes les cartes
+
+    def test_plafond_de_5_limite_connue(self):
+        """Limite connue, NON corrigée (décision du président) : au-delà de 5 résultats, les plus anciens sont coupés,
+        y compris un match de la semaine précédente."""
+        lues = [{"code": "X", "titre": "T", "mes": 6, "illisibles": 0, "prochain": None, "avenir": [], "attente": [],
+                 "classement": None,
+                 "joues": [{"date": d, "heure": h, "lieu": "D", "adv": "A", "pour": 3, "contre": 0, "sets": "", "code": "X%d" % i}
+                           for i, (d, h) in enumerate([("2026-11-21", "14:00"), ("2026-11-21", "10:00"), ("2026-11-15", "14:00"),
+                                                       ("2026-11-15", "10:00"), ("2026-11-14", "14:00"), ("2026-11-14", "10:00")])]}]
+        r = collect.construire({"nom": "X", "poules": [{"code": "X", "ent": "E", "club": "C"}]}, lues)
+        self.assertEqual(len(r["resultats"]), collect.NB_RESULTATS)
+        self.assertEqual(sum(x["date"] == "2026-11-14" for x in r["resultats"]), 1)  # l'un des deux matchs du 14/11 est perdu
+
+    def test_pas_de_donnee_inventee_dans_l_attente(self):
+        r = collect.analyser(page("prm_complet"), PRM, date(2026, 11, 22), heure="07:00")
+        self.assertEqual(set(r["attente"][0]), {"date", "lieu", "adv", "heure", "salle"})
+
+
+class PlanificationTest(unittest.TestCase):
+    """collecte.yml : chaque cron est dans la bonne branche de l'étape « Saison »."""
+
+    def setUp(self):
+        with open(os.path.join(os.path.dirname(__file__), "..", ".github", "workflows", "collecte.yml"), encoding="utf-8") as f:
+            self.yml = f.read()
+        self.crons = re.findall(r'^\s*- cron: "([^"]+)"', self.yml, re.M)
+        m = re.search(r'case "[^"]*" in\s*\n\s*(.*?\) planifie=\+0200 ;;)', self.yml, re.S)
+        self.ete = set(re.findall(r'"([^"]+)"', m.group(1)))
+
+    def test_dix_cron_sans_doublon(self):
+        self.assertEqual(len(self.crons), 10)
+        self.assertEqual(len(set(self.crons)), 10)
+
+    def test_les_cinq_lignes_d_ete_sont_dans_la_branche_ete_et_aucune_autre(self):
+        self.assertEqual(self.ete, {"0 16 * * 5", "0 7 * * 0", "0 19 * * 0", "0 21 * * 0", "0 5 * * 1"})
+        self.assertTrue(self.ete <= set(self.crons))
+
+    def test_passages_en_heure_de_paris(self):
+        """Avec le décalage de leur branche, les passages sont exactement : ven 18 h, dim 9 h, 21 h, 23 h, lun 7 h,
+        chacun une fois en été et une fois en hiver."""
+        paris = []
+        for cron in self.crons:
+            mn, h, _, _, j = cron.split()
+            self.assertEqual(mn, "0")
+            paris.append((int(j), int(h) + (2 if cron in self.ete else 1)))
+        self.assertEqual(sorted(paris), sorted([(5, 18), (0, 9), (0, 21), (0, 23), (1, 7)] * 2))
+        self.assertEqual(sorted(p for c, p in zip(self.crons, paris) if c in self.ete),
+                         sorted(p for c, p in zip(self.crons, paris) if c not in self.ete))
+
+    def test_alerte_apres_la_publication_et_sans_tee(self):
+        self.assertLess(self.yml.index("Publication de data.json"), self.yml.index("Alerte si une poule"))
+        self.assertIn("steps.collecte.outputs.code == '2'", self.yml)
+        ligne = next(x for x in self.yml.splitlines() if "python collect.py" in x)
+        self.assertNotRegex(ligne.split("#")[0], r"(?<!\|)\|(?!\|)")  # un tube masquerait le code de sortie de Python
+
+    def test_alerte_chaine_complete(self):
+        """Le code de sortie est publié par l'étape « Collecte » (id), lu par l'alerte, qui échoue et nomme les poules."""
+        collecte = self.yml.split("- name: Collecte")[1].split("- name: Publication")[0]
+        alerte = self.yml.split("- name: Alerte")[1]
+        self.assertIn("id: collecte", collecte)
+        self.assertIn('echo "code=${code:-0}" >> "$GITHUB_OUTPUT"', collecte)
+        self.assertRegex(collecte, r'-ge 3 \] \|\| \[ "\$\{code:-0\}" = 1 \]')  # 1 et >= 3 : rouge ; 2 : vert
+        self.assertIn("if: steps.collecte.outputs.code == '2'", alerte)
+        self.assertNotIn("-ge 2", self.yml)
+        self.assertIn("::error::", alerte)
+        self.assertRegex(alerte, r"(?m)^\s+exit 1\s*$")
 
 
 if __name__ == "__main__":

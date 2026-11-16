@@ -64,6 +64,7 @@ h3 .pastille{margin-left:8px;vertical-align:middle}
 .hre.sans{font-size:12px;font-weight:normal;color:#D9D9D9}
 .mt-txt{flex:1;min-width:0}
 .mt-carte{font-size:13px;font-weight:bold;text-transform:uppercase}
+.prec{margin-top:20px;border-top:1px solid #6B6B6B;padding-top:16px}
 </style>
 </head>
 <body>
@@ -168,25 +169,41 @@ function ligneSemaine(x){
   if(statut)t.append(el("p","note",statut));
   if(x.nonlu)t.append(el("p","note","non lu"+(x.lu?" depuis le "+dateLue(x.lu):"")));
   li.append(g,t);return li}
-function carteSemaine(d){
-  const auj=aujourdhuiParis(),h=heureParis(),sem=semaineDe(auj),c=el("article","carte");
-  c.append(el("h2",null,"Cette semaine"),el("p","poule","Du "+court(sem.debut)+" au "+court(sem.fin)));
+// Lignes d'une semaine pour toutes les cartes (équipes puis coupes), triées : par jour, puis par heure
+// (sans heure en dernier), puis dans l'ordre des cartes.
+function itemsSemaine(d,sem,auj,h){
   const cartes=d.equipes.map(q=>[q,q&&q.nom]).concat((d.coupes||[]).map(k=>[k,k&&typeof k.nom==="string"?(k.equipe?k.equipe+" · ":"")+k.nom:null]));
   const items=[];let illisibles=0;
   cartes.forEach(([q,nom],i)=>{try{items.push(...lignesDeCarte(q,nom,sem,auj,h,i))}catch(e){illisibles++}});
-  // Par jour, puis par heure (sans heure en dernier), puis dans l'ordre des cartes.
   items.sort((a,b)=>(a.date<b.date?-1:a.date>b.date?1:0)||((a.heure||"99:99")<(b.heure||"99:99")?-1:(a.heure||"99:99")>(b.heure||"99:99")?1:0)||a.ordre-b.ordre);
-  if(!items.length)c.append(el("p","qui","Aucun match du club cette semaine."));
+  return{items,illisibles}}
+// Écrit les lignes dans `parent`, regroupées par jour ; `vide` est le message si la semaine n'a aucun match.
+function ecrireJours(parent,items,illisibles,auj,vide){
+  if(!items.length)parent.append(el("p","qui",vide));
   let jourCourant=null,ul=null;
   items.forEach(x=>{
     if(x.date!==jourCourant){
       jourCourant=x.date;
       const t=el("h3",null,JOURS_L[jourSemaine(x.date)]+" "+court(x.date));
       if(x.date===auj)t.append(el("span","pastille","Aujourd'hui"));
-      ul=el("ul","mts");c.append(t,ul)}
+      ul=el("ul","mts");parent.append(t,ul)}
     let li;try{li=ligneSemaine(x)}catch(e){li=el("li","mt");li.append(el("p","note","Ligne illisible."))}
     ul.append(li)});
-  if(illisibles)c.append(el("p","note","Données illisibles pour "+illisibles+" carte(s)."));
+  if(illisibles)parent.append(el("p","note","Données illisibles pour "+illisibles+" carte(s)."))}
+// Bloc « Semaine dernière » : lundi au dimanche précédents (heure de Paris), même présentation que le programme.
+// Dans son propre conteneur : une erreur ici n'abîme pas le programme.
+function blocSemaineDerniere(d,sem,auj,h){
+  const s=el("section","prec"),prec={debut:ajouterJours(sem.debut,-7),fin:ajouterJours(sem.debut,-1)};
+  s.append(el("h2",null,"Semaine dernière"),el("p","poule","Du "+court(prec.debut)+" au "+court(prec.fin)));
+  try{const r=itemsSemaine(d,prec,auj,h);ecrireJours(s,r.items,0,auj,"Aucun match du club la semaine dernière.")}
+  catch(e){s.append(el("p","note","Données de la semaine dernière illisibles."))}
+  return s}
+function carteSemaine(d){
+  const auj=aujourdhuiParis(),h=heureParis(),sem=semaineDe(auj),c=el("article","carte");
+  c.append(el("h2",null,"Cette semaine"),el("p","poule","Du "+court(sem.debut)+" au "+court(sem.fin)));
+  const r=itemsSemaine(d,sem,auj,h);
+  ecrireJours(c,r.items,r.illisibles,auj,"Aucun match du club cette semaine.");
+  c.append(blocSemaineDerniere(d,sem,auj,h));
   return c}
 // Dans les 7 jours (date de Paris, matchs à venir seulement) : la carte Coupes passe en tête.
 function coupeProche(cs){

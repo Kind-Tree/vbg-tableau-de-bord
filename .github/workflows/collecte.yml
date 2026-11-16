@@ -1,14 +1,18 @@
 name: Collecte FFvolley
 
-# Passages : dimanche 21 h et 23 h, lundi 7 h, heure de Paris.
+# Passages (heure de Paris) : vendredi 18 h, dimanche 9 h, dimanche 21 h et 23 h, lundi 7 h.
 # Le cron GitHub est en UTC : on programme les deux saisons (heure d'été = UTC+2,
 # heure d'hiver = UTC+1) et l'étape « Saison » laisse passer seulement celle qui
 # correspond à l'heure légale du moment. Pas de double passage.
 on:
   schedule:
+    - cron: "0 16 * * 5"   # été  : vendredi 18 h
+    - cron: "0 7 * * 0"    # été  : dimanche 9 h
     - cron: "0 19 * * 0"   # été  : dimanche 21 h
     - cron: "0 21 * * 0"   # été  : dimanche 23 h
     - cron: "0 5 * * 1"    # été  : lundi 7 h
+    - cron: "0 17 * * 5"   # hiver : vendredi 18 h
+    - cron: "0 8 * * 0"    # hiver : dimanche 9 h
     - cron: "0 20 * * 0"   # hiver : dimanche 21 h
     - cron: "0 22 * * 0"   # hiver : dimanche 23 h
     - cron: "0 6 * * 1"    # hiver : lundi 7 h
@@ -33,7 +37,7 @@ jobs:
             echo "go=oui" >> "$GITHUB_OUTPUT"
           else
             case "${{ github.event.schedule }}" in
-              "0 19 * * 0"|"0 21 * * 0"|"0 5 * * 1") planifie=+0200 ;;
+              "0 16 * * 5"|"0 7 * * 0"|"0 19 * * 0"|"0 21 * * 0"|"0 5 * * 1") planifie=+0200 ;;
               *) planifie=+0100 ;;
             esac
             if [ "$planifie" = "$decalage" ]; then echo "go=oui" >> "$GITHUB_OUTPUT"; else echo "go=non" >> "$GITHUB_OUTPUT"; echo "Passage ignoré : la planification $planifie ne correspond pas à l'heure de Paris ($decalage)."; fi
@@ -50,10 +54,13 @@ jobs:
       # Aucun test ici : un test en échec ne doit jamais empêcher la mise à jour du dimanche
       # (les tests ont leur propre workflow, « Tests »).
       - name: Collecte
+        id: collecte
         if: steps.saison.outputs.go == 'oui'
         run: |
-          python collect.py || code=$?
+          python collect.py > collecte.log || code=$?   # pas de « | tee » : il masquerait le code de sortie
+          cat collecte.log
           # code 2 = au moins une poule non lue (données précédentes conservées) : on publie quand même.
+          echo "code=${code:-0}" >> "$GITHUB_OUTPUT"
           if [ "${code:-0}" -ge 3 ] || [ "${code:-0}" = 1 ]; then exit "${code}"; fi
 
       - name: Publication de data.json
@@ -63,3 +70,13 @@ jobs:
           git config user.email "collecte-vbg@users.noreply.github.com"
           git add docs/data.json
           if git diff --cached --quiet; then echo "Aucun changement."; else git commit -m "Mise à jour des données"; git pull --rebase; git push; fi
+
+      # ALERTE : après la publication, un run « rouge » fait envoyer un e-mail par GitHub.
+      # Sans cette étape, une poule « non lue » (code 2) laisserait le run vert, donc sans e-mail.
+      # Les échecs graves (code 1 ou 3 et plus) rendent déjà l'étape « Collecte » rouge.
+      - name: Alerte si une poule n'a pas pu être lue
+        if: steps.collecte.outputs.code == '2'
+        run: |
+          grep '^ECHEC' collecte.log | while read -r ligne; do echo "::error::$ligne"; done
+          echo "::error::Au moins une poule n'a pas pu être lue : la page garde ses dernières données connues, marquées « non lu »."
+          exit 1
