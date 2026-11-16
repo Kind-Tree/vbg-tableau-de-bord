@@ -19,7 +19,7 @@ Changer la saison seule ne suffit presque jamais : les codes de poule changent a
 
 À prévoir **fin août ou début septembre**, quand FFvolley publie les poules de la nouvelle saison (la date exacte n'est pas connue : à confirmer sur la page du club).
 
-Signaux qui te le rappelleront :
+Signaux qui peuvent te le rappeler (mais qui peuvent aussi ne jamais venir, voir l'étape 1) :
 
 - la page affiche « Données anciennes : dernière collecte il y a N jours » (aucune collecte réussie depuis plus de 5 jours) ;
 - tu reçois un e-mail d'échec de GitHub ;
@@ -40,10 +40,12 @@ Total : environ 1 h à 1 h 30, dont 20 à 30 minutes de ton temps.
 
 ### 1. Vérifier que la saison est ouverte
 
-Ouvre cette adresse : <https://www.ffvbbeach.org/ffvbapp/resu/planning_club_class.php?cnclub=0357988>
+Cette page n'affiche pas la saison en toutes lettres : ne cherche pas à la lire. Demande simplement à Claude Code de lancer `python collect.py --diagnostic` (rien n'est écrit, 1 minute) : la première ligne donne la saison que la page club affiche.
 
-- Si la page montre encore les poules de la saison précédente ou n'en montre aucune, attends quelques jours : FFvolley n'a pas fini de publier. Ne change rien.
-- Si elle montre les nouvelles poules du club, passe à l'étape 2.
+- Si elle indique encore 2026/2027 (la saison configurée), attends quelques jours : FFvolley n'a pas fini de publier. Ne change rien.
+- Si elle indique une nouvelle saison, passe à l'étape 2.
+
+Aucun signal automatique ne te prévient dans ce cas : tant que FFvolley garde les pages de l'ancienne saison, les collectes réussissent et le site continue d'afficher l'ancienne saison sans alerte. **Mets un rappel dans ton agenda pour la fin août.**
 
 ### 2. La consigne à donner à Claude Code
 
@@ -67,20 +69,24 @@ La commande `python collect.py --diagnostic` lit seulement deux pages de FFvolle
 
 - **« Aucun écart »** : la configuration correspond aux pages du club (code de sortie 0) ;
 - **des lignes `ECART`** : à traiter avant de publier (code de sortie 2) ;
-- **une page illisible** : réessaie plus tard (code de sortie 1).
+- **une page illisible** (téléchargement impossible) : réessaie plus tard (code de sortie 1) ;
+- **« diagnostic impossible »** : les pages se sont téléchargées mais la page club n'a plus la forme attendue (FFvolley a changé sa présentation). Code de sortie 2 : ne rien publier, demande à Claude Code de regarder la page.
 
 Sens des lignes :
 
 | Ligne | Sens |
 |---|---|
-| `OK` | la poule est présente, avec la bonne saison et la bonne entité |
-| `NOTE` | une équipe suit deux poules à tour de rôle (M18M région) et l'une est absente : normal en changement de phase |
+| `OK` | la poule est présente sur la page club, avec la bonne saison et la bonne entité |
+| `NOTE … vue seulement sur la page hebdo` | les coupes (France, Bretagne) n'apparaissent que sur la page hebdomadaire : la poule existe, mais **la saison et l'entité ne sont pas vérifiées**. À contrôler à la première collecte |
+| `NOTE … absente` | une équipe suit deux poules à tour de rôle (M18M région) et l'une est absente : normal en changement de phase |
 | `ECART … absente` | la poule configurée n'existe plus : son code a changé ou l'équipe n'est plus engagée |
 | `ECART … présente mais autrement` | même code mais autre saison ou autre entité |
 | `ECART … la saison de la page club` | la page club affiche déjà une autre saison que la configuration : c'est le signal attendu au changement de saison |
 | `ECART … compétition non suivie` | une poule existe pour le club mais n'est pas dans la configuration : nouvelle équipe ou nouvelle coupe. Elle n'est jamais ajoutée toute seule |
 
-Le diagnostic ne vérifie pas le **nom du club à l'intérieur de chaque poule** : cela se voit à la première collecte, où une poule mal nommée devient « Non lu » (« club absent du classement »).
+Le diagnostic ne vérifie pas le **nom du club à l'intérieur de chaque poule** : cela se voit à la première collecte, où une poule mal nommée devient « Non lu » (raison « club absent du classement », ou « aucun match du club dans … » quand le classement n'est pas encore publié).
+
+Les options `--only` et `--out` sont ignorées avec `--diagnostic`, qui n'écrit jamais rien.
 
 ### 4 et 5. Ce que fait Claude, ce que tu regardes
 

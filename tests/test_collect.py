@@ -702,7 +702,11 @@ class DiagnosticTest(unittest.TestCase):
         self.assertIn("Aucun écart", lignes[-1])
         for c in collect.EQUIPES + collect.COUPES:
             for p in c["poules"]:
-                self.assertTrue(any(l.startswith("OK") and ("poule %s :" % p["code"]) in l for l in lignes), p["code"])
+                self.assertTrue(any(l.startswith(("OK", "NOTE")) and ("poule %s :" % p["code"]) in l for l in lignes), p["code"])
+        # COM et BCD ne sont vues que sur la page hebdo : jamais « OK » (saison et entité non vérifiées)
+        for code in ("COM", "BCD"):
+            self.assertTrue(any(l.startswith("NOTE") and ("poule %s :" % code) in l and "non vérifiables" in l for l in lignes), code)
+            self.assertFalse(any(l.startswith("OK") and ("poule %s :" % code) in l for l in lignes), code)
         self.assertFalse(any(l.startswith("ECART") for l in lignes))
 
     def test_nouvelle_saison_sur_la_page_club(self):
@@ -750,7 +754,7 @@ class DiagnosticTest(unittest.TestCase):
         self.assertEqual(ecarts, 1 + total)  # l'écart général plus chaque poule configurée introuvable
         self.assertTrue(any("diagnostic impossible" in l for l in lignes))
 
-    def test_formulaires_lus_avec_guillemets_doubles_ou_sans(self):
+    def test_formulaires_lus_avec_guillemets_doubles(self):
         a = "<input type=hidden name=saison value=\"2026/2027\"><input type=hidden name=codent value=\"LIBR\"><input type=hidden name=poule value=\"PNF\">"
         self.assertEqual(collect.formulaires_poules(a), {("2026/2027", "LIBR", "PNF")})
 

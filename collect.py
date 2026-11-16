@@ -434,8 +434,10 @@ def diagnostic(page_club, page_hebdo):
             etats = [(p, etat(p)) for p in c["poules"]]
             bon = any(e[0] in ("ok", "hebdo") for _, e in etats)
             for p, (code_etat, texte) in etats:
-                if code_etat in ("ok", "hebdo"):
+                if code_etat == "ok":
                     marque = "OK    "
+                elif code_etat == "hebdo":
+                    marque = "NOTE  "  # vue seulement sur la page hebdo : ni la saison ni l'entité ne sont vérifiées
                 elif bon and code_etat == "absente":
                     marque = "NOTE  "  # autre poule de la même équipe présente (changement de phase)
                 else:
