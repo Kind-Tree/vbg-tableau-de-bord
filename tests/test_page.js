@@ -848,3 +848,109 @@ test("semaine dernière : textContent uniquement, mise en forme sans orange hors
   assert.doesNotMatch(r.corps, /#F26910/i);
   assert.doesNotMatch(SCRIPT, /innerHTML|insertAdjacentHTML|outerHTML/);
 });
+
+// ---- Données anciennes (nuit du 16/11/2026) ----
+// Écart en jours de calendrier à Paris entre « maj » et aujourd'hui ; ligne affichée au-delà de 5 jours.
+const MAJ_LUNDI = "2026-11-16T07:00:00+01:00";
+const avecMaj = maj => { const d = JSON.parse(JSON.stringify(DATA)); if (maj === undefined) delete d.maj; else d.maj = maj; return d; };
+
+test("données anciennes : 5 jours, rien ; 6 jours, ligne « il y a 6 jours » sous l'heure de mise à jour", async () => {
+  const cinq = await charger({ donnees: avecMaj(MAJ_LUNDI), aujourdhui: "2026-11-21T11:00:00Z" });
+  assert.equal(cinq.el("ancien").hidden, true);
+  assert.equal(cinq.el("ancien").textContent, "");
+  const six = await charger({ donnees: avecMaj(MAJ_LUNDI), aujourdhui: "2026-11-22T11:00:00Z" });
+  assert.equal(six.el("ancien").hidden, false);
+  assert.equal(six.el("ancien").textContent, "Données anciennes : dernière collecte il y a 6 jours");
+  const dix = await charger({ donnees: avecMaj(MAJ_LUNDI), aujourdhui: "2026-11-26T11:00:00Z" });
+  assert.equal(dix.el("ancien").textContent, "Données anciennes : dernière collecte il y a 10 jours");
+});
+
+test("données anciennes : la ligne est dans le bloc de mise à jour, après l'heure, et visible dans toutes les vues", async () => {
+  assert.match(HTML, /<b id="maj">[^<]*<\/b><span class="ancien" id="ancien" hidden><\/span><\/p>/);
+  const p = await charger({ donnees: avecMaj(MAJ_LUNDI), aujourdhui: "2026-11-30T11:00:00Z" });
+  for (const v of ["semaine", "n3m", "coupes", "toutes"]) {
+    await p.choisir(v);
+    assert.equal(p.el("ancien").hidden, false, v);
+    assert.match(p.el("ancien").textContent, /il y a 14 jours$/, v);
+  }
+});
+
+test("données anciennes : jours de calendrier à Paris (23 h 30 le lundi, 0 h 30 le dimanche suivant = 6 jours), téléphone sur un autre fuseau", async () => {
+  const maj = "2026-11-16T23:30:00+01:00", maintenant = "2026-11-21T23:30:00Z"; // dimanche 22/11, 0 h 30 à Paris
+  for (const tz of ["Pacific/Auckland", "America/Los_Angeles"]) {
+    await avecFuseau(tz, async () => {
+      const p = await charger({ donnees: avecMaj(maj), aujourdhui: maintenant });
+      assert.equal(p.el("ancien").textContent, "Données anciennes : dernière collecte il y a 6 jours", tz);
+    });
+  }
+  const veille = await charger({ donnees: avecMaj(maj), aujourdhui: "2026-11-21T22:30:00Z" }); // samedi 21/11, 23 h 30 : 5 jours
+  assert.equal(veille.el("ancien").hidden, true);
+  // collecte du mardi 17/11 à 0 h 30 à Paris (= lundi 16/11 à 23 h 30 en UTC) : le jour de Paris compte, pas celui d'UTC
+  const minuit = await charger({ donnees: avecMaj("2026-11-17T00:30:00+01:00"), aujourdhui: "2026-11-23T11:00:00Z" });
+  assert.equal(minuit.el("ancien").textContent, "Données anciennes : dernière collecte il y a 6 jours");
+});
+
+test("données anciennes : jamais deviné quand « maj » est absent, nul, illisible, du futur ou d'un autre type", async () => {
+  for (const maj of [undefined, null, "n'importe quoi", "", 0, 12345, "2099-01-01T00:00:00+01:00"]) {
+    const p = await charger({ donnees: avecMaj(maj), aujourdhui: "2026-12-30T11:00:00Z" });
+    assert.equal(p.el("ancien").hidden, true, String(maj));
+    assert.equal(p.el("ancien").textContent, "", String(maj));
+  }
+});
+
+test("données anciennes : des données fraîches effacent la ligne (Actualiser)", async () => {
+  const p = await charger({ donnees: avecMaj(MAJ_LUNDI), aujourdhui: "2026-11-25T11:00:00Z" });
+  assert.equal(p.el("ancien").hidden, false);
+  p.etat.donnees = avecMaj("2026-11-25T07:00:00+01:00");
+  await p.clic("btn");
+  assert.equal(p.el("ancien").hidden, true);
+  assert.equal(p.el("ancien").textContent, "");
+});
+
+test("données anciennes : hors ligne, la ligne suit les données affichées (copie intégrée du 15/11, ou données déjà chargées)", async () => {
+  const integree = await charger({ reseau: false, aujourdhui: "2026-11-25T11:00:00Z" });
+  assert.equal(integree.el("src").textContent, "Données intégrées du");
+  assert.equal(integree.el("ancien").textContent, "Données anciennes : dernière collecte il y a 10 jours");
+  const p = await charger({ donnees: avecMaj("2026-11-25T07:00:00+01:00"), aujourdhui: "2026-11-25T11:00:00Z" });
+  p.etat.reseau = false;
+  await p.clic("btn");
+  assert.equal(p.el("src").textContent, "Actualisation impossible, données du");
+  assert.equal(p.el("ancien").hidden, true); // les données gardées sont celles de 07 h : rien d'ancien
+});
+
+test("données anciennes : blanc gras, jamais orange, masquage réel (hidden)", () => {
+  const { regles, css } = reglesCss();
+  const r = regles.find(x => x.sel === ".ancien");
+  assert.ok(r, "règle .ancien absente");
+  assert.match(r.corps, /color:#FFFFFF/);
+  assert.match(r.corps, /font-weight:bold/);
+  assert.doesNotMatch(r.corps, /#F26910|#C2500A|orange/i);
+  assert.ok(css.includes(".ancien[hidden]{display:none}"));
+  assert.match(SCRIPT, /textContent/);
+  assert.doesNotMatch(SCRIPT.slice(SCRIPT.indexOf("function signalerAncien"), SCRIPT.indexOf("let donnees=null")), /innerHTML/);
+});
+
+test("données anciennes : Actualiser hors ligne recalcule l'âge (la page est restée ouverte, le jour a changé)", async () => {
+  // données de 5 jours au chargement ; la page reste ouverte et l'horloge avance d'un jour
+  const p = await charger({ donnees: avecMaj(MAJ_LUNDI), aujourdhui: "2026-11-21T11:00:00Z" });
+  assert.equal(p.el("ancien").hidden, true);
+  const t = new Date("2026-11-22T11:00:00Z").getTime();
+  // l'horloge de la page avance d'un jour (même mécanisme que « charger », appliqué après coup)
+  p.etat.reseau = false;
+  vm.runInContext("(function(){const D=Date;Date=class extends D{constructor(...a){if(a.length)super(...a);else super(" + t + ")}static now(){return " + t + "}}})()", p.sandbox);
+  await p.clic("btn");
+  assert.equal(p.el("src").textContent, "Actualisation impossible, données du");
+  assert.equal(p.el("ancien").hidden, false);
+  assert.equal(p.el("ancien").textContent, "Données anciennes : dernière collecte il y a 6 jours");
+});
+
+test("données anciennes : seul le format ISO du collecteur est accepté, jamais une date devinée par le navigateur", async () => {
+  for (const maj of ["Nov 1", "1", "2026", "2026-11-16", "2026-11-16T07:00:00"]) {
+    const p = await charger({ donnees: avecMaj(maj), aujourdhui: "2026-11-22T11:00:00Z" });
+    assert.equal(p.el("ancien").hidden, true, maj);
+  }
+  for (const maj of ["2026-11-16T07:00:00+01:00", "2026-11-16T06:00:00Z", "2026-11-16T07:00:00.123+01:00", "2026-11-16T07:00+01:00"]) {
+    const p = await charger({ donnees: avecMaj(maj), aujourdhui: "2026-11-22T11:00:00Z" });
+    assert.equal(p.el("ancien").textContent, "Données anciennes : dernière collecte il y a 6 jours", maj);
+  }
+});
