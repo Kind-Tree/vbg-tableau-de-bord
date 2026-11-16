@@ -12,7 +12,7 @@ body{background:#111111;color:#FFFFFF;font-family:Arial,Helvetica,sans-serif;fon
 .haut,.barre,.tete{display:flex;justify-content:space-between;gap:12px}
 .haut,.barre{align-items:center}
 h1{font-size:20px;font-weight:bold;text-transform:uppercase}
-.logo{width:56px;height:56px;flex:none;border:1px dashed #6B6B6B;display:flex;align-items:center;justify-content:center;font-size:11px;color:#D9D9D9}
+.logo{width:56px;height:56px;flex:none;display:flex;align-items:center;justify-content:center}
 .logo img{width:100%;height:100%;object-fit:contain}
 .barre{margin:14px 0 16px}
 .maj{font-size:13px;color:#D9D9D9}
@@ -57,8 +57,7 @@ button:focus-visible,select:focus-visible,.lien-coupe:focus-visible{outline:3px 
 <div class="page">
   <div class="haut">
     <h1>Volley-Ball Grégorien</h1>
-    <!-- Logo : remplacer LOGO par <img src="logo-vbg.png" alt="VBG"> -->
-    <div class="logo">LOGO</div>
+    <div class="logo"><img src="logo-vbg.png" alt="Logo du Volley-Ball Grégorien" width="56" height="56"></div>
   </div>
   <div class="barre">
     <p class="maj"><span id="src">Dernière mise à jour</span><b id="maj">–</b></p>
