@@ -8,6 +8,9 @@ Les compétitions présentes sur les pages club et hebdo mais absentes de la
 configuration sont listées dans data.json (« nonsuivies »), jamais ajoutées.
 
 Usage : python collect.py [--only N3M,PRM,COM] [--out data.json]
+        python collect.py --diagnostic     (compare la configuration à la page club ; n'écrit rien)
+
+CHANGEMENT DE SAISON : voir SAISON.md. La saison est écrite à un seul endroit (SAISON, ci-dessous).
 """
 import argparse
 import html
@@ -20,7 +23,8 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 
-SAISON = "2026/2027"
+# ---- Configuration de la saison : à revoir chaque année (SAISON.md), avec EQUIPES et COUPES plus bas ----
+SAISON = "2026/2027"   # seule mention de la saison dans le code : elle sert à l'adresse des poules et au diagnostic
 BASE = "https://www.ffvbbeach.org/ffvbapp/resu/"
 URL_CLUB = BASE + "planning_club_class.php?cnclub=0357988"
 URL_HEBDO = BASE + "planning_club.php?cnclub=0357988"
@@ -387,6 +391,80 @@ def poules_non_suivies(pages, connus):
     return sorted(res.values(), key=lambda x: x["code"])
 
 
+# ------------------------------------------------------------------ diagnostic
+def formulaires_poules(page):
+    """{(saison, entité, code de poule)} des petits formulaires « loupe » de la page club : FFvolley y donne,
+    pour chaque poule jouée par le club, la saison, l'entité organisatrice et le code de la poule."""
+    motif = (r"name=['\"]?saison['\"]?\s+value=['\"]([^'\"]*)['\"]?[^>]*>\s*<input[^>]*name=['\"]?codent['\"]?\s+value=['\"]([^'\"]*)['\"]?"
+             r"[^>]*>\s*<input[^>]*name=['\"]?poule['\"]?\s+value=['\"]([^'\"]*)['\"]?")
+    return set(re.findall(motif, page))
+
+
+def diagnostic(page_club, page_hebdo):
+    """Compare la configuration (SAISON, EQUIPES, COUPES) aux pages club et hebdo de FFvolley.
+    Retourne (lignes de rapport, nombre d'écarts). N'écrit rien et ne lit aucune poule."""
+    lignes_, ecarts = [], 0
+    formes = formulaires_poules(page_club)
+    libelles = poules_de_page(page_club)
+    libelles_hebdo = poules_de_page(page_hebdo)
+    saisons = sorted({f[0] for f in formes})
+    lignes_.append("Saison configurée : %s ; saison(s) affichée(s) par la page club : %s"
+                   % (SAISON, ", ".join(saisons) if saisons else "aucune lue"))
+    if not formes:
+        ecarts += 1
+        lignes_.append("ECART  la page club ne donne aucune poule lisible : diagnostic impossible (page changée ou vide ?)")
+    elif saisons != [SAISON]:
+        ecarts += 1
+        lignes_.append("ECART  la saison de la page club (%s) n'est pas celle de la configuration (%s)"
+                       % (", ".join(saisons), SAISON))
+
+    def etat(p):
+        trouvees = [f for f in formes if f[2] == p["code"]]
+        if any(f[0] == SAISON and f[1] == p["ent"] for f in trouvees):
+            return "ok", "présente sur la page club (%s)" % joli(libelles.get(p["code"], "libellé non lu"))
+        if trouvees:
+            return "ecart", "présente mais autrement : page club %s, configuration %s/%s" % (
+                " ou ".join("saison %s entité %s" % (f[0], f[1]) for f in sorted(trouvees)), SAISON, p["ent"])
+        if p["code"] in libelles_hebdo:
+            return "hebdo", "vue seulement sur la page hebdo (%s) : saison et entité non vérifiables" % joli(libelles_hebdo[p["code"]])
+        return "absente", "absente des pages club et hebdo"
+
+    for genre, liste in (("équipe", EQUIPES), ("coupe", COUPES)):
+        for c in liste:
+            etats = [(p, etat(p)) for p in c["poules"]]
+            bon = any(e[0] in ("ok", "hebdo") for _, e in etats)
+            for p, (code_etat, texte) in etats:
+                if code_etat in ("ok", "hebdo"):
+                    marque = "OK    "
+                elif bon and code_etat == "absente":
+                    marque = "NOTE  "  # autre poule de la même équipe présente (changement de phase)
+                else:
+                    marque = "ECART "
+                    ecarts += 1
+                lignes_.append("%s%s %s, poule %s : %s" % (marque, genre, c["nom"], p["code"], texte))
+    pages = {"page club": page_club, "page hebdo": page_hebdo}
+    for n in poules_non_suivies(pages, codes_connus()):
+        ecarts += 1
+        lignes_.append("ECART  compétition non suivie : %s, %s (%s)" % (n["code"], n["libelle"], n["source"]))
+    lignes_.append("Écarts : %d" % ecarts if ecarts else "Aucun écart : la configuration correspond aux pages du club.")
+    return lignes_, ecarts
+
+
+def main_diagnostic():
+    """--diagnostic : deux pages lues (club et hebdo), rapport affiché, AUCUN fichier écrit ni lu."""
+    pages = []
+    for url in (URL_CLUB, URL_HEBDO):
+        time.sleep(PAUSE)
+        try:
+            pages.append(telecharger(url))
+        except PouleIllisible as e:
+            print("Diagnostic impossible : page illisible :", e)
+            return 1
+    lignes_, ecarts = diagnostic(*pages)
+    print(chr(10).join(lignes_))
+    return 2 if ecarts else 0
+
+
 # ------------------------------------------------------------------- sortie
 def fusionner(ancien, nouveau_equipes, nouveau_coupes, ordre_eq, ordre_co, maj_iso, echecs):
     """Reprend les anciennes entrées pour les poules non lues, avec « nonlu »."""
@@ -429,8 +507,12 @@ def main(argv=None):
         sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", help="noms ou codes séparés par des virgules (équipes ou coupes)")
+    ap.add_argument("--diagnostic", action="store_true",
+                    help="compare la configuration aux pages club et hebdo ; n'écrit aucun fichier (0 : concordance, 2 : écarts, 1 : pages illisibles)")
     ap.add_argument("--out", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs", "data.json"))
     args = ap.parse_args(argv)
+    if args.diagnostic:
+        return main_diagnostic()  # avant toute lecture ou écriture de data.json
     only = set(args.only.split(",")) if args.only else None
 
     def voulu(c):

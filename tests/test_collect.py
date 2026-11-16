@@ -626,7 +626,8 @@ class TriMemeJourTest(unittest.TestCase):
 
 # ---- Adresses (#équipe) : deux équipes ne doivent jamais avoir la même (nuit du 16/11/2026) ----
 def slug(texte):
-    """Même calcul que la fonction slug() de docs/index.html (accents retirés, minuscules, tirets)."""
+    """Équivalent de slug() de docs/index.html pour les noms usuels (lettres latines accentuées, apostrophes, espaces) :
+    accents retirés, minuscules, tirets. Vérifié identique sur les 48 noms d'équipes et cas courants ; pas pour des caractères combinants exotiques."""
     import unicodedata
     ascii_ = "".join(c for c in unicodedata.normalize("NFD", texte) if not unicodedata.combining(c))
     return re.sub(r"[^a-z0-9]+", "-", ascii_.lower()).strip("-")
@@ -675,3 +676,141 @@ class AdressesTest(unittest.TestCase):
         self.assertEqual(len(problemes_adresses(["???"])), 1)
         self.assertEqual(len(problemes_adresses(["Semaine", "Coupes", "TOUTES"])), 3)
         self.assertEqual(problemes_adresses(["N3M", "PNF"]), [])
+
+
+# ---- Changement de saison : constante unique et --diagnostic (nuit du 16/11/2026) ----
+class SaisonTest(unittest.TestCase):
+    def test_la_saison_n_est_ecrite_qu_a_un_seul_endroit_du_code(self):
+        with open(os.path.join(os.path.dirname(__file__), "..", "collect.py"), encoding="utf-8") as f:
+            source = f.read()
+        self.assertEqual(re.findall(r"20\d\d/20\d\d", source), ["2026/2027"])
+        self.assertRegex(source, r'(?m)^SAISON = "2026/2027"')
+        self.assertIn("saison=" + collect.SAISON + "&", collect.URL_POULE)
+
+
+def pages_club(club=None, hebdo=None):
+    return (club or page("club_class")), (hebdo or page("planning_semaine"))
+
+
+class DiagnosticTest(unittest.TestCase):
+    def lignes(self, club=None, hebdo=None):
+        return collect.diagnostic(*pages_club(club, hebdo))
+
+    def test_pages_actuelles_aucun_ecart_et_toutes_les_poules_configurees_citees(self):
+        lignes, ecarts = self.lignes()
+        self.assertEqual(ecarts, 0)
+        self.assertIn("Aucun écart", lignes[-1])
+        for c in collect.EQUIPES + collect.COUPES:
+            for p in c["poules"]:
+                self.assertTrue(any(l.startswith("OK") and ("poule %s :" % p["code"]) in l for l in lignes), p["code"])
+        self.assertFalse(any(l.startswith("ECART") for l in lignes))
+
+    def test_nouvelle_saison_sur_la_page_club(self):
+        club = page("club_class").replace("value='2026/2027'", "value='2027/2028'")
+        lignes, ecarts = self.lignes(club=club)
+        self.assertTrue(any(l.startswith("ECART  la saison de la page club") and "2027/2028" in l and "2026/2027" in l for l in lignes))
+        self.assertIn("2027/2028", lignes[0])
+        # et chaque poule lue sur la page club est signalée « présente mais autrement » (saison différente)
+        autrement = [l for l in lignes if l.startswith("ECART ") and "présente mais autrement" in l and "saison 2027/2028" in l]
+        self.assertGreaterEqual(len(autrement), 15)
+        self.assertEqual(ecarts, 1 + len(autrement))
+
+    def test_poule_configuree_absente_de_la_page_club(self):
+        club = page("club_class").replace("name=poule value='PNF'", "name=poule value='PNX'")
+        lignes, ecarts = self.lignes(club=club)
+        self.assertEqual(ecarts, 1)
+        self.assertTrue(any(l.startswith("ECART") and "poule PNF :" in l and "absente" in l for l in lignes))
+
+    def test_entite_differente(self):
+        club = page("club_class").replace("name=codent value='LIBR'><input type=hidden name=poule value='PNF'",
+                                          "name=codent value='PTBR35'><input type=hidden name=poule value='PNF'")
+        lignes, ecarts = self.lignes(club=club)
+        self.assertEqual(ecarts, 1)
+        self.assertTrue(any(l.startswith("ECART") and "poule PNF :" in l and "PTBR35" in l for l in lignes))
+
+    def test_competition_nouvelle_signalee_jamais_ajoutee(self):
+        club = page("club_class").replace("PNF - PRENATIONALE FEMININE", "ZZZ - COUPE NOUVELLE")
+        lignes, ecarts = self.lignes(club=club)
+        self.assertEqual(ecarts, 1)
+        self.assertTrue(any(l.startswith("ECART") and "non suivie" in l and "ZZZ" in l for l in lignes))
+        self.assertNotIn("ZZZ", {p["code"] for c in collect.EQUIPES + collect.COUPES for p in c["poules"]})
+
+    def test_equipe_a_deux_poules_une_seule_absente_est_une_note_pas_un_ecart(self):
+        club = page("club_class").replace("name=poule value='CPN'", "name=poule value='CPX'")
+        lignes, ecarts = self.lignes(club=club)
+        self.assertEqual(ecarts, 0)
+        self.assertTrue(any(l.startswith("NOTE") and "poule CPN :" in l for l in lignes))
+        deux = club.replace("name=poule value='CPE'", "name=poule value='CPY'")
+        lignes, ecarts = self.lignes(club=deux)
+        self.assertEqual(ecarts, 2)  # plus aucune poule pour M18M région : les deux sont des écarts
+
+    def test_page_club_vide_ou_changee_diagnostic_impossible(self):
+        lignes, ecarts = self.lignes(club="<html><body>rien</body></html>", hebdo="<html><body>rien</body></html>")
+        total = sum(len(c["poules"]) for c in collect.EQUIPES + collect.COUPES)
+        self.assertEqual(ecarts, 1 + total)  # l'écart général plus chaque poule configurée introuvable
+        self.assertTrue(any("diagnostic impossible" in l for l in lignes))
+
+    def test_formulaires_lus_avec_guillemets_doubles_ou_sans(self):
+        a = "<input type=hidden name=saison value=\"2026/2027\"><input type=hidden name=codent value=\"LIBR\"><input type=hidden name=poule value=\"PNF\">"
+        self.assertEqual(collect.formulaires_poules(a), {("2026/2027", "LIBR", "PNF")})
+
+
+class DiagnosticSansEcritureTest(unittest.TestCase):
+    """--diagnostic : deux pages lues, aucun fichier écrit, data.json jamais lu ni modifié."""
+
+    def lancer(self, args, club=None, hebdo=None, erreur=None):
+        import io
+        from unittest import mock
+        urls = []
+
+        def fausse_page(url, *a, **k):
+            urls.append(url)
+            if erreur:
+                raise collect.PouleIllisible(erreur)
+            return (club or page("club_class")) if "planning_club_class" in url else (hebdo or page("planning_semaine"))
+
+        sortie = io.StringIO()
+        with mock.patch.object(collect, "telecharger", side_effect=fausse_page), \
+                mock.patch.object(collect.time, "sleep"), mock.patch("sys.stdout", new=sortie), \
+                mock.patch.object(collect, "ecrire_atomiquement", side_effect=AssertionError("écriture interdite")):
+            code = collect.main(args)
+        return code, sortie.getvalue(), urls
+
+    def test_concordance_code_0_deux_requetes_aucun_fichier(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as dossier:
+            sortie = os.path.join(dossier, "data.json")
+            code, texte, urls = self.lancer(["--diagnostic", "--out", sortie])
+            self.assertEqual(os.listdir(dossier), [])  # ni data.json ni fichier temporaire
+        self.assertEqual(code, 0)
+        self.assertIn("Aucun écart", texte)
+        self.assertEqual(len(urls), 2)
+        self.assertTrue(any("planning_club_class" in u for u in urls) and any("planning_club.php" in u for u in urls))
+        self.assertFalse(any("vbspo_calendrier" in u for u in urls))  # aucune poule demandée
+
+    def test_data_json_existant_reste_intact_octet_pour_octet(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as dossier:
+            sortie = os.path.join(dossier, "data.json")
+            with open(sortie, "wb") as f:
+                f.write(b'{"maj": "avant", "equipes": []}')
+            self.lancer(["--diagnostic", "--out", sortie])
+            with open(sortie, "rb") as f:
+                self.assertEqual(f.read(), b'{"maj": "avant", "equipes": []}')
+
+    def test_le_data_json_du_depot_n_est_pas_touche_sans_l_option_out(self):
+        chemin = os.path.join(os.path.dirname(__file__), "..", "docs", "data.json")
+        with open(chemin, "rb") as f:
+            avant = f.read()
+        self.lancer(["--diagnostic"])
+        with open(chemin, "rb") as f:
+            self.assertEqual(f.read(), avant)
+
+    def test_ecarts_code_2_et_page_illisible_code_1(self):
+        club = page("club_class").replace("value='2026/2027'", "value='2027/2028'")
+        code, texte, _ = self.lancer(["--diagnostic"], club=club)
+        self.assertEqual(code, 2)
+        self.assertIn("ECART", texte)
+        code, texte, _ = self.lancer(["--diagnostic"], erreur="HTTP 503")
+        self.assertEqual(code, 1)
+        self.assertIn("Diagnostic impossible", texte)
