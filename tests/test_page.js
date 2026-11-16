@@ -21,8 +21,11 @@ class El {
   set textContent(v) { this.children = [{ text: String(v) }]; }
   get textContent() { return this.children.map(c => (c.text !== undefined ? c.text : c.textContent)).join(""); }
   addEventListener(t, f) { (this.listeners[t] = this.listeners[t] || []).push(f); }
+  focus() { El.actif = this; }
   trouver(pred, out = []) { for (const c of this.children) { if (c.tag) { if (pred(c)) out.push(c); c.trouver(pred, out); } } return out; }
 }
+
+El.actif = null; // élément qui a reçu le focus (focus() du DOM simulé)
 
 const tick = () => new Promise(r => setImmediate(r));
 
@@ -32,7 +35,9 @@ async function charger({ hash = "", memo = null, aujourdhui = "2026-11-15T12:00:
   const winEcouteurs = {};
   const stock = {};
   if (memo) stock["vbg-vue"] = memo;
-  const FIXE = new Date(aujourdhui).getTime();
+  const docEcouteurs = {};
+  let FIXE = new Date(aujourdhui).getTime(); // modifiable : p.horloge() fait avancer l'heure de la page
+  El.actif = null;
   class Dfixe extends Date { constructor(...a) { if (a.length) super(...a); else super(FIXE); } static now() { return FIXE; } }
   const location = { hash };
   const etat = { reseau, donnees };
@@ -43,6 +48,8 @@ async function charger({ hash = "", memo = null, aujourdhui = "2026-11-15T12:00:
     setTimeout: (f, ms) => setTimeout(f, ms >= 1000 ? 1 : ms),
     clearTimeout,
     document: {
+      visibilityState: "visible",
+      addEventListener(t, f) { (docEcouteurs[t] = docEcouteurs[t] || []).push(f); },
       // comme un vrai navigateur : un identifiant absent du HTML donne null (et le script plante)
       getElementById(id) {
         if (!IDS_HTML.has(id)) return null;
@@ -75,6 +82,15 @@ async function charger({ hash = "", memo = null, aujourdhui = "2026-11-15T12:00:
     options: () => p.el("vue").children.map(o => ({ v: o.value, t: o.textContent })),
     choisir: async v => { p.el("vue").value = v; p.el("vue").listeners.change.forEach(f => f({ target: p.el("vue") })); await tick(); },
     clic: async id => { p.el(id).listeners.click.forEach(f => f({ preventDefault() {} })); await tick(); },
+    horloge: iso => { FIXE = new Date(iso).getTime(); },
+    actif: () => El.actif,
+    // retour sur la page : onglet de nouveau visible, ou page restaurée (pageshow)
+    revenir: async (via = "visibilitychange") => {
+      sandbox.document.visibilityState = "visible";
+      (via === "pageshow" ? winEcouteurs.pageshow : docEcouteurs.visibilitychange || []).forEach(f => f());
+      await tick();
+    },
+    cacher: async () => { sandbox.document.visibilityState = "hidden"; (docEcouteurs.visibilitychange || []).forEach(f => f()); await tick(); },
     hashchange: async h => { location.hash = h; winEcouteurs.hashchange.forEach(f => f()); await tick(); },
   };
   return p;
@@ -121,9 +137,18 @@ test("adresse inconnue : retour au choix mémorisé, puis à « Cette semaine »
   assert.deepEqual((await charger({ hash: "#nimporte", memo: "nimporte" })).titres(), ["Cette semaine"]);
 });
 
-test("adresse avec accents encodés (#m18m-r%C3%A9gion n'existe pas, #m18m-region oui)", async () => {
-  assert.deepEqual((await charger({ hash: "#m18m-region" })).titres(), ["M18M région"]);
+test("adresse : accents encodés, majuscules et mal formée ouvrent la bonne équipe ou « Cette semaine »", async () => {
+  for (const h of ["#m18m-region", "#m18m-r%C3%A9gion", "#M18M-R%C3%89GION", "#m18m-région", "#m18m%20r%C3%A9gion"]) {
+    assert.deepEqual((await charger({ hash: h })).titres(), ["M18M région"], h);
+  }
+  assert.deepEqual((await charger({ hash: "#loisir-compet%27lib-1" })).titres(), ["Loisir Compet'Lib 1"]);
   assert.deepEqual((await charger({ hash: "#%ZZ" })).titres(), ["Cette semaine"]); // adresse mal formée : pas de plantage
+  const p = await charger({ hash: "#m18m-r%C3%A9gion" });
+  assert.equal(p.location.hash, "#m18m-region"); // l'adresse affichée est réécrite sous sa forme normale
+  assert.equal(p.el("vue").value, "m18m-region");
+  await p.hashchange("#m13f");
+  await p.hashchange("#m18m-r%C3%A9gion");
+  assert.deepEqual(p.titres(), ["M18M région"]); // aussi quand l'adresse est modifiée à la main
 });
 
 test("changer d'équipe : carte, adresse et mémoire", async () => {
@@ -242,16 +267,17 @@ test("équipe mémorisée absente des nouvelles données : retour à « Cette se
   assert.deepEqual(p.titres(), ["Cette semaine"]);
 });
 
-test("charte : pas de bleu, pas de dégradé, focus et tap-highlight orange/transparent", () => {
+test("charte : palette hexadécimale fermée (aucun bleu nommé), pas de dégradé, focus et tap-highlight orange/transparent", () => {
   assert.match(HTML, /-webkit-tap-highlight-color:transparent/);
   assert.match(HTML, /button:focus-visible,select:focus-visible[^{]*\{outline:3px solid #F26910/);
   assert.doesNotMatch(HTML, /gradient/i);
   const css = HTML.match(/<style>([\s\S]*?)<\/style>/)[1];
+  assert.doesNotMatch(css, /(rgba?|hsla?|blue|navy|azure|cyan|teal|indigo|royalblue|dodgerblue)/i); // aucune couleur nommée ou fonctionnelle (bleus compris)
   const couleurs = [...new Set(css.match(/#[0-9A-Fa-f]{6}\b/g).map(c => c.toUpperCase()))].sort();
   assert.deepEqual(couleurs, ["#111111", "#1A1A1A", "#1E7A3C", "#1F1F1F", "#6B6B6B", "#B3261E", "#D9D9D9", "#F26910", "#FFFFFF"]);
 });
 
-test("select : 48 px, fond #1F1F1F, texte blanc, bordure #D9D9D9 ; zones tactiles ≥ 44 px", () => {
+test("select et ligne de coupe : select de 48 px, fond #1F1F1F, texte blanc, bordure #D9D9D9 ; ligne de coupe de 48 px au moins", () => {
   const css = HTML.match(/<style>([\s\S]*?)<\/style>/)[1];
   const regle = css.match(/select\{([^}]*)\}/)[1];
   assert.match(regle, /height:48px/);
@@ -427,7 +453,7 @@ test("application : pas de service worker (un cache pourrait servir un vieux dat
   assert.ok(!fs.existsSync(path.join(RACINE, "sw.js")));
 });
 
-test("application : en-tête sous la barre d'état (pas de viewport-fit=cover) ; menu et « Actualiser » restent la navigation", () => {
+test("application : pas de viewport-fit dans le <head> ; le menu (#vue) et le bouton (#btn) existent dans le HTML", () => {
   assert.doesNotMatch(TETE, /viewport-fit/);
   // sans barre de navigateur : pas de retour ni de rechargement, tout passe par le menu et le bouton
   assert.ok(IDS_HTML.has("vue") && IDS_HTML.has("btn"));
@@ -666,7 +692,7 @@ test("semaine : le libellé d'une coupe est « équipe · nom de la coupe » ; h
   assert.equal(p.el("lien-coupe").hidden, true);
 });
 
-test("semaine : textContent uniquement, aucune bibliothèque, aucun orange hors accents", () => {
+test("semaine : ni innerHTML ni script externe ; pas d'orange dans les règles .hre, .mt, .mts, .mt-txt, .mt-carte, .hre.sans, h3 .pastille", () => {
   assert.doesNotMatch(SCRIPT, /innerHTML|insertAdjacentHTML|outerHTML/);
   assert.doesNotMatch(HTML, /<script[^>]+src=/);
   for (const sel of [".hre", ".mt", ".mts", ".mt-txt", ".mt-carte", ".hre.sans", "h3 .pastille"]) {
@@ -842,7 +868,7 @@ test("semaine dernière : copie intégrée SECOURS (résultats des coupes des 14
   assert.doesNotMatch(b.texte, /CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2/); // 8/11 : avant la semaine dernière
 });
 
-test("semaine dernière : textContent uniquement, mise en forme sans orange hors titre", () => {
+test("semaine dernière : pas d'innerHTML ; la règle .prec sans orange", () => {
   const r = reglesCss().regles.find(x => x.sel === ".prec");
   assert.ok(r, "règle .prec absente");
   assert.doesNotMatch(r.corps, /#F26910/i);
@@ -934,10 +960,8 @@ test("données anciennes : Actualiser hors ligne recalcule l'âge (la page est r
   // données de 5 jours au chargement ; la page reste ouverte et l'horloge avance d'un jour
   const p = await charger({ donnees: avecMaj(MAJ_LUNDI), aujourdhui: "2026-11-21T11:00:00Z" });
   assert.equal(p.el("ancien").hidden, true);
-  const t = new Date("2026-11-22T11:00:00Z").getTime();
-  // l'horloge de la page avance d'un jour (même mécanisme que « charger », appliqué après coup)
+  p.horloge("2026-11-22T11:00:00Z");
   p.etat.reseau = false;
-  vm.runInContext("(function(){const D=Date;Date=class extends D{constructor(...a){if(a.length)super(...a);else super(" + t + ")}static now(){return " + t + "}}})()", p.sandbox);
   await p.clic("btn");
   assert.equal(p.el("src").textContent, "Actualisation impossible, données du");
   assert.equal(p.el("ancien").hidden, false);
@@ -953,4 +977,77 @@ test("données anciennes : seul le format ISO du collecteur est accepté, jamais
     const p = await charger({ donnees: avecMaj(maj), aujourdhui: "2026-11-22T11:00:00Z" });
     assert.equal(p.el("ancien").textContent, "Données anciennes : dernière collecte il y a 6 jours", maj);
   }
+});
+
+// ---- Défauts mineurs (nuit du 16/11/2026) : focus, changement de date de Paris ----
+test("focus : après « Match de coupe cette semaine », le focus clavier passe au menu au lieu d'être perdu", async () => {
+  const p = await charger({ hash: "#n3m", aujourdhui: "2026-12-08T12:00:00Z" });
+  assert.equal(p.el("lien-coupe").hidden, false);
+  assert.equal(p.actif(), null);
+  await p.clic("lien-coupe");
+  assert.deepEqual(p.titres(), ["Coupes"]);
+  assert.equal(p.el("lien-coupe").hidden, true);
+  assert.equal(p.actif(), p.el("vue")); // le menu porte l'anneau de focus orange (règle select:focus-visible)
+  assert.equal(p.el("vue").value, "coupes");
+});
+
+test("focus : un simple changement de vue ne déplace pas le focus", async () => {
+  const p = await charger();
+  await p.choisir("pnf");
+  assert.equal(p.actif(), null);
+});
+
+test("changement de date à Paris : au retour sur la page, tout est recalculé (jour courant, ligne « Données anciennes »)", async () => {
+  const d = donneesSemaine(); d.maj = MAJ_LUNDI;
+  const p = await charger({ donnees: d, aujourdhui: "2026-11-21T22:30:00Z" }); // samedi 21/11, 23 h 30 à Paris
+  assert.deepEqual(jours(p).filter(j => j.aujourdhui).map(j => j.titre), ["samedi 21/11"]);
+  assert.equal(p.el("ancien").hidden, true); // 5 jours
+  const carteAvant = p.cartes()[0];
+  p.horloge("2026-11-21T23:30:00Z"); // dimanche 22/11, 0 h 30 à Paris : la page est restée ouverte
+  assert.deepEqual(jours(p).filter(j => j.aujourdhui).map(j => j.titre), ["samedi 21/11"]); // sans retour sur la page, rien ne bouge
+  await p.revenir();
+  assert.notEqual(p.cartes()[0], carteAvant);
+  assert.deepEqual(jours(p).filter(j => j.aujourdhui).map(j => j.titre), ["dimanche 22/11"]);
+  assert.equal(p.el("ancien").hidden, false);
+  assert.match(p.el("ancien").textContent, /il y a 6 jours$/);
+  assert.equal(p.el("vue").value, "semaine"); // la vue choisie est conservée
+});
+
+test("changement de date à Paris : la vue d'une équipe et l'adresse sont conservées au nouveau rendu", async () => {
+  const p = await charger({ hash: "#pnf", aujourdhui: "2026-11-21T22:30:00Z" });
+  const avant = p.cartes()[0];
+  p.horloge("2026-11-21T23:30:00Z");
+  await p.revenir("pageshow");
+  assert.notEqual(p.cartes()[0], avant);
+  assert.deepEqual(p.titres(), ["PNF"]);
+  assert.equal(p.location.hash, "#pnf");
+});
+
+test("changement de date à Paris : pas de nouveau rendu le même jour, ni onglet masqué, ni avant le premier affichage", async () => {
+  const p = await charger({ aujourdhui: "2026-11-21T22:30:00Z" });
+  const avant = p.cartes()[0];
+  p.horloge("2026-11-21T22:50:00Z"); // toujours le samedi 21/11 à Paris
+  await p.revenir();
+  assert.equal(p.cartes()[0], avant);
+  p.horloge("2026-11-21T23:30:00Z"); // dimanche à Paris, mais onglet masqué : on attend le retour
+  await p.cacher();
+  assert.equal(p.cartes()[0], avant);
+  await p.revenir();
+  assert.notEqual(p.cartes()[0], avant);
+  const vide = await charger({ reseau: "pendante" }); // aucun relevé encore : pas de plantage au retour
+  await vide.revenir();
+  await vide.revenir("pageshow");
+});
+
+test("changement de date à Paris : même fuseau de Paris, quel que soit celui du téléphone", async () => {
+  await avecFuseau("Pacific/Auckland", async () => {
+    const p = await charger({ aujourdhui: "2026-11-21T22:30:00Z" }); // Auckland : déjà dimanche 11 h 30, Paris : samedi 23 h 30
+    const avant = p.cartes()[0];
+    p.horloge("2026-11-21T22:59:00Z");
+    await p.revenir();
+    assert.equal(p.cartes()[0], avant); // minuit n'est pas passé à Paris
+    p.horloge("2026-11-21T23:00:00Z");
+    await p.revenir();
+    assert.notEqual(p.cartes()[0], avant); // minuit passé à Paris
+  });
 });

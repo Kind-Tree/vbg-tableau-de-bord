@@ -216,7 +216,8 @@ function slug(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowe
 const CLE="vbg-vue";
 function lireChoix(){try{return localStorage.getItem(CLE)}catch(e){return null}}
 function ecrireChoix(v){try{localStorage.setItem(CLE,v)}catch(e){}}
-function lireAdresse(){try{return decodeURIComponent((location.hash||"").slice(1)).toLowerCase()}catch(e){return ""}}
+// L'adresse est décodée puis normalisée comme les noms d'équipes : #m18m-r%C3%A9gion, #M18M-région et #m18m-region ouvrent la même équipe.
+function lireAdresse(){try{return slug(decodeURIComponent((location.hash||"").slice(1)))}catch(e){return ""}}
 function ecrireAdresse(v){try{history.replaceState(null,"","#"+v)}catch(e){}}
 // Noms réservés par les vues : « semaine », « coupes », « toutes » (aucune équipe ne doit s'appeler ainsi).
 function listeVues(d){const o=[{v:"semaine",t:"Cette semaine"}].concat(d.equipes.map(q=>({v:slug(q.nom),t:q.nom})));if((d.coupes||[]).length)o.push({v:"coupes",t:"Coupes"});o.push({v:"toutes",t:"Toutes les équipes"});return o}
@@ -238,9 +239,10 @@ function signalerAncien(){
   try{n=joursDepuis(donnees&&donnees.maj)}catch(x){}
   const ancien=n!==null&&n>SEUIL_ANCIEN;
   e.textContent=ancien?"Données anciennes : dernière collecte il y a "+n+" jours":"";e.hidden=!ancien}
-let donnees=null,choix=null;
+let donnees=null,choix=null,jourRendu=null;
 function rendre(){
   const d=donnees,cs=d.coupes||[],o=listeVues(d);
+  jourRendu=aujourdhuiParis();
   signalerAncien();
   choix=valide(o,choix)||vueInitiale(o,lireAdresse(),lireChoix());
   // Une donnée illisible n'abîme que sa propre carte, jamais la page ni le menu.
@@ -257,6 +259,10 @@ function rendre(){
   document.getElementById("lien-coupe").hidden=!(choix!=="semaine"&&choix!=="toutes"&&choix!=="coupes"&&cs.length&&coupeProche(cs));
   ecrireAdresse(choix)}
 function changer(v){choix=v;ecrireChoix(v);rendre()}
+// Au retour sur la page : si la date de Paris a changé depuis le dernier affichage, tout est recalculé (sans requête).
+function reprise(){
+  if(!donnees)return;
+  try{if(document.visibilityState==="hidden")return;if(aujourdhuiParis()!==jourRendu)rendre()}catch(e){}}
 function afficher(d,libelle){
   // Seul l'essentiel est exigé ; le reste est toléré carte par carte.
   d={...d,equipes:(Array.isArray(d.equipes)?d.equipes:[]).filter(q=>q&&typeof q.nom==="string"&&slug(q.nom)),
@@ -279,7 +285,12 @@ async function actualiser(){
   finally{clearTimeout(t);b.disabled=false}}
 document.getElementById("btn").addEventListener("click",actualiser);
 document.getElementById("vue").addEventListener("change",e=>changer(e.target.value));
-document.getElementById("lien-coupe").addEventListener("click",e=>{e.preventDefault();changer("coupes")});
+document.getElementById("lien-coupe").addEventListener("click",e=>{
+  e.preventDefault();changer("coupes");
+  // la ligne disparaît de la vue Coupes : le focus clavier passe au menu (anneau orange) au lieu d'être perdu
+  try{document.getElementById("vue").focus()}catch(x){}});
+document.addEventListener("visibilitychange",reprise);
+window.addEventListener("pageshow",reprise);
 window.addEventListener("hashchange",()=>{if(!donnees)return;const v=valide(listeVues(donnees),lireAdresse());if(v&&v!==choix){choix=v;ecrireChoix(v);rendre()}});
 actualiser();
 </script>

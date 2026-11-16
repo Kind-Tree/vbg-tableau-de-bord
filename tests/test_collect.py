@@ -145,7 +145,7 @@ class ToutesLesPoulesTest(unittest.TestCase):
                     r = collect.analyser_poule(page(FIXTURE_DE[p["code"]]), p, AUJ)
                     self.assertGreater(r["mes"], 0)
 
-    def test_configuration_complete(self):
+    def test_chaque_code_configure_a_sa_page_de_test_et_inversement(self):
         self.assertEqual(collect.codes_connus(), set(FIXTURE_DE))
 
     def test_ordre_des_cartes(self):
@@ -158,7 +158,7 @@ class ToutesLesPoulesTest(unittest.TestCase):
         self.assertNotIn("GMC", {p["code"] for e in collect.EQUIPES for p in e["poules"]})
         self.assertIn("GMC", {p["code"] for e in collect.COUPES for p in e["poules"]})
 
-    def test_exemption_jeunes_prochain_sans_heure_ni_invention(self):
+    def test_exemption_jeunes_aucun_xxxxx_dans_la_sortie_et_classement_lu(self):
         cfg = next(e for e in collect.EQUIPES if e["nom"] == "M13F")
         r = collect.construire(cfg, [collect.analyser_poule(page("m13f"), cfg["poules"][0], AUJ)])
         self.assertNotIn("xxxxx", json_texte(r))
@@ -511,7 +511,7 @@ class Lot3Test(unittest.TestCase):
         self.assertEqual(len(r["resultats"]), collect.NB_RESULTATS)
         self.assertEqual(sum(x["date"] == "2026-11-14" for x in r["resultats"]), 1)  # l'un des deux matchs du 14/11 est perdu
 
-    def test_pas_de_donnee_inventee_dans_l_attente(self):
+    def test_attente_ne_porte_que_les_champs_lus_sur_la_page(self):
         r = collect.analyser(page("prm_complet"), PRM, date(2026, 11, 22), heure="07:00")
         self.assertEqual(set(r["attente"][0]), {"date", "lieu", "adv", "heure", "salle"})
 
@@ -622,3 +622,56 @@ class TriMemeJourTest(unittest.TestCase):
         out = collect.construire(cfg, [lue("CPN", [j("CPN001", "10:00", "A")]),
                                         lue("CPE", [j("CPE009", "14:00", "B"), j("CPE002", "14:00", "C")])])
         self.assertEqual([x["adv"] for x in out["resultats"]], ["B", "C", "A"])
+
+
+# ---- Adresses (#équipe) : deux équipes ne doivent jamais avoir la même (nuit du 16/11/2026) ----
+def slug(texte):
+    """Même calcul que la fonction slug() de docs/index.html (accents retirés, minuscules, tirets)."""
+    import unicodedata
+    ascii_ = "".join(c for c in unicodedata.normalize("NFD", texte) if not unicodedata.combining(c))
+    return re.sub(r"[^a-z0-9]+", "-", ascii_.lower()).strip("-")
+
+
+RESERVES = {"semaine", "coupes", "toutes"}
+
+
+def problemes_adresses(noms):
+    """Liste les défauts d'une série de noms d'équipes : adresse vide, réservée par une vue, ou en double."""
+    vus, defauts = {}, []
+    for nom in noms:
+        a = slug(nom)
+        if not a:
+            defauts.append("adresse vide : %r" % nom)
+        elif a in RESERVES:
+            defauts.append("adresse réservée par une vue : %r -> #%s" % (nom, a))
+        elif a in vus:
+            defauts.append("même adresse #%s pour %r et %r" % (a, vus[a], nom))
+        else:
+            vus[a] = nom
+    return defauts
+
+
+class AdressesTest(unittest.TestCase):
+    def test_slug_comme_celui_de_la_page(self):
+        # mêmes valeurs que le test « slug » de tests/test_page.js
+        self.assertEqual(slug("M18M région"), "m18m-region")
+        self.assertEqual(slug("Loisir Compet'Lib 1"), "loisir-compet-lib-1")
+        self.assertEqual(slug("N3M"), "n3m")
+
+    def test_equipes_configurees_sans_adresse_en_double_vide_ou_reservee(self):
+        self.assertEqual(problemes_adresses([e["nom"] for e in collect.EQUIPES]), [])
+
+    def test_equipes_du_data_json_publie_sans_adresse_en_double(self):
+        import json
+        with open(os.path.join(os.path.dirname(__file__), "..", "docs", "data.json"), encoding="utf-8") as f:
+            data = json.load(f)
+        self.assertEqual(problemes_adresses([e["nom"] for e in data["equipes"]]), [])
+
+    def test_le_controle_detecte_bien_un_double_un_vide_et_un_nom_reserve(self):
+        # « M18F 1 » et « M18F-1 » : noms différents, même adresse
+        self.assertEqual(len(problemes_adresses(["M18F 1", "M18F 2", "M18F-1"])), 1)
+        self.assertIn("même adresse #m18f-1", problemes_adresses(["M18F 1", "m18f 1"])[0])
+        self.assertEqual(len(problemes_adresses(["Équipe", "equipe"])), 1)  # l'accent ne distingue pas
+        self.assertEqual(len(problemes_adresses(["???"])), 1)
+        self.assertEqual(len(problemes_adresses(["Semaine", "Coupes", "TOUTES"])), 3)
+        self.assertEqual(problemes_adresses(["N3M", "PNF"]), [])
