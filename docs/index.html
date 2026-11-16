@@ -280,7 +280,7 @@ async function actualiser(){
   try{const r=await fetch("data.json?t="+Date.now(),{cache:"no-store",signal:c.signal});if(!r.ok)throw 0;afficher(await r.json(),"Dernière mise à jour")}
   catch(e){
     // Hors ligne : on garde les données déjà affichées ; les données intégrées ne servent qu'au premier chargement.
-    if(donnees){document.getElementById("src").textContent="Actualisation impossible, données du";signalerAncien()}
+    if(donnees){document.getElementById("src").textContent="Actualisation impossible, données du";reprise()}
     else{try{afficher(SECOURS,"Données intégrées du")}catch(e2){}}}
   finally{clearTimeout(t);b.disabled=false}}
 document.getElementById("btn").addEventListener("click",actualiser);
@@ -291,7 +291,7 @@ document.getElementById("lien-coupe").addEventListener("click",e=>{
   try{document.getElementById("vue").focus()}catch(x){}});
 document.addEventListener("visibilitychange",reprise);
 window.addEventListener("pageshow",reprise);
-window.addEventListener("hashchange",()=>{if(!donnees)return;const v=valide(listeVues(donnees),lireAdresse());if(v&&v!==choix){choix=v;ecrireChoix(v);rendre()}});
+window.addEventListener("hashchange",()=>{if(!donnees)return;const v=valide(listeVues(donnees),lireAdresse());if(v&&v!==choix){choix=v;ecrireChoix(v);rendre()}else ecrireAdresse(choix)});
 actualiser();
 </script>
 </body>

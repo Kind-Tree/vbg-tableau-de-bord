@@ -272,7 +272,17 @@ test("charte : palette hexadécimale fermée (aucun bleu nommé), pas de dégrad
   assert.match(HTML, /button:focus-visible,select:focus-visible[^{]*\{outline:3px solid #F26910/);
   assert.doesNotMatch(HTML, /gradient/i);
   const css = HTML.match(/<style>([\s\S]*?)<\/style>/)[1];
-  assert.doesNotMatch(css, /(rgba?|hsla?|blue|navy|azure|cyan|teal|indigo|royalblue|dodgerblue)/i); // aucune couleur nommée ou fonctionnelle (bleus compris)
+  // Aucune couleur nommée ni fonctionnelle (bleus compris) : chaque valeur de couleur est un hexadécimal de la palette ci-dessous.
+  assert.doesNotMatch(css, /\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color-mix)\(/i);
+  const valeurs = [...css.matchAll(/(?:^|[;{\s])(color|background(?:-color)?|border(?:-(?:top|right|bottom|left|color))?|outline(?:-color)?|fill|stroke|box-shadow|text-decoration-color):\s*([^;}]+)/g)].map(m => m[2].trim());
+  assert.ok(valeurs.length > 20, "valeurs de couleur lues : " + valeurs.length);
+  const motsPermis = new Set(["solid", "none", "transparent", "inherit", "currentcolor"]);
+  for (const v of valeurs) {
+    for (const mot of v.split(/[\s,]+/)) {
+      if (/^#/.test(mot)) assert.match(mot, /^#[0-9A-F]{6}$/, "hexadécimal hors forme #RRGGBB : " + mot);
+      else if (/^[a-z-]+$/i.test(mot)) assert.ok(motsPermis.has(mot.toLowerCase()), "couleur nommée ou mot inconnu : " + mot + " dans « " + v + " »");
+    }
+  }
   const couleurs = [...new Set(css.match(/#[0-9A-Fa-f]{6}\b/g).map(c => c.toUpperCase()))].sort();
   assert.deepEqual(couleurs, ["#111111", "#1A1A1A", "#1E7A3C", "#1F1F1F", "#6B6B6B", "#B3261E", "#D9D9D9", "#F26910", "#FFFFFF"]);
 });
@@ -1050,4 +1060,27 @@ test("changement de date à Paris : même fuseau de Paris, quel que soit celui d
     await p.revenir();
     assert.notEqual(p.cartes()[0], avant); // minuit passé à Paris
   });
+});
+
+test("Actualiser hors ligne après minuit à Paris : le jour courant est recalculé en même temps que l'âge des données", async () => {
+  const d = donneesSemaine(); d.maj = MAJ_LUNDI;
+  const p = await charger({ donnees: d, aujourdhui: "2026-11-21T22:30:00Z" }); // samedi 21/11, 23 h 30 à Paris
+  p.horloge("2026-11-21T23:30:00Z"); // dimanche 22/11, 0 h 30
+  p.etat.reseau = false;
+  await p.clic("btn");
+  assert.equal(p.el("src").textContent, "Actualisation impossible, données du");
+  assert.deepEqual(jours(p).filter(j => j.aujourdhui).map(j => j.titre), ["dimanche 22/11"]);
+  assert.match(p.el("ancien").textContent, /il y a 6 jours$/);
+});
+
+test("adresse modifiée à la main : l'adresse affichée est toujours celle de la vue ouverte", async () => {
+  const p = await charger({ hash: "#m18m-region" });
+  await p.hashchange("#M18M-R%C3%89GION"); // même vue, autre écriture
+  assert.equal(p.location.hash, "#m18m-region");
+  assert.deepEqual(p.titres(), ["M18M région"]);
+  await p.hashchange("#inconnue"); // adresse inconnue : la vue reste, l'adresse est corrigée
+  assert.equal(p.location.hash, "#m18m-region");
+  await p.hashchange("#%ZZ");
+  assert.equal(p.location.hash, "#m18m-region");
+  assert.deepEqual(p.titres(), ["M18M région"]);
 });
