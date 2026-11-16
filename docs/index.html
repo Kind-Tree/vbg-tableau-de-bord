@@ -67,6 +67,7 @@ h3 .pastille{margin-left:8px;vertical-align:middle}
 .mt-txt{flex:1;min-width:0}
 .mt-carte{font-size:13px;font-weight:bold;text-transform:uppercase}
 .prec{margin-top:20px;border-top:1px solid #6B6B6B;padding-top:16px}
+.cal{margin-top:12px}
 </style>
 </head>
 <body>
@@ -207,6 +208,33 @@ function carteSemaine(d){
   ecrireJours(c,r.items,r.illisibles,auj,"Aucun match du club cette semaine.");
   c.append(blocSemaineDerniere(d,sem,auj,h));
   return c}
+// Bloc « Calendrier » (vue d'une seule équipe) : tous les matchs à venir du champ « avenir », sous la carte.
+// Rien d'inventé : pas de champ « avenir » (ancien data.json, copie intégrée) = pas de bloc ; un match déjà joué
+// ou commencé (même règle que « Cette semaine ») n'est plus « à venir ». Erreurs isolées : la carte reste intacte.
+function blocCalendrier(q){
+  const s=el("section","carte cal");
+  try{
+    if(!Array.isArray(q.avenir))return null;
+    const auj=aujourdhuiParis(),h=heureParis();
+    s.append(el("h2",null,"Calendrier"),el("p","poule","Matchs à venir"));
+    if(q.nonlu)s.append(el("p","note","Dernières données connues"+(q.lu?" du "+dateLue(q.lu):"")));
+    const vus=q.avenir.filter(m=>m&&typeof m==="object"&&!(typeof m.date==="string"&&dejaJoue(m,auj,h)));
+    if(!vus.length)s.append(el("p","qui","Aucun match à venir."));
+    const ul=el("ul","mts");
+    vus.forEach(m=>{
+      const li=el("li","mt");
+      try{
+        const t=el("div","mt-txt"),qui=el("p","qui");
+        t.append(el("p","mt-carte",jour(m.date)+(m.heure?" · "+m.heure.replace(":"," h "):" · sans heure")));
+        if(m.lieu==="D"||m.lieu==="E")qui.append(el("span","lieu",m.lieu==="D"?"Domicile":"Extérieur"));
+        qui.append(m.adv);t.append(qui);
+        if(m.salle)t.append(el("p","salle",m.salle));
+        li.append(t)}
+      catch(e){li.append(el("p","note","Ligne illisible."))}
+      ul.append(li)});
+    if(vus.length)s.append(ul)}
+  catch(e){const r=el("section","carte cal");r.append(el("h2",null,"Calendrier"),el("p","note","Données du calendrier illisibles."));return r}
+  return s}
 // Dans les 7 jours (date de Paris, matchs à venir seulement) : la carte Coupes passe en tête.
 function coupeProche(cs){
   const auj=aujourdhuiParis().split("-").map(Number);
@@ -252,7 +280,11 @@ function rendre(){
   if(choix==="semaine")cartes=[sure(()=>carteSemaine(d),"Cette semaine")];
   else if(choix==="toutes"){cartes=d.equipes.map(carteSure);if(cs.length){const k=sure(()=>carteCoupes(cs),"Coupes");if(coupeProche(cs))cartes.unshift(k);else cartes.push(k)}}
   else if(choix==="coupes")cartes=[sure(()=>carteCoupes(cs),"Coupes")];
-  else cartes=[carteSure(d.equipes.find(q=>slug(q.nom)===choix))];
+  else{
+    // Une seule équipe : sa carte, puis (proposition de la nuit du 16/11) le bloc « Calendrier ». Les deux restent dans un
+    // seul élément pour que la grille garde sa colonne unique.
+    const q=d.equipes.find(x=>slug(x.nom)===choix),pile=el("div","pile"),cal=blocCalendrier(q);
+    pile.append(carteSure(q));if(cal)pile.append(cal);cartes=[pile]}
   const g=document.getElementById("grille");g.className="grille"+(cartes.length===1?" une":"");g.replaceChildren(...cartes);
   const sel=document.getElementById("vue");
   sel.replaceChildren(...o.map(x=>{const op=el("option",null,x.t);op.value=x.v;return op}));sel.value=choix;

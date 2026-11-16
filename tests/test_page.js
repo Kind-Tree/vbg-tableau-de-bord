@@ -1084,3 +1084,134 @@ test("adresse modifiée à la main : l'adresse affichée est toujours celle de l
   assert.equal(p.location.hash, "#m18m-region");
   assert.deepEqual(p.titres(), ["M18M région"]);
 });
+
+// ---- Proposition de la nuit du 16/11/2026 : bloc « Calendrier » en vue d'une seule équipe ----
+// Lit la vue d'une équipe : { carte, cal } (cal = null si absent) et les lignes du calendrier.
+function vueEquipe(p) {
+  const grille = p.el("grille");
+  assert.equal(grille.children.length, 1, "un seul élément dans la grille");
+  const pile = grille.children[0];
+  const carte = pile.children[0];
+  const cal = pile.children.find(c => c.tag === "section" && /\bcal\b/.test(c.className)) || null;
+  const lignes = cal ? cal.trouver(e => e.tag === "li").map(li => li.textContent) : [];
+  return { grille, pile, carte, cal, lignes };
+}
+const SAMEDI_MIDI_CAL = "2026-11-21T11:00:00Z"; // samedi 21/11, 12 h à Paris
+
+function donneesCalendrier() {
+  const d = donneesSemaine();
+  d.equipes[0].avenir = [
+    { date: "2026-11-20", lieu: "D", adv: "DEJA JOUE", heure: "10:00", salle: null },
+    { date: "2026-11-21", lieu: "D", adv: "COMMENCE", heure: "12:00", salle: "SALLE A" },
+    { date: "2026-11-21", lieu: "E", adv: "CE SOIR", heure: "16:00", salle: "GYMNASE BOUGOUIN" },
+    { date: "2026-11-22", lieu: "D", adv: "SANS HEURE", heure: null, salle: null },
+    { date: "2026-12-05", lieu: "E", adv: "EN DECEMBRE", heure: "20:30", salle: "SALLE B" }];
+  return d;
+}
+
+test("calendrier : en vue d'une équipe, bloc « Calendrier » sous la carte, tous les matchs à venir dans l'ordre du champ avenir", async () => {
+  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  const v = vueEquipe(p);
+  assert.equal(v.pile.children.length, 2);
+  assert.equal(v.carte.tag, "article");
+  assert.equal(v.carte.trouver(e => e.tag === "h2")[0].textContent, "N3M");
+  assert.ok(v.cal, "bloc absent");
+  assert.equal(v.cal.trouver(e => e.tag === "h2")[0].textContent, "Calendrier");
+  assert.deepEqual(p.titres(), ["N3M"]);
+  assert.equal(v.lignes.length, 3);
+  assert.match(v.lignes[0], /sam\. 21 nov\. · 16 h 00.*Extérieur.*CE SOIR.*GYMNASE BOUGOUIN/);
+  assert.match(v.lignes[1], /dim\. 22 nov\. · sans heure.*Domicile.*SANS HEURE/);
+  assert.match(v.lignes[2], /sam\. 5 déc\. · 20 h 30.*Extérieur.*EN DECEMBRE.*SALLE B/);
+});
+
+test("calendrier : un match déjà joué ou commencé n'est plus « à venir » (même règle que « Cette semaine »)", async () => {
+  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  const texte = vueEquipe(p).cal.textContent;
+  assert.doesNotMatch(texte, /DEJA JOUE/); // veille
+  assert.doesNotMatch(texte, /COMMENCE/); // 12 h 00 à Paris = l'heure exacte : compte comme passé
+  p.horloge("2026-11-21T10:59:00Z"); // 11 h 59 à Paris
+  await p.choisir("n3m");
+  assert.match(vueEquipe(p).cal.textContent, /COMMENCE/);
+});
+
+test("calendrier : jamais dans « Cette semaine », « Toutes les équipes » ni « Coupes »", async () => {
+  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: SAMEDI_MIDI_CAL });
+  for (const v of ["semaine", "toutes", "coupes"]) {
+    await p.choisir(v);
+    assert.doesNotMatch(p.el("grille").textContent, /Matchs à venir/, v);
+    assert.equal(p.el("grille").trouver(e => /\bcal\b/.test(e.className || "")).length, 0, v);
+  }
+  await p.choisir("n3m");
+  assert.ok(vueEquipe(p).cal);
+  await p.choisir("toutes");
+  assert.equal(p.cartes().length, donneesCalendrier().equipes.length + 1); // une carte par équipe + la carte Coupes, aucun bloc en plus
+});
+
+test("calendrier : la grille garde sa colonne unique (classe « une ») et le menu garde ses entrées", async () => {
+  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  assert.match(p.el("grille").className, /\bune\b/);
+  assert.equal(p.options().length, donneesCalendrier().equipes.length + 3);
+});
+
+test("calendrier : « avenir » absent (ancien data.json, copie intégrée) = aucun bloc, rien d'inventé ; « avenir » vide = message", async () => {
+  const d = donneesCalendrier(); delete d.equipes[0].avenir;
+  const sans = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  assert.equal(vueEquipe(sans).cal, null);
+  assert.doesNotMatch(sans.el("grille").textContent, /Calendrier|à venir/);
+  const integree = await charger({ reseau: false, hash: "#n3m" }); // SECOURS : pas de champ avenir
+  assert.equal(vueEquipe(integree).cal, null);
+  const vide = donneesCalendrier(); vide.equipes[0].avenir = [];
+  const p = await charger({ donnees: vide, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  assert.match(vueEquipe(p).cal.textContent, /Aucun match à venir\./);
+  assert.equal(vueEquipe(p).lignes.length, 0);
+  const faux = donneesCalendrier(); faux.equipes[0].avenir = "n'importe quoi";
+  assert.equal(vueEquipe(await charger({ donnees: faux, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" })).cal, null);
+});
+
+test("calendrier : une ligne ou un bloc illisible n'abîme ni la carte ni les autres lignes", async () => {
+  const d = donneesCalendrier();
+  d.equipes[0].avenir.push(null, { date: { x: 1 }, adv: "ILLISIBLE" }, { date: "2026-12-12", lieu: "?", adv: "LIEU INCONNU", heure: "21:00" });
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  const v = vueEquipe(p);
+  assert.equal(v.carte.trouver(e => e.tag === "h2")[0].textContent, "N3M");
+  assert.match(v.cal.textContent, /Ligne illisible\./);
+  assert.match(v.cal.textContent, /LIEU INCONNU/);
+  assert.doesNotMatch(v.cal.textContent, /(Domicile|Extérieur)LIEU INCONNU/); // lieu inconnu : aucune pastille inventée
+  assert.match(v.cal.textContent, /CE SOIR/);
+  // bloc entier en échec (la lecture du champ lève) : la carte reste, le bloc annonce l'erreur
+  const piege = donneesCalendrier();
+  Object.defineProperty(piege.equipes[0], "avenir", { get() { throw new Error("piège"); }, enumerable: true });
+  const q = await charger({ donnees: piege, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  const w = vueEquipe(q);
+  assert.equal(w.carte.trouver(e => e.tag === "h2")[0].textContent, "N3M");
+  assert.match(w.cal.textContent, /Données du calendrier illisibles\./);
+});
+
+test("calendrier : carte non lue = dernières données connues signalées ; pas d'orange, textContent seulement", async () => {
+  const d = donneesCalendrier(); d.equipes[0].nonlu = true; d.equipes[0].raison = "x";
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
+  assert.match(vueEquipe(p).cal.textContent, /Dernières données connues du 21 nov\./);
+  const r = reglesCss().regles.find(x => x.sel === ".cal");
+  assert.ok(r, "règle .cal absente");
+  assert.doesNotMatch(r.corps, /#F26910|#C2500A/i);
+  assert.doesNotMatch(SCRIPT.slice(SCRIPT.indexOf("function blocCalendrier"), SCRIPT.indexOf("function coupeProche")), /innerHTML|insertAdjacentHTML|outerHTML/);
+});
+
+test("calendrier : recalculé au changement de date de Paris (le match du jour passe, celui du lendemain reste)", async () => {
+  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: "2026-11-21T10:00:00Z", hash: "#n3m" }); // 11 h à Paris
+  assert.match(vueEquipe(p).cal.textContent, /COMMENCE/);
+  p.horloge("2026-11-22T11:00:00Z"); // dimanche 22/11, 12 h
+  await p.revenir();
+  const t = vueEquipe(p).cal.textContent;
+  assert.doesNotMatch(t, /COMMENCE|CE SOIR/);
+  assert.match(t, /SANS HEURE/);
+});
+
+test("calendrier : avec les vraies données publiées, jamais plus de lignes que le champ avenir", async () => {
+  const q = DATA.equipes.find(e => e.nom === "N3M");
+  if (!Array.isArray(q.avenir)) return; // data.json d'avant le lot 2 : pas de bloc, déjà couvert
+  const p = await charger({ hash: "#n3m" });
+  const v = vueEquipe(p);
+  assert.ok(v.lignes.length <= q.avenir.length);
+  assert.ok(v.lignes.length > 0);
+});
