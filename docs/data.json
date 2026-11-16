@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-16T12:04:21+01:00",
+ "maj": "2026-11-16T18:28:19+01:00",
  "equipes": [
   {
    "nom": "N3M",
@@ -52,13 +52,128 @@
      "sets": "25-19 25-20 25-23"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-22",
+     "lieu": "E",
+     "adv": "C.P.B. RENNES 35",
+     "heure": "16:00",
+     "salle": "GYMNASE CDT BOUGOUIN"
+    },
+    {
+     "date": "2026-11-29",
+     "lieu": "D",
+     "adv": "SAINT-RENAN IROISE VOLLEY",
+     "heure": "15:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2026-12-06",
+     "lieu": "E",
+     "adv": "PORNIC VOLLEY BALL",
+     "heure": "15:00",
+     "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+    },
+    {
+     "date": "2026-12-20",
+     "lieu": "D",
+     "adv": "ASPTT LAVAL 2",
+     "heure": "15:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-01-10",
+     "lieu": "E",
+     "adv": "CHATEAUBOURG MARPIRE VOLLEY 35",
+     "heure": "15:00",
+     "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+    },
+    {
+     "date": "2027-01-17",
+     "lieu": "E",
+     "adv": "RENNES ETUDIANTS CLUB 3",
+     "heure": "15:00",
+     "salle": "COURTEMANCHE"
+    },
+    {
+     "date": "2027-01-31",
+     "lieu": "D",
+     "adv": "VOLLEY CLUB HEROUVILLE",
+     "heure": "15:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-02-14",
+     "lieu": "E",
+     "adv": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+     "heure": "16:00",
+     "salle": "JEAN JAHAN 2"
+    },
+    {
+     "date": "2027-02-21",
+     "lieu": "E",
+     "adv": "JEANNE D ARC DE RENNES",
+     "heure": "15:00",
+     "salle": "JA RENNES"
+    },
+    {
+     "date": "2027-02-28",
+     "lieu": "D",
+     "adv": "HEOL SANTEC",
+     "heure": "15:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-03-07",
+     "lieu": "E",
+     "adv": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+     "heure": "15:00",
+     "salle": "GYMNASE DE BEAUFEUILLAGE"
+    },
+    {
+     "date": "2027-03-21",
+     "lieu": "D",
+     "adv": "C.P.B. RENNES 35",
+     "heure": "15:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-03-28",
+     "lieu": "E",
+     "adv": "SAINT-RENAN IROISE VOLLEY",
+     "heure": "15:00",
+     "salle": "SALLE TREVISQUIN"
+    },
+    {
+     "date": "2027-04-04",
+     "lieu": "D",
+     "adv": "PORNIC VOLLEY BALL",
+     "heure": "15:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-04-18",
+     "lieu": "E",
+     "adv": "ASPTT LAVAL 2",
+     "heure": "16:00",
+     "salle": "GYMNASE NOEMIE HAMARD"
+    },
+    {
+     "date": "2027-04-25",
+     "lieu": "D",
+     "adv": "CHATEAUBOURG MARPIRE VOLLEY 35",
+     "heure": "15:00",
+     "salle": "COSEC"
+    }
+   ],
+   "attente": [],
    "poule": "Nationale 3 masculine · Poule F",
    "rang": 8,
    "sur": 12,
    "pts": 6,
    "g": 2,
    "p": 4,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "PNF",
@@ -111,13 +226,135 @@
      "sets": "20-25 18-25 12-25"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "PLANCOET VOLLEY-BALL",
+     "heure": "19:00",
+     "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+    },
+    {
+     "date": "2026-11-29",
+     "lieu": "D",
+     "adv": "ETOILE ST LAURENT VB METROPOLE BREST",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "E",
+     "adv": "LES BLEUETS PORTES DE BRETAGNE VB",
+     "heure": "21:00",
+     "salle": "COMPLEXE SPORTIF DE LA SEICHE"
+    },
+    {
+     "date": "2026-12-20",
+     "lieu": "D",
+     "adv": "C.P.B. RENNES 35",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-01-10",
+     "lieu": "E",
+     "adv": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+     "heure": "13:00",
+     "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+    },
+    {
+     "date": "2027-01-17",
+     "lieu": "D",
+     "adv": "JEANNE D ARC DE RENNES",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-01-31",
+     "lieu": "D",
+     "adv": "VANNES VOLLEY 56",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-02-14",
+     "lieu": "D",
+     "adv": "SAINT-MEDARD TORCE VOLLEY-BALL",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-02-21",
+     "lieu": "E",
+     "adv": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+     "heure": "11:00",
+     "salle": "GYMNASE DE BEAUFEUILLAGE"
+    },
+    {
+     "date": "2027-03-21",
+     "lieu": "D",
+     "adv": "UNION SPORTIVE LAILLE",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-03-28",
+     "lieu": "E",
+     "adv": "E.SP. CANTON DE PIPRIAC V.B.",
+     "heure": "13:00",
+     "salle": "SALLE DES TERRES ROUGES"
+    },
+    {
+     "date": "2027-04-04",
+     "lieu": "D",
+     "adv": "PLANCOET VOLLEY-BALL",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-04-18",
+     "lieu": "E",
+     "adv": "ETOILE ST LAURENT VB METROPOLE BREST",
+     "heure": "15:00",
+     "salle": "PEN AR C'HLEUZ"
+    },
+    {
+     "date": "2027-05-09",
+     "lieu": "D",
+     "adv": "LES BLEUETS PORTES DE BRETAGNE VB",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-05-16",
+     "lieu": "E",
+     "adv": "C.P.B. RENNES 35",
+     "heure": "12:30",
+     "salle": "CDT BOUGOUIN"
+    },
+    {
+     "date": "2027-05-23",
+     "lieu": "D",
+     "adv": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+     "heure": "11:00",
+     "salle": "COSEC"
+    },
+    {
+     "date": "2027-05-30",
+     "lieu": "E",
+     "adv": "JEANNE D ARC DE RENNES",
+     "heure": "12:00",
+     "salle": "JA RENNES"
+    }
+   ],
+   "attente": [],
    "poule": "Prenationale feminine",
    "rang": 11,
    "sur": 12,
    "pts": 5,
    "g": 1,
    "p": 4,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "PRM",
@@ -162,13 +399,114 @@
      "sets": "25-13 25-14 25-19"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "RENNES CPB 4",
+     "heure": "18:30",
+     "salle": "STADE CDT BOUGOUIN"
+    },
+    {
+     "date": "2026-11-28",
+     "lieu": "D",
+     "adv": "VOLLEY ENTENTE GUIPEL/ACLC",
+     "heure": "20:30",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "E",
+     "adv": "VALLONS de VILAINE 1",
+     "heure": "21:00",
+     "salle": "Aurélie Aubert BAIN de BZH"
+    },
+    {
+     "date": "2026-12-19",
+     "lieu": "E",
+     "adv": "LOUVIGNE DE BAIS 1",
+     "heure": "18:30",
+     "salle": "SALLE DES SPORTS"
+    },
+    {
+     "date": "2027-01-09",
+     "lieu": "D",
+     "adv": "ORGERBLON 1",
+     "heure": "20:30",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2027-01-16",
+     "lieu": "D",
+     "adv": "LAILLE 1",
+     "heure": "20:30",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2027-01-30",
+     "lieu": "E",
+     "adv": "LIFFRE 1",
+     "heure": "21:00",
+     "salle": "jacques prévert"
+    },
+    {
+     "date": "2027-02-13",
+     "lieu": "D",
+     "adv": "GUICHEN 2",
+     "heure": "20:30",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2027-02-20",
+     "lieu": "E",
+     "adv": "UGS CESSON CHANTEPIE VERN 3",
+     "heure": "18:30",
+     "salle": "LA CHALOTAIS à VERN"
+    },
+    {
+     "date": "2027-03-20",
+     "lieu": "D",
+     "adv": "RENNES CPB 4",
+     "heure": "20:30",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2027-03-27",
+     "lieu": "E",
+     "adv": "VOLLEY ENTENTE GUIPEL/ACLC",
+     "heure": "19:00",
+     "salle": "ONYX st symphorien"
+    },
+    {
+     "date": "2027-04-03",
+     "lieu": "D",
+     "adv": "VALLONS de VILAINE 1",
+     "heure": "20:30",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2027-04-17",
+     "lieu": "D",
+     "adv": "LOUVIGNE DE BAIS 1",
+     "heure": "20:30",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2027-05-15",
+     "lieu": "E",
+     "adv": "ORGERBLON 1",
+     "heure": "21:00",
+     "salle": "SALLE RICHARD DACOURY"
+    }
+   ],
+   "attente": [],
    "poule": "Pré-régionale masculine · ST GREGOIRE 2",
    "rang": 1,
    "sur": 10,
    "pts": 12,
    "g": 4,
    "p": 0,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "D1F",
@@ -205,13 +543,107 @@
      "sets": "15-25 17-25 10-25"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "D",
+     "adv": "UGS CCV 3",
+     "heure": "18:00",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-11-28",
+     "lieu": "E",
+     "adv": "BRUZ JA 1",
+     "heure": "21:00",
+     "salle": "PIERRE BROSSOLETTE"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "D",
+     "adv": "RENNES JA 3",
+     "heure": "18:00",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-12-19",
+     "lieu": "D",
+     "adv": "GUIGNEN 3",
+     "heure": "18:00",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2027-01-09",
+     "lieu": "E",
+     "adv": "LOUVIGNE DE BAIS 2",
+     "heure": "18:00",
+     "salle": "SALLE DES SPORTS"
+    },
+    {
+     "date": "2027-01-16",
+     "lieu": "E",
+     "adv": "BROCELIANDE 3",
+     "heure": "18:30",
+     "salle": "Treffendel"
+    },
+    {
+     "date": "2027-02-13",
+     "lieu": "E",
+     "adv": "MAEN ROCH 1",
+     "heure": "21:00",
+     "salle": "la brionnière"
+    },
+    {
+     "date": "2027-02-20",
+     "lieu": "E",
+     "adv": "JANZE CORPS NUDS 1",
+     "heure": "18:00",
+     "salle": "CORPS NUDS"
+    },
+    {
+     "date": "2027-03-20",
+     "lieu": "E",
+     "adv": "UGS CCV 3",
+     "heure": "21:00",
+     "salle": "LA CHALOTAIS à VERN"
+    },
+    {
+     "date": "2027-03-27",
+     "lieu": "D",
+     "adv": "BRUZ JA 1",
+     "heure": "18:00",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2027-04-03",
+     "lieu": "E",
+     "adv": "RENNES JA 3",
+     "heure": null,
+     "salle": "MARCEL PAGNOL"
+    },
+    {
+     "date": "2027-04-17",
+     "lieu": "E",
+     "adv": "GUIGNEN 3",
+     "heure": "20:30",
+     "salle": "SALLE DES SPORTS"
+    },
+    {
+     "date": "2027-05-15",
+     "lieu": "D",
+     "adv": "LOUVIGNE DE BAIS 2",
+     "heure": "18:00",
+     "salle": "SALLE DU COSEC"
+    }
+   ],
+   "attente": [],
    "poule": "D1 feminine · ST GREGOIRE 2",
    "rang": 7,
    "sur": 9,
    "pts": 3,
    "g": 1,
    "p": 2,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "D2M",
@@ -248,13 +680,37 @@
      "sets": "25-19 20-25 25-18 27-25"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "D",
+     "adv": "RENNES TA 1",
+     "heure": "21:00",
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-11-28",
+     "lieu": "E",
+     "adv": "ROMILLE 1",
+     "heure": "21:00",
+     "salle": "SALLE ANITA CONTI"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "D",
+     "adv": "DINARD 1",
+     "heure": "21:00",
+     "salle": "SALLE DU COSEC"
+    }
+   ],
+   "attente": [],
    "poule": "Departementale 2 masculine A · ST GREGOIRE 3",
    "rang": 3,
    "sur": 7,
    "pts": 6,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "M18M région",
@@ -294,9 +750,19 @@
      "compet": "Poule E"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "ETOILE ST LAURENT VB METROPOLE BREST",
+     "heure": "13:30",
+     "salle": "PEN AR C'HLEUZ"
+    }
+   ],
+   "attente": [],
    "poule": "M18M performance poule C",
    "noteRang": "Classement de la poule pas encore publié.",
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "M18M départemental",
@@ -317,13 +783,37 @@
      "sets": "14-25 18-25 21-25"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "TINTENIAC",
+     "heure": null,
+     "salle": "SALLE DES SPORTS"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "D",
+     "adv": "DINARD",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-12-19",
+     "lieu": "E",
+     "adv": "LE RHEU 1",
+     "heure": null,
+     "salle": "GYMNASE DU COSEC"
+    }
+   ],
+   "attente": [],
    "poule": "M18 masculins honneur poule B · ST GREGOIRE",
    "rang": 5,
    "sur": 6,
    "pts": 0,
    "g": 0,
    "p": 1,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "M18F 1",
@@ -352,13 +842,37 @@
      "sets": "21-25 25-21 24-26 25-22 15-10"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "D",
+     "adv": "LA CANE VOLLEY",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "E",
+     "adv": "ROMILLE",
+     "heure": "15:00",
+     "salle": "SALLE ANITA CONTI"
+    },
+    {
+     "date": "2026-12-19",
+     "lieu": "D",
+     "adv": "LE RHEU 1",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    }
+   ],
+   "attente": [],
    "poule": "M18 filles honneurs poule D · ST GREGOIRE 1",
    "rang": 2,
    "sur": 6,
    "pts": 5,
    "g": 2,
    "p": 0,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "M18F 2",
@@ -387,13 +901,37 @@
      "sets": "22-25 11-25 18-25"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "D",
+     "adv": "GEVEZE",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "E",
+     "adv": "GUIPEL / LANGAN",
+     "heure": null,
+     "salle": "SALLE DE SPORT MICHELLE SÉVIN"
+    },
+    {
+     "date": "2026-12-19",
+     "lieu": "D",
+     "adv": "DINARD 2",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    }
+   ],
+   "attente": [],
    "poule": "M18 filles honneurs poule B · ST GREGOIRE 2",
    "rang": 3,
    "sur": 6,
    "pts": 3,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "M15F",
@@ -422,13 +960,38 @@
      "sets": "6-25 23-25 12-25"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-28",
+     "lieu": "D",
+     "adv": "LOUVIGNE DE BAIS",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-12-12",
+     "lieu": "E",
+     "adv": "RENNES CPB 2",
+     "heure": null,
+     "salle": "STADE CDT BOUGOUIN"
+    }
+   ],
+   "attente": [
+    {
+     "date": "2026-11-14",
+     "lieu": "E",
+     "adv": "LES BLEUETS PORTES DE BRETAGNE",
+     "heure": null,
+     "salle": "SALLE DES SPORTS"
+    }
+   ],
    "poule": "M15 filles honneurs poule C · ST GREGOIRE",
    "rang": 6,
    "sur": 6,
    "pts": 0,
    "g": 0,
    "p": 2,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "M15M",
@@ -457,13 +1020,30 @@
      "sets": "25-21 14-25 25-11 22-25 12-15"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-28",
+     "lieu": "D",
+     "adv": "RENNES JA",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    },
+    {
+     "date": "2026-12-12",
+     "lieu": "D",
+     "adv": "ACIGNE (mixte)",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    }
+   ],
+   "attente": [],
    "poule": "M15 masculins honneurs poule B · ST GREGOIRE",
    "rang": 2,
    "sur": 3,
    "pts": 4,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "M13F",
@@ -484,13 +1064,37 @@
      "sets": "15-25 20-25"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "CHATEAUBOURG MARPIRE 35 V 2",
+     "heure": null,
+     "salle": "LIFFRE"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "E",
+     "adv": "LIFFRE US",
+     "heure": null,
+     "salle": "RENNES EC"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "E",
+     "adv": "MONTGERMONT VBC 3",
+     "heure": null,
+     "salle": "RENNES EC"
+    }
+   ],
+   "attente": [],
    "poule": "M13 féminines bronze poule C · VB GREGORIEN",
    "rang": 5,
    "sur": 6,
    "pts": 1,
    "g": 0,
    "p": 1,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "M13M",
@@ -511,13 +1115,44 @@
      "sets": "25-15 17-25 15-10"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-21",
+     "lieu": "D",
+     "adv": "VIC COMBOURG (mixte)",
+     "heure": null,
+     "salle": "ST GREGOIRE COSEC"
+    },
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "VE GUIPEL LANGAN 3 (mixte)",
+     "heure": null,
+     "salle": "ST GREGOIRE COSEC"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "D",
+     "adv": "RENNES TA 1 (masc)",
+     "heure": null,
+     "salle": "RENNES TA"
+    },
+    {
+     "date": "2026-12-05",
+     "lieu": "D",
+     "adv": "RENNES TA 2 (mixte)",
+     "heure": null,
+     "salle": "RENNES TA"
+    }
+   ],
+   "attente": [],
    "poule": "M13 masculins et mixtes cuivre D · VB GREGORIEN (masc)",
    "rang": 4,
    "sur": 6,
    "pts": 2,
    "g": 1,
    "p": 0,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 1",
@@ -554,13 +1189,30 @@
      "sets": "21-25 22-25 25-15 25-12 14-16"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-23",
+     "lieu": "D",
+     "adv": "RENNES ASLC 3",
+     "heure": null,
+     "salle": "la ricoquais"
+    },
+    {
+     "date": "2026-12-07",
+     "lieu": "E",
+     "adv": "LIFFRE 1",
+     "heure": null,
+     "salle": null
+    }
+   ],
+   "attente": [],
    "poule": "Compet lib' poule Z · ST GREGOIRE 1",
    "rang": 1,
    "sur": 6,
    "pts": 7,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 2",
@@ -589,13 +1241,30 @@
      "sets": "20-25 19-25 25-21 25-27"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-11-23",
+     "lieu": "D",
+     "adv": "QUEDILLAC",
+     "heure": null,
+     "salle": "la ricoquais"
+    },
+    {
+     "date": "2026-12-07",
+     "lieu": "E",
+     "adv": "RENNES TA 3",
+     "heure": null,
+     "salle": "SALLE PARQUET"
+    }
+   ],
+   "attente": [],
    "poule": "Compet lib' poule X · ST GREGOIRE 2",
    "rang": 4,
    "sur": 6,
    "pts": 0,
    "g": 0,
    "p": 2,
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   }
  ],
  "coupes": [
@@ -612,8 +1281,10 @@
      "sets": "25-13 25-11 25-11"
     }
    ],
+   "avenir": [],
+   "attente": [],
    "equipe": "N3M",
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "Coupe de Bretagne M18M",
@@ -636,8 +1307,10 @@
      "sets": "25-13 25-18"
     }
    ],
+   "avenir": [],
+   "attente": [],
    "equipe": "M18M région",
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   },
   {
    "nom": "Coupe CD35 masculine",
@@ -658,8 +1331,25 @@
      "sets": "25-22 25-17 25-22"
     }
    ],
+   "avenir": [
+    {
+     "date": "2026-12-12",
+     "lieu": "E",
+     "adv": "ROMILLE 1",
+     "heure": null,
+     "salle": "SALLE ANITA CONTI"
+    },
+    {
+     "date": "2027-01-23",
+     "lieu": "D",
+     "adv": "RENNES JA 3",
+     "heure": null,
+     "salle": "SALLE DU COSEC"
+    }
+   ],
+   "attente": [],
    "equipe": "PRM",
-   "lu": "2026-11-16T12:04:21+01:00"
+   "lu": "2026-11-16T18:28:19+01:00"
   }
  ],
  "nonsuivies": []
