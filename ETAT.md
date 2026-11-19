@@ -11,7 +11,8 @@ Choix : heure saisie seulement pour un match existant (suppression toujours poss
 Heure tolérante faite (19/11) : 9:30, 9h30, 9h, 14h00, 14 h 30, heure seule (13, 9) et H majuscule (18H30) acceptés ; aide du champ « ex. 18h30 ». RESTE : essai réel depuis le téléphone (président) sur un match « Heure à confirmer » du 21/11 : runs « Ajouter une heure » puis « Collecte » verts, puis supprimer l'heure (heure vide).
 
 ## Reste à faire, dans l'ordre
-1. Vérifier le passage planifié du vendredi 20/11 à 18 h (onglet Actions) et celui du dimanche 22/11 (résultat de la N3M à Rennes).
+1. Vendredi 20/11 vers 18 h 15 : onglet Actions, « Collecte FFvolley », événement « schedule » : exécution réelle verte et commit « Mise à jour des données » (la 2e exécution « Passage ignoré » est normale). Rien avant 19 h : lancer une collecte à la main et noter l'incident.
+   Lundi 23/11 au matin : match de la N3M à Rennes du 22/11 (16 h) visible en V ou D avec le score en sets sur la page (« Résultat pas encore publié » : attendre le passage de lundi 7 h, sinon vérifier plus tard) ; rang mis à jour.
 2. Horaires de collecte : passer à `timezone: Europe/Paris` dans `collecte.yml` avec un passage quotidien à 7 h 17 (chantier à part ; vérifier dans la doc GitHub que la clé `timezone` existe pour `schedule`, retirer alors le double cron été/hiver et l'étape « Saison »).
 
 ## À vérifier sur l'iPhone (site en ligne)
