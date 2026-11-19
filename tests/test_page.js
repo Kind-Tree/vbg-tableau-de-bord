@@ -547,18 +547,18 @@ test("semaine : adresse #semaine réservée, par défaut sans adresse ni mémoir
   assert.equal(p.stock["vbg-vue"], "programme");
 });
 
-test("semaine : lignes regroupées par jour, jour courant signalé, tri par heure (sans heure en dernier) puis ordre des cartes", async () => {
+test("semaine : lignes regroupées par jour, jour courant signalé, tri par heure (sans heure en premier) puis ordre des cartes", async () => {
   const p = await charger({ donnees: donneesSemaine(), aujourdhui: SAMEDI_MIDI });
   const j = jours(p);
   assert.deepEqual(j.map(x => x.titre), ["mardi 17/11", "mercredi 18/11", "vendredi 20/11", "samedi 21/11", "dimanche 22/11"]);
   assert.deepEqual(j.map(x => x.aujourdhui), [false, false, false, true, false]);
   const samedi = j[3].lignes;
   assert.equal(samedi.length, 4);
-  // 10 h coupe, 16 h N3M, 19 h PNF, puis le match sans heure
-  assert.match(samedi[0], /10 h 00.*PRM · Coupe CD35 masculine.*ExtérieurROMILLE/);
-  assert.match(samedi[1], /16 h 00N3MExtérieurCPB RENNESGYMNASE BOUGOUIN/);
-  assert.match(samedi[2], /19 h 00PNFExtérieurPLANCOET/);
-  assert.match(samedi[3], /Heure à confirmerM13FExtérieurCHATEAUBOURGLIFFRE/);
+  // d'abord le match sans heure, puis 10 h coupe, 16 h N3M, 19 h PNF
+  assert.match(samedi[0], /Heure à confirmerM13FExtérieurCHATEAUBOURGLIFFRE/);
+  assert.match(samedi[1], /10 h 00.*PRM · Coupe CD35 masculine.*ExtérieurROMILLE/);
+  assert.match(samedi[2], /16 h 00N3MExtérieurCPB RENNESGYMNASE BOUGOUIN/);
+  assert.match(samedi[3], /19 h 00PNFExtérieurPLANCOET/);
   assert.match(j[4].lignes[0], /14 h 00N3MDomicileADV DIMANCHE/);
   assert.doesNotMatch(p.cartes()[0].textContent, /SEMAINE SUIVANTE|HORS SEMAINE|ADV LUNDI/);
   assert.match(p.cartes()[0].textContent, /Du 16\/11 au 22\/11/);
@@ -721,8 +721,8 @@ test("semaine : à heure égale, l'ordre des cartes décide", async () => {
   d.equipes[1].attente = [];
   const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
   const samedi = jours(p).find(x => x.titre === "samedi 21/11").lignes;
-  assert.match(samedi[1], /16 h 00N3M/); // N3M avant PNF dans la liste des cartes
-  assert.match(samedi[2], /16 h 00PNF/);
+  assert.match(samedi[2], /16 h 00N3M/); // N3M avant PNF dans la liste des cartes (le match sans heure passe en premier)
+  assert.match(samedi[3], /16 h 00PNF/);
 });
 
 // ---- Données anciennes (nuit du 16/11/2026) ----
@@ -1189,7 +1189,7 @@ test("programme : une poule illisible n'abîme que sa carte ; deux phases d'une 
 
 test("programme : le libellé d'une coupe est « équipe · nom de la coupe »", async () => {
   const p = await programme19();
-  assert.match(jours(p)[0].lignes[0], /^10 h 00PRM · Coupe CD35 masculineExtérieurROMILLESALLE ANITA CONTI$/);
+  assert.ok(jours(p)[0].lignes.some(l => /^10 h 00PRM · Coupe CD35 masculineExtérieurROMILLESALLE ANITA CONTI$/.test(l)));
 });
 
 test("programme : ancien data.json sans « poules » ni « salles_club » : le Programme reste affiché (repli sur resultats, avenir, attente)", async () => {

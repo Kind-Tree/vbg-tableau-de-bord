@@ -226,10 +226,10 @@ function blocsDuJour(ls,salles){
   const groupes=new Map();
   ls.forEach(x=>{if(!groupes.has(x.cle))groupes.set(x.cle,[]);groupes.get(x.cle).push(x)});
   return[...groupes.values()].map(g=>{
-    const vrais=g.filter(x=>!x.exempt).sort((a,b)=>trier(heureAff(a)||"99:99",heureAff(b)||"99:99")),plateau=g.length>=2;
+    const vrais=g.filter(x=>!x.exempt).sort((a,b)=>trier(heureAff(a)||"00:00",heureAff(b)||"00:00")),plateau=g.length>=2;
     return{ls:g,vrais,exempt:g.some(x=>x.exempt),plateau,lieu:plateau?lieuPlateau(vrais,salles):null,
            heure:(vrais.map(heureAff).find(Boolean))||null,ordre:g[0].ordre,carte:g[0].carte,nonlu:g[0].nonlu,lu:g[0].lu}})
-    .sort((a,b)=>trier(a.heure||"99:99",b.heure||"99:99")||a.ordre-b.ordre)}
+    .sort((a,b)=>trier(a.heure||"00:00",b.heure||"00:00")||a.ordre-b.ordre)}
 // Filtre « À domicile » : hors plateau, le domicile de FFvolley (fiable) ; sur un plateau, la salle seule décide.
 function estDomicile(b){return b.plateau?b.lieu==="VBG":(!b.exempt&&b.ls[0].lieu==="D")}
 function heureTxt(h){return h.replace(":"," h ")}
@@ -383,7 +383,7 @@ function journeesDePoule(p,q){
   const noeuds=[];
   cles.forEach(k=>{
     const ul=el("ul","mts");
-    groupes.get(k).sort((a,b)=>trier(a.date+(a.heure||heureHM(a.heure_saisie)||"99:99"),b.date+(b.heure||heureHM(b.heure_saisie)||"99:99"))).forEach(m=>{
+    groupes.get(k).sort((a,b)=>trier(a.date+(a.heure||heureHM(a.heure_saisie)||"00:00"),b.date+(b.heure||heureHM(b.heure_saisie)||"00:00"))).forEach(m=>{
       let li;try{li=ligneDePoule(m,p,q)}catch(e){li=el("li","mt");li.append(el("p","note","Ligne illisible."))}
       ul.append(li)});
     noeuds.push(el("h3",null,typeof k==="number"?"Journée "+k:"Le "+court(k)),ul)});
