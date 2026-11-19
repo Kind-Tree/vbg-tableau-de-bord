@@ -374,8 +374,8 @@ function reglesCss() {
 }
 
 test("charte : l'orange #F26910 seulement sur les éléments d'accent autorisés", () => {
-  const permis = new Set(["h2", ".rang b", ".pastille", "button", ".lien-coupe", "option:checked", ".bascule[aria-pressed=\"true\"]",
-    "button:focus-visible,select:focus-visible,.lien-coupe:focus-visible"]);
+  const permis = new Set(["h2", ".rang b", ".pastille", "button", ".lien-coupe", "option:checked", ".bascule[aria-pressed=\"true\"]", ".lien-poule", ".cl li.moi",
+    "button:focus-visible,select:focus-visible,.lien-coupe:focus-visible,.lien-poule:focus-visible"]);
   for (const { sel, corps } of reglesCss().regles) {
     if (/#F26910/i.test(corps)) assert.ok(permis.has(sel), "orange non autorisé sur : " + sel);
   }
@@ -725,23 +725,6 @@ test("semaine : à heure égale, l'ordre des cartes décide", async () => {
   assert.match(samedi[2], /16 h 00PNF/);
 });
 
-// ---- Navigation entre les semaines (le bloc « Semaine dernière » n'existe plus : on remonte avec ‹) ----
-// Semaine dernière de référence (aujourd'hui = samedi 21/11) : lundi 9/11 au dimanche 15/11.
-function donneesPrecedente() {
-  const d = donneesSemaine();
-  const n3m = d.equipes[0], pnf = d.equipes[1], m13 = d.equipes[2];
-  n3m.resultats.push(
-    { date: "2026-11-13", heure: "20:00", lieu: "D", adv: "ADV VENDREDI SOIR", pour: 3, contre: 1, sets: "25-20 20-25 25-18 25-21" },
-    { date: "2026-11-15", heure: "15:00", lieu: "E", adv: "ADV DIMANCHE PERDU", pour: 0, contre: 3, sets: "20-25 18-25 19-25" },
-    { date: "2026-11-09", lieu: "D", adv: "ADV LUNDI 9", pour: 3, contre: 0, sets: "25-10 25-10 25-10" });
-  pnf.resultats.push({ date: "2026-11-14", heure: "18:00", lieu: "E", adv: "ADV PNF SAMEDI", pour: 3, contre: 2, sets: "25-20 20-25 25-20 20-25 15-13" });
-  pnf.attente.push({ date: "2026-11-13", lieu: "D", adv: "ADV SANS SCORE", heure: "18:00", salle: "COSEC" },
-                   { date: "2026-11-15", lieu: "E", adv: "ADV FORFAIT", heure: null, salle: null, illisible: true });
-  m13.resultats.push({ date: "2026-11-16", lieu: "D", adv: "ADV CETTE SEMAINE", pour: 3, contre: 0, sets: "25-10 25-10 25-10" }); // lundi 16 : programme
-  d.coupes[0].resultats.push({ date: "2026-11-14", heure: "10:00", lieu: "E", adv: "ADV COUPE", pour: 3, contre: 0, sets: "25-13 25-11 25-11" });
-  return d;
-}
-
 // ---- Données anciennes (nuit du 16/11/2026) ----
 // Écart en jours de calendrier à Paris entre « maj » et aujourd'hui ; ligne affichée au-delà de 5 jours.
 const MAJ_LUNDI = "2026-11-16T07:00:00+01:00";
@@ -940,164 +923,6 @@ test("adresse modifiée à la main : l'adresse affichée est toujours celle de l
   await p.hashchange("#%ZZ");
   assert.equal(p.location.hash, "#m18m-region");
   assert.deepEqual(p.titres(), ["M18M région"]);
-});
-
-// ---- Proposition de la nuit du 16/11/2026 : bloc « Calendrier » en vue d'une seule équipe ----
-// Lit la vue d'une équipe : { carte, cal } (cal = null si absent) et les lignes du calendrier.
-function vueEquipe(p) {
-  const grille = p.el("grille");
-  assert.equal(grille.children.length, 1, "un seul élément dans la grille");
-  const pile = grille.children[0];
-  const carte = pile.children[0];
-  const cal = pile.children.find(c => c.tag === "section" && /\bcal\b/.test(c.className)) || null;
-  const lignes = cal ? cal.trouver(e => e.tag === "li").map(li => li.textContent) : [];
-  return { grille, pile, carte, cal, lignes };
-}
-const SAMEDI_MIDI_CAL = "2026-11-21T11:00:00Z"; // samedi 21/11, 12 h à Paris
-
-function donneesCalendrier() {
-  const d = donneesSemaine();
-  d.equipes[0].avenir = [
-    { date: "2026-11-20", lieu: "D", adv: "DEJA JOUE", heure: "10:00", salle: null },
-    { date: "2026-11-21", lieu: "D", adv: "COMMENCE", heure: "12:00", salle: "SALLE A" },
-    { date: "2026-11-21", lieu: "E", adv: "CE SOIR", heure: "16:00", salle: "GYMNASE BOUGOUIN" },
-    { date: "2026-11-22", lieu: "D", adv: "SANS HEURE", heure: null, salle: null },
-    { date: "2026-12-05", lieu: "E", adv: "EN DECEMBRE", heure: "20:30", salle: "SALLE B" }];
-  return d;
-}
-
-test("calendrier : en vue d'une équipe, bloc « Calendrier » sous la carte, tous les matchs à venir dans l'ordre du champ avenir", async () => {
-  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  const v = vueEquipe(p);
-  assert.equal(v.pile.children.length, 2);
-  assert.equal(v.carte.tag, "article");
-  assert.equal(v.carte.trouver(e => e.tag === "h2")[0].textContent, "N3M");
-  assert.ok(v.cal, "bloc absent");
-  assert.equal(v.cal.trouver(e => e.tag === "h2")[0].textContent, "Calendrier");
-  assert.deepEqual(p.titres(), ["N3M"]);
-  assert.equal(v.lignes.length, 3);
-  assert.match(v.lignes[0], /sam\. 21 nov\. · 16 h 00.*Extérieur.*CE SOIR.*GYMNASE BOUGOUIN/);
-  assert.match(v.lignes[1], /dim\. 22 nov\. · sans heure.*Domicile.*SANS HEURE/);
-  assert.match(v.lignes[2], /sam\. 5 déc\. · 20 h 30.*Extérieur.*EN DECEMBRE.*SALLE B/);
-});
-
-test("calendrier : un match déjà joué ou commencé n'est plus « à venir » (même règle que « Cette semaine »)", async () => {
-  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  const texte = vueEquipe(p).cal.textContent;
-  assert.doesNotMatch(texte, /DEJA JOUE/); // veille
-  assert.doesNotMatch(texte, /COMMENCE/); // 12 h 00 à Paris = l'heure exacte : compte comme passé
-  p.horloge("2026-11-21T10:59:00Z"); // 11 h 59 à Paris
-  await p.choisir("n3m");
-  assert.match(vueEquipe(p).cal.textContent, /COMMENCE/);
-});
-
-test("calendrier : jamais dans « Cette semaine », « Toutes les équipes » ni « Coupes »", async () => {
-  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: SAMEDI_MIDI_CAL });
-  for (const v of ["programme", "toutes", "coupes"]) {
-    await p.choisir(v);
-    assert.doesNotMatch(p.el("grille").textContent, /Matchs à venir/, v);
-    assert.equal(p.el("grille").trouver(e => /\bcal\b/.test(e.className || "")).length, 0, v);
-  }
-  await p.choisir("n3m");
-  assert.ok(vueEquipe(p).cal);
-  await p.choisir("toutes");
-  assert.equal(p.cartes().length, donneesCalendrier().equipes.length + 1); // une carte par équipe + la carte Coupes, aucun bloc en plus
-});
-
-test("calendrier : la grille garde sa colonne unique (classe « une ») et le menu garde ses entrées", async () => {
-  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  assert.match(p.el("grille").className, /\bune\b/);
-  assert.equal(p.options().length, donneesCalendrier().equipes.length + 3);
-});
-
-test("calendrier : « avenir » absent (ancien data.json, copie intégrée) = aucun bloc, rien d'inventé ; « avenir » vide = message", async () => {
-  const d = donneesCalendrier(); delete d.equipes[0].avenir;
-  const sans = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  assert.equal(vueEquipe(sans).cal, null);
-  assert.doesNotMatch(sans.el("grille").textContent, /Calendrier|à venir/);
-  const integree = await charger({ reseau: false, hash: "#n3m" }); // SECOURS : pas de champ avenir
-  assert.equal(vueEquipe(integree).cal, null);
-  const vide = donneesCalendrier(); vide.equipes[0].avenir = [];
-  const p = await charger({ donnees: vide, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  assert.match(vueEquipe(p).cal.textContent, /Aucun match à venir\./);
-  assert.equal(vueEquipe(p).lignes.length, 0);
-  const faux = donneesCalendrier(); faux.equipes[0].avenir = "n'importe quoi";
-  assert.equal(vueEquipe(await charger({ donnees: faux, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" })).cal, null);
-});
-
-test("calendrier : une ligne ou un bloc illisible n'abîme ni la carte ni les autres lignes", async () => {
-  const d = donneesCalendrier();
-  d.equipes[0].avenir.push(null, { date: { x: 1 }, adv: "ILLISIBLE" }, { date: "2026-12-12", lieu: "?", adv: "LIEU INCONNU", heure: "21:00" });
-  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  const v = vueEquipe(p);
-  assert.equal(v.carte.trouver(e => e.tag === "h2")[0].textContent, "N3M");
-  assert.match(v.cal.textContent, /Ligne illisible\./);
-  assert.match(v.cal.textContent, /LIEU INCONNU/);
-  assert.doesNotMatch(v.cal.textContent, /(Domicile|Extérieur)LIEU INCONNU/); // lieu inconnu : aucune pastille inventée
-  assert.match(v.cal.textContent, /CE SOIR/);
-  // bloc entier en échec (la lecture du champ lève) : la carte reste, le bloc annonce l'erreur
-  const piege = donneesCalendrier();
-  Object.defineProperty(piege.equipes[0], "avenir", { get() { throw new Error("piège"); }, enumerable: true });
-  const q = await charger({ donnees: piege, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  const w = vueEquipe(q);
-  assert.equal(w.carte.trouver(e => e.tag === "h2")[0].textContent, "N3M");
-  assert.match(w.cal.textContent, /Données du calendrier illisibles\./);
-});
-
-test("calendrier : carte non lue = dernières données connues signalées ; pas d'orange, textContent seulement", async () => {
-  const d = donneesCalendrier(); d.equipes[0].nonlu = true; d.equipes[0].raison = "x";
-  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  assert.match(vueEquipe(p).cal.textContent, /Dernières données connues du 21 nov\./);
-  const r = reglesCss().regles.find(x => x.sel === ".cal");
-  assert.ok(r, "règle .cal absente");
-  assert.doesNotMatch(r.corps, /#F26910|#C2500A/i);
-  assert.doesNotMatch(SCRIPT.slice(SCRIPT.indexOf("function blocCalendrier"), SCRIPT.indexOf("function coupeProche")), /innerHTML|insertAdjacentHTML|outerHTML/);
-});
-
-test("calendrier : recalculé au changement de date de Paris (le match du jour passe, celui du lendemain reste)", async () => {
-  const p = await charger({ donnees: donneesCalendrier(), aujourdhui: "2026-11-21T10:00:00Z", hash: "#n3m" }); // 11 h à Paris
-  assert.match(vueEquipe(p).cal.textContent, /COMMENCE/);
-  p.horloge("2026-11-22T11:00:00Z"); // dimanche 22/11, 12 h
-  await p.revenir();
-  const t = vueEquipe(p).cal.textContent;
-  assert.doesNotMatch(t, /COMMENCE|CE SOIR/);
-  assert.match(t, /SANS HEURE/);
-});
-
-test("calendrier : avec les vraies données publiées, jamais plus de lignes que le champ avenir", async () => {
-  const q = DATA.equipes.find(e => e.nom === "N3M");
-  if (!Array.isArray(q.avenir)) return; // data.json d'avant le lot 2 : pas de bloc, déjà couvert
-  const p = await charger({ hash: "#n3m" });
-  const v = vueEquipe(p);
-  assert.ok(v.lignes.length <= q.avenir.length);
-  assert.ok(v.lignes.length > 0);
-});
-
-test("calendrier : date mal formée, adversaire ou salle qui ne sont pas du texte = « Ligne illisible. », jamais « undefined » ni « null »", async () => {
-  const d = donneesCalendrier();
-  d.equipes[0].avenir.push(
-    { date: "2026-13-05", lieu: "E", adv: "MOIS 13", heure: "16:00" },
-    { date: "bientot", lieu: "E", adv: "DATE TEXTE", heure: "16:00" },
-    { date: "2026-12-20", lieu: "E", heure: "16:00" }, // adversaire absent
-    { date: "2026-12-21", lieu: "E", adv: null },
-    { date: "2026-12-22", lieu: "E", adv: "SALLE OBJET", salle: { x: 1 } },
-    { date: "2026-12-23", lieu: "E", adv: "BIEN FORMEE", heure: "18:00", salle: "SALLE C" });
-  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  const v = vueEquipe(p);
-  assert.doesNotMatch(v.cal.textContent, /undefined|null|NaN|\[object/);
-  assert.equal((v.cal.textContent.match(/Ligne illisible\./g) || []).length, 5);
-  assert.doesNotMatch(v.cal.textContent, /MOIS 13|DATE TEXTE|SALLE OBJET/);
-  assert.match(v.cal.textContent, /BIEN FORMEE.*SALLE C/);
-  assert.match(v.cal.textContent, /CE SOIR/);
-});
-
-test("calendrier : une date de dernière lecture illisible n'efface pas le calendrier", async () => {
-  const d = donneesCalendrier(); d.equipes[0].nonlu = true; d.equipes[0].lu = "pas une date";
-  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI_CAL, hash: "#n3m" });
-  const v = vueEquipe(p);
-  assert.match(v.cal.textContent, /CE SOIR/);
-  assert.match(v.cal.textContent, /Dernières données connues/);
-  assert.doesNotMatch(v.cal.textContent, /illisibles/);
 });
 
 // ---- Vue « Programme » (chantier Programme et Poule) : toute la saison, plateaux, exempts, filtre, navigation ----
@@ -1408,4 +1233,207 @@ test("programme : une salle au nom voisin de la nôtre (« GYMNASE DU COSEC ») 
   const e = donneesPoules();
   for (const m of e.equipes[1].poules[0].matchs) if (m.salle === "ST GREGOIRE COSEC") m.salle = "st gregoire cosec"; // casse différente : c'est bien notre salle
   assert.match(jours(await programme19({ donnees: e }))[0].lignes.find(l => l.includes("M13M")), /PlateauVBG/);
+});
+
+// ---- Vue « Poule » : classement complet, nos matchs restants, « Toute la poule », adresse #poule-<équipe> ----
+function donneesPoulesClassees() {
+  const d = donneesPoules();
+  const n3m = d.equipes[0].poules[0];
+  n3m.titre = "Nationale 3 masculine poule F";
+  n3m.classement = [
+    { rang: 1, club: "C.P.B. RENNES 35", pts: 18, j: 6, g: 6, p: 0 },
+    { rang: 2, club: "HEOL SANTEC", pts: 12, j: 6, g: 4, p: 2 },
+    { rang: 8, club: "VOLLEY BALL GREGORIEN", pts: 6, j: 6, g: 2, p: 4 }];
+  n3m.matchs.push({ date: "2026-12-06", heure: "15:00", dom: "VOLLEY BALL GREGORIEN", ext: "HEOL SANTEC", j: 7 });
+  const m13 = d.equipes[1].poules[0];
+  m13.classement = [{ rang: 1, club: "VIC COMBOURG (mixte)", pts: 4, j: 2, g: 2, p: 0 }, { rang: 4, club: "VB GREGORIEN (masc)", pts: 2, j: 1, g: 1, p: 0 }];
+  return d;
+}
+const poulePage = async (hash = "#poule-n3m", extra = {}) => charger({ donnees: donneesPoulesClassees(), aujourdhui: JEUDI_19, hash, ...extra });
+const carteP = p => p.cartes()[0];
+const lignesDe = (c, classe) => c.trouver(e => e.tag === "li" && e.className === classe);
+
+test("poule : chaque fiche d'équipe porte un lien « Poule et classement » vers #poule-<équipe> ; plus de bloc « Calendrier »", async () => {
+  const p = await charger({ donnees: donneesPoulesClassees(), aujourdhui: JEUDI_19, hash: "#n3m" });
+  const liens = carteP(p).trouver(e => e.tag === "a");
+  assert.equal(liens.length, 1);
+  assert.equal(liens[0].textContent, "Poule et classement");
+  assert.equal(liens[0].href, "#poule-n3m");
+  assert.doesNotMatch(p.el("grille").textContent, /Calendrier/);
+  assert.doesNotMatch(HTML, /blocCalendrier|Matchs à venir/);
+  const toutes = await charger({ donnees: donneesPoulesClassees(), aujourdhui: JEUDI_19, hash: "#toutes" });
+  const hrefs = toutes.cartes().flatMap(c => c.trouver(e => e.tag === "a")).map(a => a.href);
+  assert.deepEqual(hrefs, donneesPoulesClassees().equipes.map(q => "#poule-" + vm.runInContext("slug", toutes.sandbox)(q.nom)));
+  const coupes = await charger({ donnees: donneesPoulesClassees(), aujourdhui: JEUDI_19, hash: "#coupes" });
+  assert.equal(carteP(coupes).trouver(e => e.tag === "a").length, 0, "pas de vue Poule pour les coupes");
+});
+
+test("poule : l'adresse #poule-<équipe> ouvre la vue, quelle que soit la casse ou l'encodage ; une adresse inconnue retombe sur le Programme", async () => {
+  const p = await poulePage();
+  assert.deepEqual(p.titres(), ["N3M"]);
+  assert.equal(p.location.hash, "#poule-n3m");
+  assert.equal(p.el("vue").value, "n3m", "le menu garde l'équipe");
+  assert.equal(p.options().length, donneesPoulesClassees().equipes.length + 3, "aucune entrée de menu en plus");
+  for (const h of ["#POULE-N3M", "#poule-n3m", "#Poule-N3M"]) assert.deepEqual((await poulePage(h)).titres(), ["N3M"], h);
+  const m18 = donneesPoulesClassees();
+  m18.equipes.push({ nom: "M18M région", poule: "M18M", lu: LU_19, prochain: null, resultats: [], poules: [{ titre: "M18M performance poule C", nous: "X", active: true, classement: [], matchs: [] }] });
+  for (const h of ["#poule-m18m-region", "#poule-m18m-r%C3%A9gion", "#POULE-M18M-R%C3%89GION"]) {
+    const q = await charger({ donnees: m18, aujourdhui: JEUDI_19, hash: h });
+    assert.deepEqual(q.titres(), ["M18M région"], h);
+    assert.equal(q.location.hash, "#poule-m18m-region", h);
+  }
+  assert.deepEqual((await poulePage("#poule-inconnue")).titres(), ["Programme"]);
+  assert.deepEqual((await poulePage("#poule-coupe-cd35-masculine")).titres(), ["Programme"]);
+  assert.deepEqual((await poulePage("#poule-programme")).titres(), ["Programme"]);
+  const depuisEquipe = await poulePage("#pnf");
+  await depuisEquipe.hashchange("#poule-n3m");
+  assert.deepEqual(depuisEquipe.titres(), ["N3M"]);
+  assert.equal(depuisEquipe.stock["vbg-vue"], "poule-n3m");
+});
+
+test("poule : classement complet, notre ligne surlignée sous notre nom (pas celui de FFvolley)", async () => {
+  const c = carteP(await poulePage());
+  const t = c.textContent;
+  assert.match(t, /Nationale 3 masculine poule F/);
+  const lignes = c.trouver(e => e.tag === "ul" && e.className === "cl")[0].children;
+  assert.equal(lignes.length, 1 + 3, "en-tête + 3 équipes");
+  assert.equal(lignes[0].textContent, "ÉquipePtsJGP");
+  assert.equal(lignes[1].textContent, "1C.P.B. RENNES 3518660");
+  assert.equal(lignes[3].textContent, "8N3M6624");
+  assert.equal(lignes[3].className, "moi");
+  assert.equal(lignes.filter(l => l.className === "moi").length, 1);
+  assert.doesNotMatch(t, /VOLLEY BALL GREGORIEN/);
+  assert.match(t, /Pts points · J joués · G gagnés · P perdus/);
+});
+
+test("poule : nos matchs restants — ni joués ni commencés, avec date, heure ou « Heure à confirmer », adversaire et salle", async () => {
+  const c = carteP(await poulePage());
+  const restants = c.trouver(e => e.tag === "section")[1].textContent;
+  assert.match(restants, /^Nos matchs restants/);
+  assert.match(restants, /dimanche 22\/11.*16 h 00ExtérieurC\.P\.B\. RENNES 35GYMNASE CDT BOUGOUIN/);
+  assert.match(restants, /dimanche 06\/12.*15 h 00DomicileHEOL SANTEC/);
+  assert.doesNotMatch(restants, /CESSON/, "le match du 8/11 est joué");
+  const futur = donneesPoulesClassees();
+  futur.equipes[0].poules[0].matchs.push({ date: "2026-11-29", dom: "VOLLEY BALL GREGORIEN", ext: "ADV DEJA JOUE", j: 8, sd: 3, se: 0, sets: "25-10 25-10 25-10" });
+  assert.doesNotMatch(carteP(await poulePage("#poule-n3m", { donnees: futur })).trouver(e => e.tag === "section")[1].textContent, /ADV DEJA JOUE/, "daté du futur mais déjà noté : ce n'est pas un match restant");
+  assert.doesNotMatch(restants, /N3M/, "pas de nom d'équipe répété dans les lignes");
+  const apres = await poulePage("#poule-n3m", { aujourdhui: "2026-11-22T16:30:00Z" }); // dimanche 17 h 30 Paris : 16 h passée
+  assert.doesNotMatch(carteP(apres).trouver(e => e.tag === "section")[1].textContent, /CPB|C\.P\.B/);
+});
+
+test("poule : matchs restants d'un plateau (« Plateau » et « VBG ») et exempt à venir, sans doublon avec les matchs joués", async () => {
+  const m13 = carteP(await poulePage("#poule-m13m")).trouver(e => e.tag === "section")[1].textContent;
+  assert.match(m13, /samedi 21\/11Plateau.*VBG11 h 00VIC COMBOURG \(mixte\)11 h 00VE GUIPEL LANGAN 3 \(mixte\)/);
+  assert.match(m13, /samedi 05\/12.*PlateauRENNES TA/);
+  assert.doesNotMatch(m13, /ANTRAIN|07\/11/, "plateau du 7/11 déjà joué, exempt compris");
+  const d1f = carteP(await poulePage("#poule-d1f")).trouver(e => e.tag === "section")[1].textContent;
+  assert.match(d1f, /samedi 28\/11Exempt/);
+  const vide = donneesPoulesClassees(); vide.equipes[0].poules[0].matchs = vide.equipes[0].poules[0].matchs.filter(m => m.sd !== undefined);
+  assert.match(carteP(await poulePage("#poule-n3m", { donnees: vide })).textContent, /Aucun match restant\./);
+});
+
+test("poule : « Toute la poule » — toutes les journées et tous les matchs, nos lignes marquées sous notre nom, repliable", async () => {
+  const d10 = donneesPoulesClassees();
+  d10.equipes[0].poules[0].matchs.push({ date: "2027-01-10", dom: "AUTRE A", ext: "AUTRE B", j: 10 });
+  const p = await poulePage("#poule-n3m", { donnees: d10 });
+  const c = carteP(p);
+  const bouton = c.trouver(e => e.tag === "button")[0];
+  assert.equal(bouton.textContent, "Toute la poule");
+  assert.equal(bouton.getAttribute("aria-pressed"), "false");
+  assert.doesNotMatch(c.textContent, /AUTRE A/);
+  await cliquer(bouton);
+  assert.equal(bouton.getAttribute("aria-pressed"), "true");
+  const zone = c.trouver(e => e.className === "journees")[0];
+  assert.deepEqual(zone.children.filter(e => e.tag === "h3").map(e => e.textContent), ["Journée 5", "Journée 6", "Journée 7", "Journée 10"], "ordre numérique, pas alphabétique");
+  const lignes = zone.trouver(e => e.tag === "li").map(e => e.textContent);
+  assert.equal(lignes.length, 5, "les 5 matchs de la poule, y compris ceux de deux autres équipes");
+  assert.match(lignes[0], /^08\/11|^8\/11/);
+  assert.ok(lignes.some(l => /AUTRE A – AUTRE B/.test(l)));
+  assert.ok(lignes.some(l => /N3M – CESSON3–0 · 25-18 28-26 25-15/.test(l)));
+  assert.ok(lignes.some(l => /C\.P\.B\. RENNES 35 – N3M16 h 00 · GYMNASE CDT BOUGOUIN/.test(l)));
+  assert.equal(zone.trouver(e => e.tag === "li" && /\bmoi\b/.test(e.className)).length, 3, "nos trois matchs sont marqués");
+  assert.doesNotMatch(zone.textContent, /VOLLEY BALL GREGORIEN/);
+  await cliquer(bouton);
+  assert.equal(zone.children.length, 0);
+  assert.equal(bouton.getAttribute("aria-pressed"), "false");
+});
+
+test("poule : « Toute la poule » — scores du point de vue de celui qui reçoit, exempt, heure à confirmer, forfait", async () => {
+  const d = donneesPoulesClassees();
+  d.equipes[1].poules[0].matchs.push({ date: "2026-12-19", dom: "RENNES TA 1 (masc)", ext: "ANTRAIN US (mixte)", j: 4, illisible: true });
+  const p = await poulePage("#poule-m13m", { donnees: d });
+  const c = carteP(p);
+  await cliquer(c.trouver(e => e.tag === "button")[0]);
+  const t = c.trouver(e => e.className === "journees")[0].textContent;
+  assert.match(t, /M13M – ANTRAIN US \(mixte\)2–1 · 25-15 17-25 15-10/);
+  assert.match(t, /M13M : exempt/);
+  assert.doesNotMatch(t, /xxxxx/i);
+  assert.match(t, /RENNES TA 1 \(masc\) – ANTRAIN US \(mixte\)Résultat à lire sur FFvolley/);
+  assert.match(t, /M13M – RENNES TA 2 \(mixte\)Heure à confirmer · RENNES TA/);
+  assert.doesNotMatch(t, /undefined|null|NaN/);
+});
+
+test("poule : M18M région — la phase en cours est nommée, son classement seul est affiché", async () => {
+  const d = donneesPoulesClassees();
+  d.equipes.push({ nom: "M18M région", poule: "M18M", lu: LU_19, prochain: null, resultats: [], poules: [
+    { titre: "M18M performance poule C", nous: "VOLLEY BALL GREGORIEN", active: false, classement: [{ rang: 3, club: "ANCIENNE PHASE", pts: 1, j: 1, g: 0, p: 1 }], matchs: [] },
+    { titre: "M18M performance poule E", nous: "VOLLEY BALL GREGORIEN", active: true, classement: [{ rang: 4, club: "VOLLEY BALL GREGORIEN", pts: 3, j: 2, g: 1, p: 1 }], matchs: [] }] });
+  const c = carteP(await poulePage("#poule-m18m-region", { donnees: d }));
+  assert.match(c.textContent, /M18M performance poule E/);
+  assert.match(c.textContent, /Phase en cours/);
+  assert.doesNotMatch(c.textContent, /ANCIENNE PHASE|poule C/);
+  assert.equal(lignesDe(c, "moi")[0].textContent, "4M18M région3211");
+});
+
+test("poule : classement pas encore publié (début de phase) ; ancien data.json sans « poules » : message, repli sur le rang, aucun bouton « Toute la poule »", async () => {
+  const d = donneesPoulesClassees(); d.equipes[0].poules[0].classement = [];
+  assert.match(carteP(await poulePage("#poule-n3m", { donnees: d })).textContent, /Classement de la poule pas encore publié\./);
+  const vieux = donneesPoulesClassees();
+  Object.assign(vieux.equipes[0], { rang: 8, sur: 12, pts: 6, g: 2, p: 4, avenir: [{ date: "2026-11-22", lieu: "E", adv: "CPB RENNES", heure: "16:00", salle: "GYMNASE BOUGOUIN" }] });
+  delete vieux.equipes[0].poules; delete vieux.salles_club;
+  const c = carteP(await poulePage("#poule-n3m", { donnees: vieux }));
+  assert.match(c.textContent, /Classement complet disponible après la prochaine collecte\./);
+  assert.match(c.textContent, /8e sur 12 · 6 pts · 2 V · 4 D/);
+  assert.match(c.textContent, /dimanche 22\/11.*16 h 00ExtérieurCPB RENNESGYMNASE BOUGOUIN/);
+  assert.equal(c.trouver(e => e.tag === "button").length, 0);
+  const secours = await charger({ reseau: false, hash: "#poule-n3m", aujourdhui: "2026-11-16T10:00:00Z" }); // copie intégrée
+  assert.deepEqual(secours.titres(), ["N3M"]);
+  assert.match(carteP(secours).textContent, /Classement complet disponible après la prochaine collecte\./);
+});
+
+test("poule : carte non lue signalée ; donnée illisible n'abîme que cette vue ; la date de Paris recalcule les matchs restants", async () => {
+  const d = donneesPoulesClassees(); Object.assign(d.equipes[0], { nonlu: true, raison: "x", lu: "2026-11-15T21:16:37+01:00" });
+  const c = carteP(await poulePage("#poule-n3m", { donnees: d }));
+  assert.match(c.textContent, /Non lu/);
+  assert.match(c.textContent, /Dernières données connues du 15 nov\./);
+  const casse = donneesPoulesClassees(); casse.equipes[0].poules = [{ nous: 3, matchs: "oups" }];
+  const p = await poulePage("#poule-n3m", { donnees: casse });
+  assert.match(carteP(p).textContent, /illisibles/);
+  await p.choisir("m13f");
+  assert.deepEqual(p.titres(), ["M13F"]);
+  const r = await poulePage("#poule-n3m");
+  assert.match(carteP(r).textContent, /dimanche 22\/11/);
+  r.horloge("2026-11-22T17:00:00Z"); await r.revenir();
+  assert.doesNotMatch(carteP(r).trouver(e => e.tag === "section")[1].textContent, /dimanche 22\/11/);
+});
+
+test("poule : le lien « Match de coupe cette semaine » n'apparaît pas dans la vue Poule", async () => {
+  const d = donneesPoulesClassees();
+  d.coupes[0].prochain = { date: "2026-11-21", lieu: "E", adv: "ROMILLE", heure: "10:00", salle: null };
+  assert.equal((await poulePage("#n3m", { donnees: d })).el("lien-coupe").hidden, false, "sur une fiche d'équipe, la ligne apparaît (match dans 7 jours)");
+  const p = await poulePage("#poule-n3m", { donnees: d });
+  assert.equal(p.el("lien-coupe").hidden, true);
+});
+
+test("poule : charte — lien de 48 px, ligne surlignée en #111111 avec filet orange, aucun texte orange, textContent seulement", () => {
+  const { regles } = reglesCss();
+  const r = s => regles.find(x => x.sel === s);
+  assert.match(r(".lien-poule").corps, /min-height:\s*48px/);
+  assert.match(r(".cl li.moi").corps, /background:#111111/i);
+  assert.doesNotMatch(r(".cl li.moi").corps, /(^|;)color:\s*#F26910/i);
+  for (const sel of [".cl", ".cl li", ".cl li.tete", ".cl .num", ".bloc", ".journees", ".mt.moi .qui"]) {
+    assert.ok(r(sel), "règle absente : " + sel);
+    assert.doesNotMatch(r(sel).corps, /#F26910/i, sel);
+  }
+  assert.doesNotMatch(SCRIPT, /innerHTML|insertAdjacentHTML|outerHTML/);
 });

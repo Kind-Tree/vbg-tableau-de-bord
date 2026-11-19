@@ -56,7 +56,7 @@ option:checked{background:#F26910;color:#1A1A1A}
 .lien-coupe{display:flex;align-items:center;min-height:48px;margin:0 0 12px;padding:0 14px;background:#1F1F1F;border:1px solid #F26910;border-radius:8px;color:#FFFFFF;font-size:15px;font-weight:bold;text-decoration:none}
 .lien-coupe[hidden]{display:none}
 .lien-coupe::after{content:"\203A";margin-left:auto;font-size:24px;line-height:1}
-button:focus-visible,select:focus-visible,.lien-coupe:focus-visible{outline:3px solid #F26910;outline-offset:2px}
+button:focus-visible,select:focus-visible,.lien-coupe:focus-visible,.lien-poule:focus-visible{outline:3px solid #F26910;outline-offset:2px}
 .grille.une{grid-template-columns:minmax(0,560px)}
 h3 .pastille{margin-left:8px;vertical-align:middle}
 .mts{list-style:none;padding:0}
@@ -77,7 +77,19 @@ h3 .pastille{margin-left:8px;vertical-align:middle}
 .pl .h.sans{font-size:12px;font-weight:normal;color:#D9D9D9;line-height:1.2}
 .pl-txt{flex:1;min-width:0;padding-top:5px}
 .pl-txt small{display:block;font-size:12px;color:#D9D9D9}
-.cal{margin-top:12px}
+.lien-poule{display:flex;align-items:center;min-height:48px;margin-top:12px;padding:0 14px;background:#111111;border:1px solid #F26910;border-radius:8px;color:#FFFFFF;font-size:15px;font-weight:bold;text-decoration:none}
+.lien-poule::after{content:"\203A";margin-left:auto;font-size:24px;line-height:1}
+.carte>.lien-poule:first-child{margin:0 0 12px}
+.bloc{margin-top:16px}
+.bloc>h3:first-child{margin-top:0}
+.cl{list-style:none;padding:0;margin-top:8px}
+.cl li{display:grid;grid-template-columns:26px minmax(0,1fr) 34px 26px 26px 26px;gap:4px;align-items:center;padding:8px 6px;border-top:1px solid #6B6B6B;font-size:14px}
+.cl li.tete{border-top:0;font-size:12px;font-weight:bold;color:#D9D9D9;text-transform:uppercase}
+.cl li.moi{background:#111111;border-left:4px solid #F26910;font-weight:bold}
+.cl .num{text-align:right}
+.cl .pts{font-weight:bold}
+.mt.moi .qui{font-weight:bold}
+.journees{margin-top:4px}
 </style>
 </head>
 <body>
@@ -135,6 +147,7 @@ function carte(q){
   if(q.nonlu)c.append(nonLu(q));
   c.append(blocProchain(q.prochain,q.nonlu&&!q.lu?"Aucune donnée lue pour l'instant.":q.noteProchain,q.lu),listeResultats(q.resultats));
   if(q.noteResultats)c.append(el("p","note",q.noteResultats));
+  c.append(lienVers("#"+PREFIXE_POULE+slug(q.nom),"Poule et classement"));
   return c}
 function carteCoupes(cs){
   const c=el("article","carte");c.append(el("h2",null,"Coupes"));
@@ -182,14 +195,15 @@ function matchsDeCarte(q){
   (Array.isArray(q.avenir)?q.avenir:(q.prochain?[q.prochain]:[])).filter(date).forEach(m=>out.push(base(m)));
   liste(q.attente).filter(date).forEach(m=>out.push({...base(m),illisible:!!m.illisible}));
   return out}
+function lignesCarte(q,nom,ordre){
+  if(typeof nom!=="string")throw new Error("carte illisible");
+  return matchsDeCarte(q).map(m=>({...m,carte:nom,ordre,cle:ordre+":"+m.poule,nonlu:!!q.nonlu,lu:q.lu}))}
 // Lignes de toutes les cartes (équipes puis coupes). Une carte illisible n'abîme que sa propre part.
 function lignesProgramme(d){
   const cartes=d.equipes.map(q=>[q,q&&q.nom]).concat((d.coupes||[]).map(k=>[k,k&&typeof k.nom==="string"?(k.equipe?k.equipe+" · ":"")+k.nom:null]));
   const lignes=[];let illisibles=0;
   cartes.forEach(([q,nom],i)=>{
-    try{
-      if(typeof nom!=="string")throw new Error("carte illisible");
-      matchsDeCarte(q).forEach(m=>lignes.push({...m,carte:nom,ordre:i,cle:i+":"+m.poule,nonlu:!!q.nonlu,lu:q.lu}))}
+    try{lignes.push(...lignesCarte(q,nom,i))}
     catch(e){illisibles++}});
   return{lignes,illisibles}}
 // Plateau : une équipe a au moins deux lignes le même jour dans la même poule (exempt compris). Qui reçoit : « VBG » si
@@ -218,9 +232,9 @@ function statutMatch(x,auj,h){
   if(x.illisible)return "Résultat à lire sur FFvolley";
   return dejaJoue(x,auj,h)?"Résultat pas encore publié sur FFvolley":null}
 function noteNonLu(b){return b.nonlu?el("p","note","non lu"+(b.lu?" depuis le "+dateLue(b.lu):"")):null}
-function liSimple(b,auj,h){
+function liSimple(b,auj,h,sansCarte){
   const x=b.ls[0],li=el("li","mt"),g=el("span","hre"),t=el("div","mt-txt");
-  t.append(el("p","mt-carte",b.carte));
+  if(!sansCarte)t.append(el("p","mt-carte",b.carte));
   if(b.exempt){g.className="hre sans";t.append(el("p","qui","Exempt"))}
   else{
     if(typeof x.adv!=="string"||(x.res&&!aScore(x)))throw new Error("ligne illisible");
@@ -236,10 +250,11 @@ function liSimple(b,auj,h){
   const n=noteNonLu(b);if(n)t.append(n);
   li.append(g,t);return li}
 // Plateau : une seule mention « Plateau » (qui reçoit), puis une ligne par match, sans domicile/extérieur.
-function liPlateau(b,auj,h){
+function liPlateau(b,auj,h,sansCarte){
   const li=el("li","mt"),g=el("span","hre sans"),t=el("div","mt-txt"),qui=el("p","qui");
   qui.append(el("span","lieu","Plateau"));if(b.lieu)qui.append(b.lieu);
-  t.append(el("p","mt-carte",b.carte),qui);
+  if(!sansCarte)t.append(el("p","mt-carte",b.carte));
+  t.append(qui);
   b.vrais.forEach(x=>{
     if(typeof x.adv!=="string")throw new Error("ligne illisible");
     const r=el("div","pl"),q=el("span","pl-txt",x.adv),h1=el("span","h");
@@ -290,36 +305,85 @@ function carteProgramme(d){
   auj_b.addEventListener("click",()=>{SEM_PROG.debut=null;maj()});
   dom.addEventListener("click",()=>{SEM_PROG.dom=!SEM_PROG.dom;maj()});
   maj();return c}
-// Bloc « Calendrier » (vue d'une seule équipe) : tous les matchs à venir du champ « avenir », sous la carte.
-// Rien d'inventé : pas de champ « avenir » (ancien data.json, copie intégrée) = pas de bloc ; un match déjà joué
-// ou commencé (même règle que « Cette semaine ») n'est plus « à venir ». Erreurs isolées : la carte reste intacte.
-function blocCalendrier(q){
-  const s=el("section","carte cal");
-  try{
-    if(!Array.isArray(q.avenir))return null;
-    const auj=aujourdhuiParis(),h=heureParis();
-    s.append(el("h2",null,"Calendrier"),el("p","poule","Matchs à venir"));
-    if(q.nonlu){let d="";try{d=q.lu?" du "+dateLue(q.lu):""}catch(x){}s.append(el("p","note","Dernières données connues"+d))}
-    const vus=q.avenir.filter(m=>m&&typeof m==="object"&&!(typeof m.date==="string"&&dejaJoue(m,auj,h)));
-    const iso=/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-    if(!vus.length)s.append(el("p","qui","Aucun match à venir."));
-    const ul=el("ul","mts");
-    vus.forEach(m=>{
-      const li=el("li","mt");
-      try{
-        // champs lus tels quels : une date mal formée, un adversaire ou une salle qui ne sont pas du texte = ligne illisible
-        if(typeof m.date!=="string"||!iso.test(m.date)||typeof m.adv!=="string"||(m.salle!=null&&typeof m.salle!=="string")||(m.heure!=null&&typeof m.heure!=="string"))throw new Error("ligne illisible");
-        const t=el("div","mt-txt"),qui=el("p","qui");
-        t.append(el("p","mt-carte",jour(m.date)+(m.heure?" · "+m.heure.replace(":"," h "):" · sans heure")));
-        if(m.lieu==="D"||m.lieu==="E")qui.append(el("span","lieu",m.lieu==="D"?"Domicile":"Extérieur"));
-        qui.append(m.adv);t.append(qui);
-        if(m.salle)t.append(el("p","salle",m.salle));
-        li.append(t)}
-      catch(e){li.append(el("p","note","Ligne illisible."))}
+// ---- Vue « Poule » : classement complet, nos matchs restants, toute la poule. Adresse #poule-<équipe> (ex. #poule-n3m) ----
+// L'adresse porte le nom de l'équipe (stable d'une saison à l'autre), pas le code FFvolley de la poule.
+const PREFIXE_POULE="poule-";
+function estPoule(v){return typeof v==="string"&&v.startsWith(PREFIXE_POULE)}
+function equipeDePoule(d,v){return estPoule(v)?d.equipes.find(q=>PREFIXE_POULE+slug(q.nom)===v):null}
+function lienVers(adresse,texte){const a=el("a","lien-poule",texte);a.href=adresse;return a}
+const ETAT_POULE={toute:false}; // « Toute la poule » ouverte ou non
+function blocClassement(q,p){
+  const s=el("section","bloc");s.append(el("h3",null,"Classement"));
+  const cl=p&&Array.isArray(p.classement)?p.classement:null;
+  if(cl&&cl.length){
+    const ul=el("ul","cl"),t=el("li","tete");
+    ["","Équipe","Pts","J","G","P"].forEach(x=>t.append(el("span",null,x)));ul.append(t);
+    cl.forEach(r=>{
+      const moi=r.club===p.nous,li=el("li",moi?"moi":null);
+      li.append(el("span","num",String(r.rang)),el("span","eq",moi?q.nom:String(r.club)),
+        el("span","num pts",String(r.pts)),el("span","num",String(r.j)),el("span","num",String(r.g)),el("span","num",String(r.p)));
       ul.append(li)});
-    if(vus.length)s.append(ul)}
-  catch(e){const r=el("section","carte cal");r.append(el("h2",null,"Calendrier"),el("p","note","Données du calendrier illisibles."));return r}
+    s.append(ul,el("p","note","Pts points · J joués · G gagnés · P perdus"))}
+  else if(p)s.append(el("p","note","Classement de la poule pas encore publié."));
+  else{ // ancien data.json : pas de poule détaillée, rien d'inventé
+    s.append(el("p","note","Classement complet disponible après la prochaine collecte."));
+    if(q.rang)s.append(el("p","qui",q.rang+(q.rang===1?"er":"e")+" sur "+q.sur+" · "+q.pts+" pts · "+q.g+" V · "+q.p+" D"))}
   return s}
+// Nos matchs restants : pas encore joués (ni commencés), exempts à venir compris, regroupés par jour comme le Programme.
+function blocRestants(q,salles){
+  const s=el("section","bloc"),auj=aujourdhuiParis(),h=heureParis();
+  s.append(el("h3",null,"Nos matchs restants"));
+  const restants=lignesCarte(q,q.nom,0).filter(x=>x.exempt?x.date>=auj:(!aScore(x)&&!x.illisible&&!dejaJoue(x,auj,h)));
+  if(!restants.length)s.append(el("p","qui","Aucun match restant."));
+  [...new Set(restants.map(x=>x.date))].sort().forEach(j=>{
+    const t=el("h3",null,JOURS_L[jourSemaine(j)]+" "+court(j)),ul=el("ul","mts");
+    blocsDuJour(restants.filter(x=>x.date===j),salles).forEach(b=>{
+      let li;try{li=b.plateau?liPlateau(b,auj,h,true):liSimple(b,auj,h,true)}catch(e){li=el("li","mt");li.append(el("p","note","Ligne illisible."))}
+      ul.append(li)});
+    s.append(t,ul)});
+  return s}
+// Une ligne de « Toute la poule » : « A – B », puis score et sets (du point de vue de celui qui reçoit) ou heure et salle.
+function ligneDePoule(m,p,q){
+  const nom=x=>x===p.nous?q.nom:String(x),moi=m.dom===p.nous||m.ext===p.nous;
+  const li=el("li","mt"+(moi?" moi":"")),g=el("span","hre",court(m.date)),t=el("div","mt-txt");
+  if(m.exempt){t.append(el("p","qui",nom(m.dom)+" : exempt"));li.append(g,t);return li}
+  t.append(el("p","qui",nom(m.dom)+" – "+nom(m.ext)));
+  let info;
+  if(typeof m.sd==="number"&&typeof m.se==="number")info=m.sd+"–"+m.se+(m.sets?" · "+m.sets:"");
+  else if(m.illisible)info="Résultat à lire sur FFvolley";
+  else info=[m.heure?heureTxt(m.heure):"Heure à confirmer",m.salle].filter(Boolean).join(" · ");
+  t.append(el("p","note",info));li.append(g,t);return li}
+function journeesDePoule(p,q){
+  const ms=(Array.isArray(p.matchs)?p.matchs:[]).filter(m=>m&&typeof m.date==="string"&&ISO.test(m.date)&&typeof m.dom==="string");
+  const groupes=new Map();
+  ms.forEach(m=>{const k=typeof m.j==="number"?m.j:m.date;if(!groupes.has(k))groupes.set(k,[]);groupes.get(k).push(m)});
+  const cles=[...groupes.keys()].sort((a,b)=>typeof a==="number"&&typeof b==="number"?a-b:trier(String(groupes.get(a)[0].date),String(groupes.get(b)[0].date)));
+  const noeuds=[];
+  cles.forEach(k=>{
+    const ul=el("ul","mts");
+    groupes.get(k).sort((a,b)=>trier(a.date+(a.heure||"99:99"),b.date+(b.heure||"99:99"))).forEach(m=>{
+      let li;try{li=ligneDePoule(m,p,q)}catch(e){li=el("li","mt");li.append(el("p","note","Ligne illisible."))}
+      ul.append(li)});
+    noeuds.push(el("h3",null,typeof k==="number"?"Journée "+k:"Le "+court(k)),ul)});
+  return noeuds}
+function blocToute(q,p){
+  const s=el("section","bloc"),btn=el("button","bascule","Toute la poule"),zone=el("div","journees");
+  function maj(){
+    btn.setAttribute("aria-pressed",ETAT_POULE.toute?"true":"false");
+    zone.replaceChildren(...(ETAT_POULE.toute?journeesDePoule(p,q):[]))}
+  btn.addEventListener("click",()=>{ETAT_POULE.toute=!ETAT_POULE.toute;maj()});
+  maj();s.append(btn,zone);return s}
+function cartePoule(q,d){
+  const c=el("article","carte"),salles=Array.isArray(d.salles_club)?d.salles_club:[];
+  const ps=Array.isArray(q.poules)?q.poules.filter(x=>x&&typeof x==="object"):[];
+  const p=ps.find(x=>x.active)||ps[0]||null;
+  c.append(lienVers("#"+slug(q.nom),"Fiche "+q.nom),el("h2",null,q.nom));
+  c.append(el("p","poule",p&&typeof p.titre==="string"?p.titre:(q.poule||"")));
+  if(ps.length>1)c.append(el("p","note","Phase en cours"));
+  if(q.nonlu)c.append(nonLu(q));
+  c.append(blocClassement(q,p),blocRestants(q,salles));
+  if(p&&Array.isArray(p.matchs)&&p.matchs.length)c.append(blocToute(q,p));
+  return c}
 // Dans les 7 jours (date de Paris, matchs à venir seulement) : la carte Coupes passe en tête.
 function coupeProche(cs){
   const auj=aujourdhuiParis().split("-").map(Number);
@@ -336,7 +400,11 @@ function ecrireAdresse(v){try{history.replaceState(null,"","#"+v)}catch(e){}}
 // L'ancienne adresse #semaine (et un choix mémorisé « semaine ») ouvrent le Programme.
 function alias(v){return v==="semaine"?"programme":v}
 function listeVues(d){const o=[{v:"programme",t:"Programme"}].concat(d.equipes.map(q=>({v:slug(q.nom),t:q.nom})));if((d.coupes||[]).length)o.push({v:"coupes",t:"Coupes"});o.push({v:"toutes",t:"Toutes les équipes"});return o}
-function valide(o,v){return v&&o.some(x=>x.v===v)?v:null}
+const VUES_RESERVEES=["programme","coupes","toutes"];
+function valide(o,v){
+  if(!v)return null;
+  if(o.some(x=>x.v===v))return v;
+  return estPoule(v)&&o.some(x=>PREFIXE_POULE+x.v===v&&!VUES_RESERVEES.includes(x.v))?v:null}
 // L'adresse l'emporte sur le choix mémorisé ; à défaut, le Programme.
 function vueInitiale(o,adresse,memo){return valide(o,alias(adresse))||valide(o,alias(memo))||valide(o,"programme")||o[0].v}
 // Données anciennes : écart en jours de calendrier à Paris entre la dernière collecte (maj) et aujourd'hui.
@@ -367,15 +435,12 @@ function rendre(){
   if(choix==="programme")cartes=[sure(()=>carteProgramme(d),"Programme")];
   else if(choix==="toutes"){cartes=d.equipes.map(carteSure);if(cs.length){const k=sure(()=>carteCoupes(cs),"Coupes");if(coupeProche(cs))cartes.unshift(k);else cartes.push(k)}}
   else if(choix==="coupes")cartes=[sure(()=>carteCoupes(cs),"Coupes")];
-  else{
-    // Une seule équipe : sa carte, puis (proposition de la nuit du 16/11) le bloc « Calendrier ». Les deux restent dans un
-    // seul élément pour que la grille garde sa colonne unique.
-    const q=d.equipes.find(x=>slug(x.nom)===choix),pile=el("div","pile"),cal=blocCalendrier(q);
-    pile.append(carteSure(q));if(cal)pile.append(cal);cartes=[pile]}
+  else if(estPoule(choix)){const q=equipeDePoule(d,choix);cartes=[sure(()=>cartePoule(q,d),q.nom)]}
+  else cartes=[carteSure(d.equipes.find(x=>slug(x.nom)===choix))];
   const g=document.getElementById("grille");g.className="grille"+(cartes.length===1?" une":"");g.replaceChildren(...cartes);
   const sel=document.getElementById("vue");
-  sel.replaceChildren(...o.map(x=>{const op=el("option",null,x.t);op.value=x.v;return op}));sel.value=choix;
-  document.getElementById("lien-coupe").hidden=!(choix!=="programme"&&choix!=="toutes"&&choix!=="coupes"&&cs.length&&coupeProche(cs));
+  sel.replaceChildren(...o.map(x=>{const op=el("option",null,x.t);op.value=x.v;return op}));sel.value=estPoule(choix)?choix.slice(PREFIXE_POULE.length):choix;
+  document.getElementById("lien-coupe").hidden=!(choix!=="programme"&&choix!=="toutes"&&choix!=="coupes"&&!estPoule(choix)&&cs.length&&coupeProche(cs));
   ecrireAdresse(choix)}
 function changer(v){choix=v;ecrireChoix(v);rendre()}
 // Au retour sur la page : si la date de Paris a changé depuis le dernier affichage, tout est recalculé (sans requête).
