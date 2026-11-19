@@ -5,14 +5,10 @@ Mis à jour à la fin de chaque tâche. Le stable est dans CLAUDE.md.
 ## Chantier « Programme » et « Poule » : en ligne depuis le 19/11
 Fusionné dans `main` en squash (PR n°1, `4789cab`). Collecte manuelle du 19/11 verte, 15 équipes avec `poules`, aucune non lue.
 
-## Chantier « Heures saisies » : sur la branche `heures-saisies`, PAS fusionné
-Étapes 1 à 5 faites et poussées (commits `389f750`, `4551a49`, puis documents). Tests : Python 163, Node 121 ; mutations volontaires toutes détectées. Relecture par le conseiller (pas de sous-agent, COÛT : MOYEN). Rien d'essayé en réel : le workflow n'existe sur GitHub que dans la branche.
-Choix prudents pris sans le président (absent) :
-- Rien fusionné dans `main` ; `heure.yml` n'est donc pas encore utilisable depuis `main`.
-- Doc GitHub : « Run workflow » décrit pour le site, pas pour l'app mobile → repli sur le navigateur (version ordinateur), écrit dans MODE-D-EMPLOI §5.
-- Heure saisie seulement pour un match existant dans `data.json` ; la suppression reste possible même si le match a disparu.
-- `dejaJoue` (« Résultat pas encore publié ») n'utilise que l'heure de FFvolley, jamais la saisie.  Mention : « saisie VBG » (choix par défaut).
-Pour livrer : fusionner ; 1) lancer UNE collecte manuelle (MODE-D-EMPLOI §1) et vérifier qu'elle démarre et passe au vert (`queue: max` est nouveau dans `collecte.yml`) ; 2) seulement ensuite saisir une heure sur un match « Heure à confirmer » du 21/11 (runs « Ajouter une heure » puis « Collecte » verts), puis la supprimer. Coupes non concernées (hors périmètre).
+## Chantier « Heures saisies » : fusionné dans `main` (PR n°2, `9a52dcc`, 19/11)
+Tests : Python 163, Node 121. Collecte manuelle après fusion (run 44525232311) : verte, `queue: max` validé.
+Choix : heure saisie seulement pour un match existant (suppression toujours possible) ; `dejaJoue` ignore la saisie ; mention « saisie VBG » ; repli navigateur ordinateur si l'app mobile n'offre pas « Run workflow » (MODE-D-EMPLOI §5). Coupes non concernées.
+RESTE : essai réel depuis le téléphone (président) sur un match « Heure à confirmer » du 21/11 : runs « Ajouter une heure » puis « Collecte » verts, puis supprimer l'heure (heure vide).
 
 ## Reste à faire, dans l'ordre
 1. Vérifier le passage planifié du vendredi 20/11 à 18 h (onglet Actions) et celui du dimanche 22/11 (résultat de la N3M à Rennes).
