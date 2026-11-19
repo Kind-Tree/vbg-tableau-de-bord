@@ -3,7 +3,7 @@
 Les trois valeurs viennent de variables d'environnement (jamais de la ligne de commande) :
   HEURE_EQUIPE  nom exact d'une équipe de collect.EQUIPES
   HEURE_DATE    JJ/MM (l'année se déduit de la saison)
-  HEURE_HEURE   HH:MM (ou 9:30, 9h30, 9h, 14 h 30 : converti en HH:MM), ou vide pour supprimer la saisie de ce jour
+  HEURE_HEURE   HH:MM (ou 13, 9:30, 9h30, 18H30, 14 h 30 : converti en HH:MM), ou vide pour supprimer la saisie de ce jour
 Validation stricte : à la moindre erreur, code 1 et rien n'est écrit. Bibliothèque standard uniquement."""
 import json
 import os
@@ -39,11 +39,11 @@ def date_iso(texte):
         raise SaisieRefusee("date impossible : %s" % texte)
 
 
-RE_HEURE_SAISIE = re.compile(r"(\d{1,2})(?::(\d{2})| ?h(?: ?(\d{2}))?)", re.ASCII)
+RE_HEURE_SAISIE = re.compile(r"(\d{1,2})(?::(\d{2})| ?[hH](?: ?(\d{2}))?)?", re.ASCII)
 
 
 def normaliser_heure(txt):
-    """9:30, 9h30, 9h, 14h00, 14 h 30 -> HH:MM ; None si la forme n'est pas reconnue."""
+    """9, 13, 9:30, 9h30, 18H30, 14H, 14 h 30 -> HH:MM ; None si la forme n'est pas reconnue."""
     m = RE_HEURE_SAISIE.fullmatch(txt)
     if not m:
         return None

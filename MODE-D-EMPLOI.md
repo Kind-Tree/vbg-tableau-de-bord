@@ -46,7 +46,7 @@ Aucune collecte n'a réussi depuis plus de 5 jours. C'est le seul signal quand u
 2. Touche **Run workflow**, laisse la branche **main**, puis remplis :
    - **Équipe** : choisis dans la liste ;
    - **Date** : `JJ/MM`, par exemple `21/11` (l'année vient de la saison) ;
-   - **Heure** : par exemple `18h30` ; sont aussi acceptés `18:30`, `9:30`, `9h30`, `9h`, `14h00`, `14 h 30` (convertis en HH:MM). Tout le reste est refusé. **Laisse vide pour supprimer** l'heure que tu avais saisie ce jour-là.
+   - **Heure** : par exemple `18h30` ; sont aussi acceptés `18:30`, `9:30`, `9h30`, `9h`, `14h00`, `14 h 30`, `18H30`, `14H` ou une heure seule (`13`, `9`) (convertis en HH:MM). Tout le reste est refusé. **Laisse vide pour supprimer** l'heure que tu avais saisie ce jour-là.
 3. Touche le bouton vert **Run workflow**. Attends 3 à 5 minutes : l'enregistrement, puis une collecte qui republie la page. Touche **Actualiser** sur la page.
 4. L'heure apparaît avec la mention discrète **saisie VBG**. Sur un plateau, elle vaut pour tous les matchs du club ce jour-là.
 
