@@ -72,8 +72,21 @@ COUPES = [
 ]
 
 
+# Compétitions que le club a choisi de ne pas suivre : le contrôle par la page club et « nonsuivies » les passent sous silence.
+IGNOREES = [
+    {"code": "JMJ", "nom": "Coupe de France M21 masculin"},
+]
+# Salles du club (nom exact, tel que FFvolley l'écrit) : elles ne servent qu'à dire qui reçoit sur un plateau.
+# Publiées dans data.json (« salles_club ») pour que la page n'ait pas sa propre copie.
+SALLES_CLUB = ["SALLE DU COSEC", "COSEC", "ST GREGOIRE COSEC", "la ricoquais"]
+
+
 def codes_connus():
     return {p["code"] for c in EQUIPES + COUPES for p in c["poules"]}
+
+
+def codes_ignores():
+    return {c["code"] for c in IGNOREES}
 
 
 # --------------------------------------------------------------- heure de Paris
@@ -94,6 +107,23 @@ def decalage_paris(utc):
 def maintenant_paris():
     utc = datetime.now(timezone.utc)
     return utc.astimezone(decalage_paris(utc)).replace(microsecond=0)
+
+
+def minuit_paris(jour):
+    """Horodatage Unix de 0 h (heure de Paris) du jour `jour` : le `date_jour` que FFvolley met dans ses liens
+    (19/11/2026 -> 1795042800). On essaie +1 h puis +2 h et on garde celui que Paris applique réellement à ce
+    minuit : cela reste exact les deux dimanches de changement d'heure."""
+    nu = datetime(jour.year, jour.month, jour.day, tzinfo=timezone.utc)
+    for heures in (1, 2):
+        t = nu - timedelta(hours=heures)
+        if decalage_paris(t).utcoffset(None) == timedelta(hours=heures):
+            return int(t.timestamp())
+    raise ValueError("minuit de Paris introuvable pour %s" % jour)
+
+
+def url_semaine(jour):
+    """Page « Programme des rencontres » de la semaine (lundi au lundi suivant) qui contient `jour`."""
+    return URL_HEBDO + "&date_jour=%d" % minuit_paris(jour)
 
 
 # ---------------------------------------------------------------- analyse HTML
@@ -193,17 +223,30 @@ def matchs(lg, code):
     """Tous les matchs de la poule. Un code de match qui ne commence pas par le
     code de la poule signale une page d'une autre poule : on lève une erreur."""
     out = []
+    journee = None
     for c in lg:
+        if len(c) == 1:
+            mj = re.fullmatch(r"Journ.e (\d+)", c[0]["t"])
+            if mj:
+                journee = int(mj.group(1))
+            continue
         if len(c) > 5 and re.fullmatch(r"\d\d/\d\d/\d\d", c[1]["t"]):
             if not c[0]["t"].startswith(code):
                 raise PouleIllisible("code de match %r hors poule %s" % (c[0]["t"], code))
             dom, ext = norm(c[3]["t"]), norm(c[5]["t"])
-            if "xxxxx" in (dom.lower(), ext.lower()):
-                continue  # équipe exempte
             j, m, a = c[1]["t"].split("/")
-            m_ = {"code": c[0]["t"], "date": "20%s-%s-%s" % (a, m, j),
-                  "heure": c[2]["t"] if re.fullmatch(r"\d\d:\d\d", c[2]["t"]) else None,
-                  "dom": dom, "ext": ext, "joue": False, "salle": None}
+            date_ = "20%s-%s-%s" % (a, m, j)
+            heure = c[2]["t"] if re.fullmatch(r"\d\d:\d\d", c[2]["t"]) else None
+            if "xxxxx" in (dom.lower(), ext.lower()):
+                # Équipe exempte : FFvolley écrit « xxxxx ». On garde la ligne (marquée « exempt », avec la vraie
+                # équipe en « dom ») pour que la page dise « Exempt » ; « xxxxx » n'est jamais publié.
+                reel = ext if dom.lower() == "xxxxx" else dom
+                if reel.lower() != "xxxxx":
+                    out.append({"code": c[0]["t"], "date": date_, "heure": heure, "dom": reel, "ext": "",
+                                "joue": False, "salle": None, "exempt": True, "j": journee})
+                continue
+            m_ = {"code": c[0]["t"], "date": date_, "heure": heure,
+                  "dom": dom, "ext": ext, "joue": False, "salle": None, "j": journee}
             if len(c) > 7 and c[6]["colspan"] == 1 and (c[6]["t"] or c[7]["t"])                     and not (c[6]["t"].isdigit() and c[7]["t"].isdigit()):
                 m_["illisible"] = True  # forfait ou score non numérique : jamais deviné
             elif len(c) > 7 and c[6]["t"].isdigit() and c[7]["t"].isdigit():
@@ -221,6 +264,8 @@ def matchs(lg, code):
 
 def vu_du_club(m, club):
     """Match du point de vue du club : pour/contre et sets retournés si extérieur."""
+    if m.get("exempt"):
+        return None  # tour d'exemption : jamais un match (ni « à venir » ni résultat)
     if m["dom"] == club:
         lieu, adv = "D", m["ext"]
     elif m["ext"] == club:
@@ -244,6 +289,33 @@ def vu_du_club(m, club):
     else:
         base.update(heure=m["heure"], salle=m["salle"])
     return base
+
+
+def publier_match(m):
+    """Match d'une poule tel qu'il est publié dans « poules » (data.json) : sets du point de vue de l'équipe qui
+    reçoit, clés absentes quand elles n'ont rien à dire (heure inconnue, salle effacée par le score…). Pas de code."""
+    out = {"date": m["date"], "dom": m["dom"]}
+    if m.get("heure"):
+        out["heure"] = m["heure"]
+    if m.get("j") is not None:
+        out["j"] = m["j"]
+    if m.get("exempt"):
+        out["exempt"] = True
+        return out
+    out["ext"] = m["ext"]
+    if m.get("illisible"):
+        out["illisible"] = True
+    elif m["joue"]:
+        out["sd"], out["se"] = m["sd"], m["se"]
+        sets = []
+        for s in m["detail"]:
+            a, _, b = s.partition(":")
+            if a.isdigit() and b.isdigit():
+                sets.append("%s-%s" % (a, b))
+        out["sets"] = " ".join(sets)
+    if m.get("salle"):
+        out["salle"] = m["salle"]
+    return out
 
 
 def joli(titre):
@@ -294,6 +366,8 @@ def analyser_poule(page, p, aujourdhui, heure=None):
                       and (m.get("illisible") or not a_venir_ok(m))),
                      key=lambda m: (m["date"], m["heure"] or "", m["code"]))
     return {"code": code, "titre": joli(titre), "mes": len(mes), "joues": joues,
+            "classement_complet": cl, "poule_matchs": [publier_match(m) for m in tous],
+            "codes": {m["code"] for m in tous},
             "illisibles": sum(1 for m in mes if m.get("illisible")),
             "prochain": a_venir[0] if a_venir else None,
             "avenir": a_venir, "attente": attente,
@@ -327,6 +401,10 @@ def construire(cfg, lues, coupe=False):
     out = {"nom": cfg["nom"], "prochain": prochain, "resultats": res[:NB_RESULTATS],
            "avenir": _sans_code(l["avenir"] for l in lues),
            "attente": _sans_code(l["attente"] for l in lues)}
+    # Toute la saison de la poule (vues « Programme » et « Poule ») : classement complet et tous les matchs.
+    out["poules"] = [{"titre": l["titre"], "nous": p["club"], "active": l is active,
+                      "classement": l.get("classement_complet", []), "matchs": l.get("poule_matchs", [])}
+                     for p, l in zip(cfg["poules"], lues)]
     nb_ill = sum(l["illisibles"] for l in lues)
     if nb_ill:
         out["noteResultats"] = "%d match(s) à lire sur FFvolley (forfait ou score non numérique)." % nb_ill
@@ -391,6 +469,55 @@ def poules_non_suivies(pages, connus):
     return sorted(res.values(), key=lambda x: x["code"])
 
 
+# --------------------------------------------------- contrôle par la page club
+def _lien_poule(page, code):
+    """Adresse du lien « Compétition » (premier lien après le titre « CODE - LIBELLÉ »), ou « adresse non lue »."""
+    t = re.search(r">\s*" + re.escape(code) + r" - ", page)
+    m = re.search(r"href=['\"]?([^'\" >]+)", page[t.end():t.end() + 800]) if t else None
+    return html.unescape(m.group(1)) if m else "adresse non lue"
+
+
+def matchs_page_club(page):
+    """Matchs listés par une page « Programme des rencontres » : [{poule, titre, lien, code, date}] (date « jj/mm »).
+    Les tours d'exemption (xxxxx) sont ignorés. La colonne des arbitres n'est jamais lue."""
+    out, cur = [], None
+    for ligne in lignes(page):
+        t = [c["t"] for c in ligne]
+        m = re.fullmatch(r"([A-Z0-9]{3}) - (.+)", t[0]) if t else None
+        if m:
+            cur = {"poule": m.group(1), "titre": norm(m.group(2)), "lien": _lien_poule(page, m.group(1))}
+        elif cur and len(t) > 6 and t[1] and re.fullmatch(r"\d\d/\d\d", t[2]):
+            if "xxxxx" in (t[4].lower(), t[6].lower()):
+                continue
+            out.append(dict(cur, code=t[1], date=t[2]))
+    return out
+
+
+def controler(pages, codes_par_poule, non_lues, connus, ignorees):
+    """Contrôle : chaque match que les pages « Programme » listent doit exister dans les poules lues.
+    pages : pages club (semaine en cours, semaine suivante) ; codes_par_poule : {code de poule: codes de ses matchs}.
+    Retourne les messages d'échec (liste vide si tout concorde). Une poule déjà « non lue » n'est pas recontrôlée
+    (son échec est déjà signalé) ; une compétition ignorée volontairement n'est jamais signalée."""
+    messages, poules_vues, matchs_vus = [], set(), set()
+    for page in pages:
+        for m in matchs_page_club(page):
+            poule = m["poule"]
+            if poule in ignorees:
+                continue
+            if poule not in connus:
+                if poule not in poules_vues:
+                    poules_vues.add(poule)
+                    messages.append("poule non configurée %s - %s (%s), match du %s"
+                                    % (poule, joli(m["titre"]), m["lien"], m["date"]))
+                continue
+            if poule in non_lues or poule not in codes_par_poule or m["code"] in matchs_vus:
+                continue
+            matchs_vus.add(m["code"])
+            if m["code"] not in codes_par_poule[poule]:
+                messages.append("match %s du %s listé par FFvolley, absent de la poule %s" % (m["code"], m["date"], poule))
+    return messages
+
+
 # ------------------------------------------------------------------ diagnostic
 def formulaires_poules(page):
     """{(saison, entité, code de poule)} des petits formulaires « loupe » de la page club : FFvolley y donne,
@@ -445,7 +572,7 @@ def diagnostic(page_club, page_hebdo):
                     ecarts += 1
                 lignes_.append("%s%s %s, poule %s : %s" % (marque, genre, c["nom"], p["code"], texte))
     pages = {"page club": page_club, "page hebdo": page_hebdo}
-    for n in poules_non_suivies(pages, codes_connus()):
+    for n in poules_non_suivies(pages, codes_connus() | codes_ignores()):
         ecarts += 1
         lignes_.append("ECART  compétition non suivie : %s, %s (%s)" % (n["code"], n["libelle"], n["source"]))
     lignes_.append("Écarts : %d" % ecarts if ecarts else "Aucun écart : la configuration correspond aux pages du club.")
@@ -532,6 +659,7 @@ def main(argv=None):
         ancien = {}
 
     lus_eq, lus_co, echecs = {}, {}, {}
+    non_lues = set()  # codes des poules qui n'ont pas pu être lues (le contrôle les saute)
     cache = {}  # une seule requête par poule
     travaux = [(c, False, lus_eq) for c in EQUIPES if voulu(c)] + [(c, True, lus_co) for c in COUPES if voulu(c)]
     for cfg, coupe, dest in travaux:
@@ -548,6 +676,7 @@ def main(argv=None):
             print("OK   ", cfg["nom"])
         except PouleIllisible as e:
             echecs[cfg["nom"]] = str(e)
+            non_lues |= {p["code"] for p in cfg["poules"] if (p["ent"], p["code"], p["club"]) not in cache}
             print("ECHEC", cfg["nom"], "-", e)
 
     # Poules non suivies : comparaison avec la page club et la page hebdomadaire.
@@ -559,12 +688,30 @@ def main(argv=None):
         except PouleIllisible as e:
             print("AVERTISSEMENT :", source, "illisible :", e)
     if len(pages) == 2:
-        nonsuivies = poules_non_suivies(pages, codes_connus())
+        nonsuivies = poules_non_suivies(pages, codes_connus() | codes_ignores())
         vus = set(poules_de_page(pages["page club"])) | set(poules_de_page(pages["page hebdo"]))
         for code in sorted(codes_connus() - vus):
             print("AVERTISSEMENT : poule configurée absente des pages club et hebdo :", code)
     else:
         nonsuivies = ancien.get("nonsuivies", [])  # comparaison impossible : on garde la dernière
+
+    # Contrôle : chaque match du club listé pour la semaine en cours et la suivante doit exister dans les poules lues.
+    # Les échecs sortent en « ECHEC contrôle » (code 2 : data.json est publié, puis le workflow passe au rouge).
+    controle = []
+    if only:
+        print("Contrôle par la page club ignoré (option --only).")
+    elif "page hebdo" not in pages:
+        controle.append("page club illisible, contrôle impossible (semaine en cours)")
+    else:
+        time.sleep(PAUSE)
+        try:
+            suivante = telecharger(url_semaine(aujourdhui + timedelta(days=7)))
+            controle = controler([pages["page hebdo"], suivante], {a["code"]: a["codes"] for a in cache.values()},
+                                 non_lues, codes_connus(), codes_ignores())
+        except PouleIllisible as e:
+            controle.append("page club illisible, contrôle impossible (semaine suivante : %s)" % e)
+    for message in controle:
+        print("ECHEC contrôle :", message)
 
     if not lus_eq and not lus_co:
         print("Aucune poule lue : data.json inchangé.")
@@ -572,6 +719,7 @@ def main(argv=None):
     data = fusionner(ancien, lus_eq, lus_co,
                      [e["nom"] for e in EQUIPES], [c["nom"] for c in COUPES], maj_iso, echecs)
     data["nonsuivies"] = nonsuivies
+    data["salles_club"] = list(SALLES_CLUB)
     encore_configurees = {e["nom"] for e in ancien.get("equipes", [])} & {e["nom"] for e in EQUIPES}
     if len(data["equipes"]) < len(encore_configurees):
         print("Moins d'équipes qu'avant : data.json inchangé.")
@@ -580,7 +728,7 @@ def main(argv=None):
     for n in nonsuivies:
         print("Compétition non suivie : %s, %s" % (n["code"], n["libelle"]))
     print("Écrit", args.out)
-    return 0 if not echecs else 2
+    return 0 if not (echecs or controle) else 2
 
 
 if __name__ == "__main__":

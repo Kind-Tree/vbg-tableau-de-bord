@@ -19,6 +19,7 @@ Site : <https://kind-tree.github.io/vbg-tableau-de-bord/> · Collectes automatiq
 2. Cas habituel : FFvolley est indisponible ou lent. **Attends 1 heure, relance une collecte (§1).** Si elle est verte, c'est réglé.
 3. Si le même message revient à **deux collectes de suite**, ou si on est en début de saison (fin août, septembre) : la saison a sans doute changé. Suis `SAISON.md`.
 4. Étape « Collecte » rouge (et non « Alerte ») : rien n'a été publié, le site garde ses dernières données. Même conduite.
+5. Ligne `ECHEC contrôle : poule non configurée …` (avec un code, un titre et une adresse) : FFvolley liste pour le club une poule que la configuration ne connaît pas, typiquement au changement de phase de janvier. Les autres équipes sont à jour et publiées. Suis `SAISON.md`, section « Changement de phase (janvier) », qui explique aussi les autres lignes `ECHEC contrôle` (match absent, page club illisible).
 
 *Tu ne reçois cet e-mail que si les notifications d'Actions sont activées dans ton compte GitHub (Settings, Notifications, rubrique Actions ; case « échecs seulement » : chemin donné de mémoire, à vérifier à l'écran une fois). L'e-mail va à la personne qui a créé le workflow ou modifié en dernier ses lignes `cron`.*
 

@@ -58,7 +58,7 @@ Lis SAISON.md et CADRAGE.md. Travaille sur une branche à part, ne pousse rien.
 2. Propose la nouvelle configuration (saison, codes de poule, entités, noms du club) sans rien inventer :
    pour tout ce que tu ne peux pas lire sur les pages FFvolley, pose-moi la question.
 3. Après mon accord : mets à jour collect.py, les pages de test et les tests, régénère la copie de secours
-   (SECOURS) de docs/index.html à partir de la collecte d'essai, lance les deux suites de tests,
+   (SECOURS) de docs/index.html avec regenerer_secours.py, à partir de la collecte d'essai, lance les deux suites de tests,
    puis une seule collecte d'essai vers un fichier temporaire, hors de docs/.
 4. Fais relire le résultat par le sous-agent checker, puis dis-moi précisément ce que je dois faire pour publier.
 ```
@@ -103,6 +103,48 @@ Sur la page d'essai, vérifie à l'œil : le nom des équipes, leur rang, le pro
 ### 6. Publication
 
 Claude te donne la marche exacte (fusion de la branche dans `main` puis envoi). Rien n'est publié sans ton accord. Après publication : lance une collecte à la main (voir `MODE-D-EMPLOI.md`), puis vérifie la page sur ton téléphone.
+
+## Changement de phase (janvier)
+
+Certaines poules changent **en cours de saison** : les poules jeunes (M18M région : CPN puis CPE, par exemple) passent en janvier à une nouvelle phase, avec un nouveau code de poule. C'est un petit changement de saison : le robot le détecte tout seul, mais c'est toi qui décides quoi en faire.
+
+### Comment tu t'en rends compte
+
+À la première collecte après le changement, GitHub t'envoie un e-mail « Run failed : Collecte FFvolley ». Dans l'étape « Collecte », tu lis une ligne de ce genre :
+
+```
+ECHEC contrôle : poule non configurée CPF - M18M performance poule F (https://www.ffvbbeach.org/…poule=CPF), match du 10/01
+```
+
+Elle donne le **code**, le **titre** et l'**adresse** de la poule que FFvolley liste pour le club et que la configuration ne connaît pas. Les autres équipes restent à jour et publiées : seule la poule nouvelle manque. Tant que rien n'est fait, chaque collecte reste « rouge » : c'est voulu, pour que tu ne l'oublies pas.
+
+D'autres lignes `ECHEC contrôle` possibles :
+
+| Ligne | Sens |
+|---|---|
+| `match XXX0NN du JJ/MM listé par FFvolley, absent de la poule XXX` | FFvolley annonce pour le club un match que la poule lue ne contient pas : date ou poule changée, page en retard. Relance une collecte une heure plus tard ; si le message revient, demande à Claude Code de regarder |
+| `page club illisible, contrôle impossible` | FFvolley n'a pas répondu à la vérification. Relance une collecte plus tard |
+
+### Les deux issues pour une poule signalée
+
+1. **La suivre** : Claude Code l'ajoute à la configuration (`EQUIPES` ou `COUPES` dans `collect.py`). Le nom exact du club dans cette poule (« ST GREGOIRE 2 », « VB GREGORIEN »…) n'est jamais deviné : Claude le lit sur la page de la poule et te pose la question en cas de doute. Pour une équipe qui change de phase, la nouvelle poule s'ajoute **en seconde position** de la même équipe : la page affiche la poule où le club a des matchs, et les résultats des deux phases sont fusionnés.
+2. **L'ignorer** : si tu ne veux pas la suivre (par exemple une coupe qui ne t'intéresse pas), Claude Code l'ajoute à la liste `IGNOREES`. Elle n'est plus jamais signalée.
+
+### La consigne à donner à Claude Code
+
+```
+Une poule a changé en cours de saison. Message du robot : <colle ici la ligne « ECHEC contrôle »>.
+Lis SAISON.md (section « Changement de phase (janvier) »). Travaille sur une branche à part, ne pousse rien.
+1. Lance « python collect.py --diagnostic » et explique-moi le rapport en français simple.
+2. Propose soit l'ajout de la poule à la configuration, soit son ajout à IGNOREES, sans rien inventer :
+   pose-moi la question pour tout ce que tu ne peux pas lire sur la page de la poule.
+3. Après mon accord : modifie collect.py, enregistre la page de la poule dans tests/fixtures (anonymisée avec
+   tests/anonymiser.py), ajoute les tests, lance les deux suites, puis une collecte d'essai vers un fichier
+   temporaire, hors de docs/ (option --out). Régénère la copie de secours avec regenerer_secours.py.
+4. Fais relire le résultat par le sous-agent checker, puis dis-moi précisément ce que je dois faire pour publier.
+```
+
+Durée estimée (jamais chronométrée) : 30 à 60 minutes, dont 10 minutes de ton temps. Rien n'est publié sans ton accord ; ne rien faire est sans danger (le site garde ses dernières données).
 
 ## En cas de doute
 
