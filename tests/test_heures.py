@@ -68,7 +68,7 @@ class ValidationTest(DossierTest):
         ("n3m", "16/01", "20:00"), ("", "16/01", "20:00"), ("Equipe inconnue", "16/01", "20:00"),
         ("M13F", "31/02", "18:30"), ("M13F", "2026-11-21", "18:30"), ("M13F", "21/11/2026", "18:30"),
         ("M13F", "21-11", "18:30"), ("M13F", "99/99", "18:30"), ("M13F", "", "18:30"),
-        ("M13F", "21/11", "25:00"), ("M13F", "21/11", "18h30"), ("M13F", "21/11", "18:30\nx"),
+        ("M13F", "21/11", "25:00"), ("M13F", "21/11", "18h3"), ("M13F", "21/11", "18H30"), ("M13F", "21/11", "24h00"), ("M13F", "21/11", "9:3"), ("M13F", "21/11", "9 : 30"), ("M13F", "21/11", "h30"), ("M13F", "21/11", "18h30\nx"), ("M13F", "21/11", "18hh30"), ("M13F", "21/11", "9h60"), ("M13F", "21/11", "18:30\nx"),
         ("M13F", "21/11", "18:3"), ("M13F", "21/11", "1830"), ("M13F", "21/11", "18:30; ls"),
         ("M13F", "21/11", "$(id)"), ("M13F", "21/11\n22/11", "18:30"),
         ("M13F", "2١/11", "18:30"), ("M13F", "21/11", "1٨:30"),   # chiffres non ASCII
@@ -88,6 +88,13 @@ class ValidationTest(DossierTest):
         self.lancer(" M13F ", " 21/11 ", " 18:30 ")
         self.assertEqual(self.lues(), [{"equipe": "M13F", "date": "2026-11-21", "heure": "18:30",
                                         "saisie": "2026-11-19T12:00"}])
+
+    def test_formes_tolerees_converties_en_hh_mm(self):
+        for saisi, attendu in [("9:30", "09:30"), ("9h30", "09:30"), ("9h", "09:00"), ("14h00", "14:00"),
+                               ("14 h 30", "14:30"), ("18h30", "18:30"), ("18:30", "18:30"), ("09:05", "09:05")]:
+            with self.subTest(saisi=saisi):
+                self.lancer("M13F", "21/11", saisi)
+                self.assertEqual(self.lues()[0]["heure"], attendu)
 
     def test_annee_deduite_de_la_saison(self):
         self.assertEqual(collect.SAISON, "2026/2027")  # si la saison change, revoir ces cas
