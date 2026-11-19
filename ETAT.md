@@ -8,7 +8,7 @@ Fusionné dans `main` en squash (PR n°1, `4789cab`). Collecte manuelle du 19/11
 ## Chantier « Heures saisies » : fusionné dans `main` (PR n°2, `9a52dcc`, 19/11)
 Tests : Python 163, Node 121. Collecte manuelle après fusion (run 44525232311) : verte, `queue: max` validé.
 Choix : heure saisie seulement pour un match existant (suppression toujours possible) ; `dejaJoue` ignore la saisie ; mention « saisie VBG » ; repli navigateur ordinateur si l'app mobile n'offre pas « Run workflow » (MODE-D-EMPLOI §5). Coupes non concernées.
-Heure tolérante faite (19/11) : 9:30, 9h30, 9h, 14h00, 14 h 30, heure seule (13, 9) et H majuscule (18H30) acceptés ; aide du champ « ex. 18h30 ». RESTE : essai réel depuis le téléphone (président) sur un match « Heure à confirmer » du 21/11 : runs « Ajouter une heure » puis « Collecte » verts, puis supprimer l'heure (heure vide).
+Heure tolérante faite (19/11) : 9:30, 9h30, 9h, 14h00, 14 h 30, heure seule (13, 9) et H majuscule (18H30) acceptés ; aide du champ « ex. 18h30 ». Tri (19/11) : matchs sans heure en haut de chaque jour, puis du plus tôt au plus tard. RESTE : essai réel depuis le téléphone (président) sur un match « Heure à confirmer » du 21/11 : runs « Ajouter une heure » puis « Collecte » verts, puis supprimer l'heure (heure vide).
 
 ## Reste à faire, dans l'ordre
 1. Vendredi 20/11 vers 18 h 15 : onglet Actions, « Collecte FFvolley », événement « schedule » : exécution réelle verte et commit « Mise à jour des données » (la 2e exécution « Passage ignoré » est normale). Rien avant 19 h : lancer une collecte à la main et noter l'incident.
