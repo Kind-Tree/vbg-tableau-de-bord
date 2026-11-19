@@ -47,9 +47,6 @@ Fond #111111, cartes #1F1F1F, texte blanc, accent orange #F26910 (jamais en text
 - Pas de `git add -p` disponible : des hunks de tâches différentes peuvent finir dans un même commit.
 
 ## En attente / à surveiller
-- Vendredi 20/11/2026 18 h : premier passage planifié jamais exécuté (vérifier l'onglet Actions). Dimanche 22/11 : résultat de la N3M à Rennes.
-- Non vérifiés : e-mail d'échec réel, rendu iPhone (blocs « Calendrier », « Semaine dernière », « Données anciennes »).
-- Décisions ouvertes : garder le bloc « Calendrier », historique Git (vrais noms d'arbitres dans `ebf790f`), adresse et propriétaire du dépôt, rappel d'agenda fin août 2027.
-- Défauts mineurs connus : plafond de 5 résultats par carte, ordre à égalité de date, page ouverte non recalculée avant retour au premier plan, SECOURS à régénérer à la main.
+Voir `ETAT.md` (état en cours, passages à vérifier, décisions ouvertes).
 
 Détail complet : `RECAP-FABLE.md` (local, 35 Ko).
