@@ -1,0 +1,14 @@
+#!/bin/sh
+# Bloque l'envoi si un des commits envoyés contient un nom d'arbitre en clair dans une page de test
+# (couvre aussi un commit fait avec --no-verify). Installation : git config core.hooksPath .githooks
+zero=0000000000000000000000000000000000000000
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$local_sha" = "$zero" ] && continue                 # suppression de branche
+  if [ "$remote_sha" = "$zero" ]; then
+    plage="$local_sha --not --remotes"                    # nouvelle branche : tout ce que le serveur n'a pas
+  else
+    plage="$remote_sha..$local_sha"
+  fi
+  python tests/verifier_arbitres.py --commits "$plage" || exit 1
+done
+exit 0

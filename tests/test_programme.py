@@ -3,6 +3,7 @@ Pages de test : poule_*.html (19/11) et club_s47 / club_s48 (semaines du 16/11 e
 import io
 import json
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -398,6 +399,125 @@ class CopieDeSecoursTest(unittest.TestCase):
         self.assertFalse([e for e in copie["equipes"] + copie["coupes"] if "poules" in e])
         self.assertLess(len(html.encode("utf-8")), 80000, "la page doit rester légère (copie de secours sans les poules)")
         self.assertNotIn("ARBITRE", html)
+
+
+RACINE = os.path.join(os.path.dirname(__file__), "..")
+PAGE_CLUB_REELLE = (b"<tr><td></td><td class='liengris_pt'>DUPONT JEAN / MARTIN LUC</td><td></td></tr>")
+PAGE_POULE_REELLE = (b"<td class='liensuite4_pt'>075-059</td><td class='liengris_pt' align='left'>DUPONT JEAN</td><form>")
+PAGE_ANONYME = (b"<tr><td></td><td class='liengris_pt'>ARBITRE500 TEST / ARBITRE501 TEST</td><td></td></tr>"
+                b"<td class='liensuite4_pt'>075-059</td><td class='liengris_pt' align='left'>ARBITRE502 TEST/ARBITRE503 TEST</td><form>")
+
+
+def git_ok(depot, *args, **kw):
+    return subprocess.run(["git", "-C", depot, "-c", "user.name=t", "-c", "user.email=t@example.org", *args],
+                          capture_output=True, **kw)
+
+
+def depot_de_test(dossier, avec_crochets=False):
+    """Petit dépôt git jetable avec les outils d'anonymisation (et, si demandé, les crochets du projet)."""
+    import shutil
+    os.makedirs(os.path.join(dossier, "tests", "fixtures"))
+    for nom in ("anonymiser.py", "verifier_arbitres.py"):
+        shutil.copy(os.path.join(RACINE, "tests", nom), os.path.join(dossier, "tests", nom))
+    git_ok(dossier, "init", "-q")
+    if avec_crochets:
+        shutil.copytree(os.path.join(RACINE, ".githooks"), os.path.join(dossier, ".githooks"))
+        git_ok(dossier, "config", "core.hooksPath", ".githooks")
+    return dossier
+
+
+def ecrire(dossier, nom, octets):
+    with open(os.path.join(dossier, "tests", "fixtures", nom), "wb") as f:
+        f.write(octets)
+    git_ok(dossier, "add", "tests/fixtures/" + nom)
+
+
+class VerificationDesArbitresTest(unittest.TestCase):
+    def verifier(self, dossier, *args):
+        r = subprocess.run([sys.executable, os.path.join(dossier, "tests", "verifier_arbitres.py"), "--depot", dossier, *args],
+                           capture_output=True)
+        return r.returncode, (r.stdout + r.stderr).decode("utf-8", "replace")
+
+    def test_les_deux_emplacements_de_la_cellule_d_arbitres_sont_vus_et_les_pseudos_acceptes(self):
+        import anonymiser
+        self.assertEqual(len(anonymiser.en_clair(PAGE_CLUB_REELLE)), 1)
+        self.assertEqual(len(anonymiser.en_clair(PAGE_POULE_REELLE)), 1)
+        self.assertEqual(anonymiser.en_clair(PAGE_ANONYME), [])
+
+    def test_index_un_nom_en_clair_bloque_sans_jamais_l_afficher(self):
+        with tempfile.TemporaryDirectory() as d:
+            depot_de_test(d)
+            ecrire(d, "ok.html", PAGE_ANONYME)
+            self.assertEqual(self.verifier(d, "--index")[0], 0)
+            for nom, page in (("club.html", PAGE_CLUB_REELLE), ("poule.html", PAGE_POULE_REELLE)):
+                ecrire(d, nom, page)
+                code, sortie = self.verifier(d, "--index")
+                self.assertEqual(code, 1, nom)
+                self.assertIn(nom, sortie)
+                self.assertNotIn("DUPONT", sortie)
+                self.assertNotIn("MARTIN", sortie)
+                git_ok(d, "rm", "-q", "--cached", "-f", "tests/fixtures/" + nom)
+
+    def test_commits_un_commit_envoye_avec_un_nom_est_vu_meme_si_le_fichier_est_corrige_apres(self):
+        with tempfile.TemporaryDirectory() as d:
+            depot_de_test(d)
+            ecrire(d, "poule.html", PAGE_ANONYME)
+            git_ok(d, "commit", "-q", "-m", "base")
+            ecrire(d, "poule.html", PAGE_POULE_REELLE)
+            git_ok(d, "commit", "-q", "-m", "fuite")
+            ecrire(d, "poule.html", PAGE_ANONYME)
+            git_ok(d, "commit", "-q", "-m", "correction")
+            code, sortie = self.verifier(d, "--commits", "HEAD~2..HEAD")
+            self.assertEqual(code, 1)
+            self.assertIn("poule.html", sortie)
+            self.assertNotIn("DUPONT", sortie)
+            self.assertEqual(self.verifier(d, "--commits", "HEAD~1..HEAD")[0], 0)
+
+    def test_usage_incorrect_code_2(self):
+        with tempfile.TemporaryDirectory() as d:
+            depot_de_test(d)
+            self.assertEqual(self.verifier(d)[0], 2)
+
+
+class CrochetsGitTest(unittest.TestCase):
+    def test_pre_commit_refuse_le_commit_d_une_page_avec_un_nom_en_clair_puis_accepte_la_page_anonymisee(self):
+        with tempfile.TemporaryDirectory() as d:
+            depot_de_test(d, avec_crochets=True)
+            ecrire(d, "poule.html", PAGE_POULE_REELLE)
+            r = git_ok(d, "commit", "-m", "page brute")
+            self.assertNotEqual(r.returncode, 0, "le commit doit être refusé")
+            self.assertIn("BLOQUÉ".encode("utf-8"), r.stdout + r.stderr)
+            self.assertNotIn(b"DUPONT", r.stdout + r.stderr)
+            self.assertEqual(git_ok(d, "rev-list", "--all", "--count").stdout.strip(), b"0")
+            ecrire(d, "poule.html", PAGE_ANONYME)
+            self.assertEqual(git_ok(d, "commit", "-m", "page anonymisée").returncode, 0)
+
+    def test_pre_push_refuse_l_envoi_meme_apres_un_commit_fait_avec_no_verify(self):
+        with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as distant:
+            git_ok(distant, "init", "-q", "--bare")
+            depot_de_test(d, avec_crochets=True)
+            git_ok(d, "remote", "add", "origin", distant)
+            ecrire(d, "poule.html", PAGE_ANONYME)
+            self.assertEqual(git_ok(d, "commit", "-q", "-m", "base").returncode, 0)
+            ecrire(d, "poule.html", PAGE_POULE_REELLE)
+            self.assertEqual(git_ok(d, "commit", "-q", "--no-verify", "-m", "fuite").returncode, 0)
+            r = git_ok(d, "push", "origin", "HEAD:refs/heads/essai")
+            self.assertNotEqual(r.returncode, 0, "l'envoi doit être refusé")
+            self.assertEqual(git_ok(distant, "rev-list", "--all", "--count").stdout.strip(), b"0", "rien n'est arrivé sur le serveur")
+            self.assertNotIn(b"DUPONT", r.stdout + r.stderr)
+            git_ok(d, "reset", "-q", "--hard", "HEAD~1")
+            self.assertEqual(git_ok(d, "push", "origin", "HEAD:refs/heads/essai").returncode, 0)
+
+    def test_les_crochets_du_projet_appellent_le_verificateur_et_le_test_d_anonymisation(self):
+        with open(os.path.join(RACINE, ".githooks", "pre-commit"), encoding="utf-8") as f:
+            pre_commit = f.read()
+        self.assertIn("tests/verifier_arbitres.py --index", pre_commit)
+        self.assertIn("tests.test_collect.AnonymisationTest", pre_commit)
+        with open(os.path.join(RACINE, ".githooks", "pre-push"), encoding="utf-8") as f:
+            self.assertIn("tests/verifier_arbitres.py --commits", f.read())
+        with open(os.path.join(RACINE, ".gitattributes"), encoding="utf-8") as f:
+            self.assertIn(".githooks/* text eol=lf", f.read())  # un crochet en CRLF ne s'exécuterait pas
+        self.assertNotIn(b"\r\n", open(os.path.join(RACINE, ".githooks", "pre-commit"), "rb").read())
 
 
 if __name__ == "__main__":

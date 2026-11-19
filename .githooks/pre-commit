@@ -1,0 +1,12 @@
+#!/bin/sh
+# Bloque le commit si une page de test contient un nom d'arbitre en clair (contenu indexé, avant tout envoi).
+# Installation (une fois par copie du dépôt) : git config core.hooksPath .githooks
+python tests/verifier_arbitres.py --index || exit 1
+# Le test d'anonymisation de la suite (dossier de travail) : même exigence, par un second chemin.
+if [ -f tests/test_collect.py ]; then
+  python -m unittest tests.test_collect.AnonymisationTest >/dev/null 2>&1 || {
+    echo "BLOQUÉ : le test d'anonymisation échoue (python -m unittest tests.test_collect.AnonymisationTest)."
+    exit 1
+  }
+fi
+exit 0

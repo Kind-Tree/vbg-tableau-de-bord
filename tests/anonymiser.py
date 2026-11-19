@@ -19,6 +19,14 @@ MOTIFS = [
 ]
 
 
+PSEUDO = re.compile(rb"ARBITRE\d+ TEST( ?/ ?ARBITRE\d+ TEST)?( ?/ ?)?")
+
+
+def en_clair(octets):
+    """Cellules d'arbitres qui ne sont pas déjà des pseudos « ARBITREnnn TEST » (liste vide = page anonymisée)."""
+    return [m.group(2) for motif in MOTIFS for m in motif.finditer(octets) if not PSEUDO.fullmatch(m.group(2).strip())]
+
+
 def anonymiser(octets, depart=500):
     """Retourne (octets anonymisés, nombre de cellules remplacées). Même nom -> même pseudo dans la page."""
     pseudos = {}
