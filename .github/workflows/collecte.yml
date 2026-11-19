@@ -24,6 +24,7 @@ permissions:
 concurrency:
   group: collecte
   cancel-in-progress: false
+  queue: max          # une collecte demandée (après une heure saisie) n'est pas annulée par la suivante
 
 jobs:
   collecte:
