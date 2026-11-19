@@ -38,6 +38,27 @@ Aucune collecte n'a réussi depuis plus de 5 jours. C'est le seul signal quand u
 3. **Des exécutions rouges** : c'est le §2.
 4. **Des exécutions vertes mais la page reste ancienne** : touche **Actualiser** ; si la ligne reste, demande à Claude Code de vérifier `docs/data.json` sur GitHub.
 
+## 5. Saisir l'heure d'un match (quand FFvolley ne la donne pas)
+
+> **Valable après la fusion de la branche `heures-saisies` dans `main`.** Avant, le workflow n'existe pas sur le site.
+
+1. Ouvre <https://github.com/Kind-Tree/vbg-tableau-de-bord/actions/workflows/heure.yml> (ou : dépôt, onglet **Actions**, **Ajouter une heure**), connecté à GitHub.
+2. Touche **Run workflow**, laisse la branche **main**, puis remplis :
+   - **Équipe** : choisis dans la liste ;
+   - **Date** : `JJ/MM`, par exemple `21/11` (l'année vient de la saison) ;
+   - **Heure** : `HH:MM`, par exemple `18:30`. **Laisse vide pour supprimer** l'heure que tu avais saisie ce jour-là.
+3. Touche le bouton vert **Run workflow**. Attends 3 à 5 minutes : l'enregistrement, puis une collecte qui republie la page. Touche **Actualiser** sur la page.
+4. L'heure apparaît avec la mention discrète **saisie VBG**. Sur un plateau, elle vaut pour tous les matchs du club ce jour-là.
+
+À savoir :
+- Pour corriger une heure : refais la saisie avec la nouvelle heure (elle remplace l'ancienne).
+- Si FFvolley publie ensuite une heure, **c'est la sienne qui s'affiche** ; si elle est différente de la tienne, la collecte écrit « ECART heure » dans son rapport (onglet Actions, étape « Collecte »), sans passer au rouge.
+- Ton heure reste affichée à chaque collecte tant que FFvolley ne publie rien, même si FFvolley ne la publie jamais.
+- Le run **Ajouter une heure** passe au **rouge** et n'enregistre rien si quelque chose est refusé : date sans match pour cette équipe, heure mal écrite, suppression d'une heure qui n'existe pas. Le message est dans l'étape « Validation et enregistrement ».
+- Plusieurs saisies à la suite sont toutes prises, l'une après l'autre.
+
+*À confirmer : comme pour la collecte (§1), la doc GitHub décrit **Run workflow** pour le site web, pas pour l'application GitHub Mobile. Si le bouton manque dans l'application, utilise le navigateur du téléphone et demande la « version pour ordinateur ».*
+
 ## À retenir
 
 - Rien de ce que tu fais ici ne peut vider le site : une poule illisible garde ses dernières données.
