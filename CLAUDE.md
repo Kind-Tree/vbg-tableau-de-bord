@@ -9,7 +9,7 @@ Le président (non développeur) pilote en français et valide chaque étape. R�
 - `docs/data.json` : produit par le robot (`collecte-vbg`) à chaque collecte. Ne pas l'éditer à la main.
 - `.github/workflows/collecte.yml` : collecte planifiée (ven. 18 h, dim. 9 h/21 h/23 h, lun. 7 h, heure de Paris) + lancement manuel. Aucun test dans ce workflow. `tests.yml` : tests à chaque push.
 - Heures saisies par le club : `heures.json` (racine ; `[{equipe, date AAAA-MM-JJ, heure, saisie}]`, une ligne par équipe et jour), écrit seulement par `heures.py` via le workflow `.github/workflows/heure.yml` (« Ajouter une heure », lancement manuel : équipe en liste déroulante, date `JJ/MM`, heure `HH:MM` ou vide pour supprimer ; valide, commite `heures.json`, puis lance `collecte.yml`). La collecte lit `heures.json` (jamais écrit par elle) et ajoute `heure_saisie` à tous les matchs du club ce jour-là (plateau compris) dans `prochain/avenir/attente/poules[].matchs`. La page affiche l'heure de FFvolley si elle existe, sinon `heure_saisie` avec « saisie VBG ». Écart avec FFvolley : « ECART heure » dans le rapport, pas un échec. Une heure saisie reste après chaque collecte (même poule non lue) : testé.
-- Fichiers locaux, exclus de Git : `RECAP-FABLE.md`, `CADRAGE.md`, `NUIT.md`. Dans le dépôt : `MODE-D-EMPLOI.md`, `SAISON.md`.
+- Archives (hors projet, `..\_archivesolley-vbg\` : `RECAP-FABLE.md`, `CADRAGE.md`, `NUIT.md`, historique de la conception, rien d'actif). Dossier local `dossier_revue/` (ignoré par Git, `python assembler_dossier.py`). Dans le dépôt : `MODE-D-EMPLOI.md`, `SAISON.md`.
 - Pas de service worker (un cache pourrait servir un vieux `data.json`).
 - Crochets git versionnés dans `.githooks/` (`git config core.hooksPath .githooks`, à refaire sur chaque copie du dépôt) : `pre-commit` et `pre-push` bloquent tout nom d'arbitre en clair dans une page de test (`tests/verifier_arbitres.py`).
 
@@ -40,6 +40,13 @@ node --test tests/test_page.js
 ## Charte graphique (stricte)
 Fond #111111, cartes #1F1F1F, texte blanc, accent orange #F26910 (jamais en texte courant), victoire #1E7A3C et défaite #B3261E toujours avec la lettre V ou D, Arial, titres en majuscules gras. Interdits : bleu, dégradés, logo déformé ou recoloré. Zones tactiles de 44 px minimum, mobile d'abord (360 px).
 
+## Sources FFvolley et GitHub (repris des archives)
+- Poule : `https://www.ffvbbeach.org/ffvbapp/resu/vbspo_calendrier.php?saison=<SAISON>&codent=<ENTITE>&poule=<CODE>&calend=COMPLET` ; page club (classements, formulaires saison/entité/poule) : `.../planning_club_class.php?cnclub=0357988` ; hebdo : `.../planning_club.php?cnclub=0357988`. Contrôle de saison et poules non suivies.
+- User-Agent : `VBG-tableau-de-bord/1.0 (club amateur Saint-Gregoire; releve hebdomadaire)`. Garde d'identité : le code de match commence par le code de poule et le nom du club correspond exactement.
+- Formats FFvolley réels jamais observés : forfait, pénalité, match reporté (à vérifier à la première occurrence).
+- GitHub désactive les workflows planifiés d'un dépôt public après 60 jours sans activité (doc). Les commits du robot comptent-ils ? Non documenté. Risque : collecte en échec partout = aucun commit = coupure possible. Une collecte réussie commite toujours (`maj` change). Les workflows planifiés ne tournent que sur `main`, avec retards possibles. E-mail d'échec : va à la dernière personne qui a modifié le `cron` (compte `Kind-Tree`) ; réglage « échecs seulement » : Settings, Notifications, Actions (de mémoire).
+- Dépôt public voulu (Pages gratuit exige un dépôt public). Historique de `main` : voir IDEES.md.
+
 ## Décisions prises
 - Saison = constante unique `SAISON` dans `collect.py` (testée). Changement de saison : suivre `SAISON.md`, lancer `python collect.py --diagnostic` (n'écrit rien, ne lit pas data.json) avant d'éditer la config.
 - Pas de commit « de maintien en vie » automatique contre la désactivation des workflows après 60 jours (non documenté par GitHub).
@@ -64,7 +71,7 @@ Fond #111111, cartes #1F1F1F, texte blanc, accent orange #F26910 (jamais en text
 ## En attente / à surveiller
 Voir `ETAT.md` (état en cours, passages à vérifier, décisions ouvertes).
 
-Détail complet : `RECAP-FABLE.md` (local, 35 Ko).
+Détail de la conception : archives ci-dessus (lecture seule).
 
 ## Socle
 @ETAT.md
