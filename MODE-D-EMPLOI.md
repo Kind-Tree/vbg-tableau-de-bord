@@ -56,6 +56,7 @@ Aucune collecte n'a réussi depuis plus de 5 jours. C'est le seul signal quand u
 - Ton heure reste affichée à chaque collecte tant que FFvolley ne publie rien, même si FFvolley ne la publie jamais.
 - Le run **Ajouter une heure** passe au **rouge** et n'enregistre rien si quelque chose est refusé : date sans match pour cette équipe, heure mal écrite, suppression d'une heure qui n'existe pas. Le message est dans l'étape « Validation et enregistrement ».
 - Plusieurs saisies à la suite sont toutes prises, l'une après l'autre.
+- Les matchs de coupe ne sont pas concernés pour l'instant : choisir une équipe pour une date de coupe donne un run rouge « n'a pas de match ».
 
 *À confirmer : comme pour la collecte (§1), la doc GitHub décrit **Run workflow** pour le site web, pas pour l'application GitHub Mobile. Si le bouton manque dans l'application, utilise le navigateur du téléphone et demande la « version pour ordinateur ».*
 

@@ -12,7 +12,7 @@ Choix prudents pris sans le président (absent) :
 - Doc GitHub : « Run workflow » décrit pour le site, pas pour l'app mobile → repli sur le navigateur (version ordinateur), écrit dans MODE-D-EMPLOI §5.
 - Heure saisie seulement pour un match existant dans `data.json` ; la suppression reste possible même si le match a disparu.
 - `dejaJoue` (« Résultat pas encore publié ») n'utilise que l'heure de FFvolley, jamais la saisie.  Mention : « saisie VBG » (choix par défaut).
-Pour livrer : fusionner la branche, puis essai réel (saisir une heure sur un match « Heure à confirmer » du 21/11, voir les runs « Ajouter une heure » puis « Collecte » verts, puis supprimer l'heure).
+Pour livrer : fusionner ; 1) lancer UNE collecte manuelle (MODE-D-EMPLOI §1) et vérifier qu'elle démarre et passe au vert (`queue: max` est nouveau dans `collecte.yml`) ; 2) seulement ensuite saisir une heure sur un match « Heure à confirmer » du 21/11 (runs « Ajouter une heure » puis « Collecte » verts), puis la supprimer. Coupes non concernées (hors périmètre).
 
 ## Reste à faire, dans l'ordre
 1. Vérifier le passage planifié du vendredi 20/11 à 18 h (onglet Actions) et celui du dimanche 22/11 (résultat de la N3M à Rennes).

@@ -625,8 +625,8 @@ def fusionner(ancien, nouveau_equipes, nouveau_coupes, ordre_eq, ordre_co, maj_i
 # `heures.json` (racine du dépôt) : [{"equipe", "date" AAAA-MM-JJ, "heure" HH:MM, "saisie"}], écrit par
 # `heures.py` (workflow « Ajouter une heure »). La collecte ne l'écrit jamais : elle l'ajoute à data.json sous
 # `heure_saisie`, à chaque passage, même si FFvolley ne publie jamais l'heure. L'heure de FFvolley gagne toujours.
-RE_ISO = re.compile(r"\d{4}-\d\d-\d\d")
-RE_HEURE = re.compile(r"([01]\d|2[0-3]):[0-5]\d")
+RE_ISO = re.compile(r"\d{4}-\d\d-\d\d", re.ASCII)  # ASCII : « \d » accepterait d'autres chiffres
+RE_HEURE = re.compile(r"([01]\d|2[0-3]):[0-5]\d", re.ASCII)
 
 
 def charger_heures(chemin):

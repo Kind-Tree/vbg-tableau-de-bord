@@ -29,7 +29,7 @@ def annee_de(mois):
 
 
 def date_iso(texte):
-    m = re.fullmatch(r"(\d\d)/(\d\d)", texte)
+    m = re.fullmatch(r"(\d\d)/(\d\d)", texte, re.ASCII)
     if not m:
         raise SaisieRefusee("date : écrire JJ/MM (par exemple 21/11)")
     jour, mois = int(m.group(1)), int(m.group(2))
