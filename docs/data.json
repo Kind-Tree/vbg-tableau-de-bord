@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-17T08:40:48+01:00",
+ "maj": "2026-11-19T11:34:50+01:00",
  "equipes": [
   {
    "nom": "N3M",
@@ -172,13 +172,1248 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "Nationale 3 masculine poule F",
+     "nous": "VOLLEY BALL GREGORIEN",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "C.P.B. RENNES 35",
+       "pts": 18,
+       "j": 6,
+       "g": 6,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "SAINT-RENAN IROISE VOLLEY",
+       "pts": 18,
+       "j": 6,
+       "g": 6,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "HEOL SANTEC",
+       "pts": 15,
+       "j": 6,
+       "g": 5,
+       "p": 1
+      },
+      {
+       "rang": 4,
+       "club": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "pts": 13,
+       "j": 6,
+       "g": 5,
+       "p": 1
+      },
+      {
+       "rang": 5,
+       "club": "ASPTT LAVAL 2",
+       "pts": 12,
+       "j": 6,
+       "g": 4,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "pts": 10,
+       "j": 6,
+       "g": 3,
+       "p": 3
+      },
+      {
+       "rang": 7,
+       "club": "JEANNE D ARC DE RENNES",
+       "pts": 7,
+       "j": 6,
+       "g": 2,
+       "p": 4
+      },
+      {
+       "rang": 8,
+       "club": "VOLLEY BALL GREGORIEN",
+       "pts": 6,
+       "j": 6,
+       "g": 2,
+       "p": 4
+      },
+      {
+       "rang": 9,
+       "club": "RENNES ETUDIANTS CLUB 3",
+       "pts": 6,
+       "j": 6,
+       "g": 2,
+       "p": 4
+      },
+      {
+       "rang": 10,
+       "club": "PORNIC VOLLEY BALL",
+       "pts": 3,
+       "j": 6,
+       "g": 1,
+       "p": 5
+      },
+      {
+       "rang": 11,
+       "club": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "pts": 0,
+       "j": 6,
+       "g": 0,
+       "p": 6
+      },
+      {
+       "rang": 12,
+       "club": "VOLLEY CLUB HEROUVILLE",
+       "pts": 0,
+       "j": 6,
+       "g": 0,
+       "p": 6
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-09-27",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 1,
+       "ext": "JEANNE D ARC DE RENNES",
+       "sd": 3,
+       "se": 1,
+       "sets": "31-29 23-25 25-20 25-20"
+      },
+      {
+       "date": "2026-09-27",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "15:00",
+       "j": 1,
+       "ext": "PORNIC VOLLEY BALL",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-21 25-17 25-17"
+      },
+      {
+       "date": "2026-09-27",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 1,
+       "ext": "ASPTT LAVAL 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "23-25 25-17 26-28 31-33"
+      },
+      {
+       "date": "2026-09-27",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 1,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-18 25-19 25-19"
+      },
+      {
+       "date": "2026-09-27",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 1,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "sd": 1,
+       "se": 3,
+       "sets": "17-25 25-13 22-25 21-25"
+      },
+      {
+       "date": "2026-09-27",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 1,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-20 25-18 25-15"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 2,
+       "ext": "JEANNE D ARC DE RENNES",
+       "sd": 3,
+       "se": 2,
+       "sets": "25-12 23-25 23-25 25-21 15-11"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 2,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 0,
+       "se": 3,
+       "sets": "19-25 20-25 23-25"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "15:00",
+       "j": 2,
+       "ext": "HEOL SANTEC",
+       "sd": 0,
+       "se": 3,
+       "sets": "25-27 20-25 16-25"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 2,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "31-29 18-25 25-27 17-25"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "15:00",
+       "j": 2,
+       "ext": "C.P.B. RENNES 35",
+       "sd": 0,
+       "se": 3,
+       "sets": "17-25 12-25 14-25"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "20:00",
+       "j": 2,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "sd": 0,
+       "se": 3,
+       "sets": "17-25 14-25 21-25"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 3,
+       "ext": "PORNIC VOLLEY BALL",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-22 28-26 25-12"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 3,
+       "ext": "ASPTT LAVAL 2",
+       "sd": 3,
+       "se": 0,
+       "sets": "27-25 25-21 25-18"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "16:00",
+       "j": 3,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-21 25-10 25-22"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 3,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-19 26-24 25-17"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 3,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "sd": 3,
+       "se": 1,
+       "sets": "23-25 25-19 25-16 25-18"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 3,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "sd": 1,
+       "se": 3,
+       "sets": "29-31 26-24 19-25 12-25"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 4,
+       "ext": "JEANNE D ARC DE RENNES",
+       "sd": 1,
+       "se": 3,
+       "sets": "17-25 22-25 25-20 17-25"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 4,
+       "ext": "HEOL SANTEC",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-17 23-25 25-22 25-21"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 4,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "14-25 25-16 19-25 19-25"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "13:30",
+       "j": 4,
+       "ext": "C.P.B. RENNES 35",
+       "sd": 0,
+       "se": 3,
+       "sets": "16-25 17-25 18-25"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 4,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "sd": 0,
+       "se": 3,
+       "sets": "16-25 19-25 23-25"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 4,
+       "ext": "PORNIC VOLLEY BALL",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-11 25-21 24-26 25-19"
+      },
+      {
+       "date": "2026-11-01",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 5,
+       "ext": "ASPTT LAVAL 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-16 17-25 24-26 17-25"
+      },
+      {
+       "date": "2026-10-31",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "20:00",
+       "j": 5,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "sd": 3,
+       "se": 1,
+       "sets": "21-25 25-23 25-15 25-19"
+      },
+      {
+       "date": "2026-11-01",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 5,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "sd": 3,
+       "se": 1,
+       "sets": "21-25 25-18 25-15 25-21"
+      },
+      {
+       "date": "2026-11-01",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 5,
+       "ext": "C.P.B. RENNES 35",
+       "sd": 0,
+       "se": 3,
+       "sets": "12-25 30-32 16-25"
+      },
+      {
+       "date": "2026-11-01",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 5,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "sd": 2,
+       "se": 3,
+       "sets": "19-25 21-25 25-22 25-22 12-15"
+      },
+      {
+       "date": "2026-11-01",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 5,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-14 26-24 25-23"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 6,
+       "ext": "JEANNE D ARC DE RENNES",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-18 25-23 25-13"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 6,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-18 28-26 25-15"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 6,
+       "ext": "C.P.B. RENNES 35",
+       "sd": 1,
+       "se": 3,
+       "sets": "11-25 25-21 23-25 15-25"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 6,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "sd": 1,
+       "se": 3,
+       "sets": "17-25 17-25 25-22 14-25"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "15:00",
+       "j": 6,
+       "ext": "PORNIC VOLLEY BALL",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-18 25-19 14-25 25-23"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 6,
+       "ext": "ASPTT LAVAL 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "23-25 18-25 26-24 24-26"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 7,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 7,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "salle": "GYMNASE NOEMIE HAMARD"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 7,
+       "ext": "PORNIC VOLLEY BALL",
+       "salle": "LAPORTE"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 7,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "SALLE TREVISQUIN"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "16:00",
+       "j": 7,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "16:00",
+       "j": 7,
+       "ext": "HEOL SANTEC",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 8,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 8,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "SALLE OMNISPORTS"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 8,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 8,
+       "ext": "PORNIC VOLLEY BALL",
+       "salle": "JEAN JAHAN 2"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 8,
+       "ext": "ASPTT LAVAL 2",
+       "salle": "LAPORTE"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "15:00",
+       "j": 8,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "salle": "COURTEMANCHE"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 9,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 9,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 9,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "GYMNASE NOEMIE HAMARD"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "15:00",
+       "j": 9,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 9,
+       "ext": "HEOL SANTEC",
+       "salle": "SALLE TREVISQUIN"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "16:00",
+       "j": 9,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "16:00",
+       "j": 10,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 10,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 10,
+       "ext": "PORNIC VOLLEY BALL",
+       "salle": "SALLE OMNISPORTS"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 10,
+       "ext": "ASPTT LAVAL 2",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 10,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "salle": "JEAN JAHAN 2"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 10,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "salle": "LAPORTE"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 11,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "15:00",
+       "j": 11,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "COURTEMANCHE"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 11,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 11,
+       "ext": "HEOL SANTEC",
+       "salle": "GYMNASE NOEMIE HAMARD"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "20:00",
+       "j": 11,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 11,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "SALLE TREVISQUIN"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 12,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "20:00",
+       "j": 12,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 12,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "salle": "GYMNASE NOEMIE HAMARD"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 12,
+       "ext": "HEOL SANTEC",
+       "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "15:00",
+       "j": 12,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "COURTEMANCHE"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 12,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "LAPORTE"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 13,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 13,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 13,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "salle": "SALLE OMNISPORTS"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 13,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "15:00",
+       "j": 13,
+       "ext": "ASPTT LAVAL 2",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 13,
+       "ext": "PORNIC VOLLEY BALL",
+       "salle": "SALLE TREVISQUIN"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "15:00",
+       "j": 14,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "13:30",
+       "j": 14,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "salle": "SALLE POLYVALENTE"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 14,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "15:00",
+       "j": 14,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "salle": "COURTEMANCHE"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 14,
+       "ext": "HEOL SANTEC",
+       "salle": "LAPORTE"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 14,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "JEAN JAHAN 2"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 15,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 15,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "SALLE OMNISPORTS"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 15,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "16:00",
+       "j": 15,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 15,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "salle": "SALLE TREVISQUIN"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "20:00",
+       "j": 15,
+       "ext": "ASPTT LAVAL 2",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2027-02-28",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 16,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "GYMNASE NOEMIE HAMARD"
+      },
+      {
+       "date": "2027-02-28",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 16,
+       "ext": "PORNIC VOLLEY BALL",
+       "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+      },
+      {
+       "date": "2027-02-28",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "13:30",
+       "j": 16,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "salle": "COURTEMANCHE"
+      },
+      {
+       "date": "2027-02-28",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "15:00",
+       "j": 16,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-02-28",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 16,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "salle": "JEAN JAHAN 2"
+      },
+      {
+       "date": "2027-02-28",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 16,
+       "ext": "HEOL SANTEC",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-03-07",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 17,
+       "ext": "HEOL SANTEC",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-03-07",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 17,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-03-07",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "16:00",
+       "j": 17,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-03-07",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 17,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "SALLE TREVISQUIN"
+      },
+      {
+       "date": "2027-03-06",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "20:00",
+       "j": 17,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2027-03-07",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 17,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "salle": "GYMNASE NOEMIE HAMARD"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 18,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "15:00",
+       "j": 18,
+       "ext": "ASPTT LAVAL 2",
+       "salle": "COURTEMANCHE"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "19:00",
+       "j": 18,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 18,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "salle": "JEAN JAHAN 2"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 18,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 18,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "salle": "SALLE OMNISPORTS"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 19,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "16:00",
+       "j": 19,
+       "ext": "HEOL SANTEC",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 19,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "SALLE TREVISQUIN"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "20:30",
+       "j": 19,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 19,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "GYMNASE NOEMIE HAMARD"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 19,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "15:00",
+       "j": 20,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "COURTEMANCHE"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 20,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "salle": "LAPORTE"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 20,
+       "ext": "ASPTT LAVAL 2",
+       "salle": "JEAN JAHAN 2"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 20,
+       "ext": "PORNIC VOLLEY BALL",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 20,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "salle": "SALLE OMNISPORTS"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 20,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "15:00",
+       "j": 21,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "SAINT-RENAN IROISE VOLLEY",
+       "heure": "15:00",
+       "j": 21,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "salle": "SALLE TREVISQUIN"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "PORNIC VOLLEY BALL",
+       "heure": "20:00",
+       "j": 21,
+       "ext": "HEOL SANTEC",
+       "salle": "SALLE JEAN MOUNÈS /SALLE BLEUE"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "ASPTT LAVAL 2",
+       "heure": "16:00",
+       "j": 21,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "GYMNASE NOEMIE HAMARD"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "heure": "15:00",
+       "j": 21,
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "COMPLEXE SPORTIF AUGUSTE FAUVE"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "RENNES ETUDIANTS CLUB 3",
+       "heure": "13:30",
+       "j": 21,
+       "ext": "VOLLEY CLUB HEROUVILLE",
+       "salle": "COURTEMANCHE"
+      },
+      {
+       "date": "2027-04-25",
+       "dom": "VOLLEY CLUB HEROUVILLE",
+       "heure": "15:00",
+       "j": 22,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "LAPORTE"
+      },
+      {
+       "date": "2027-04-25",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "16:00",
+       "j": 22,
+       "ext": "RENNES ETUDIANTS CLUB 3",
+       "salle": "JEAN JAHAN 2"
+      },
+      {
+       "date": "2027-04-25",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "15:00",
+       "j": 22,
+       "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-04-25",
+       "dom": "HEOL SANTEC",
+       "heure": "15:00",
+       "j": 22,
+       "ext": "ASPTT LAVAL 2",
+       "salle": "SALLE OMNISPORTS"
+      },
+      {
+       "date": "2027-04-25",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR 2",
+       "heure": "15:00",
+       "j": 22,
+       "ext": "PORNIC VOLLEY BALL",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-04-25",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "15:00",
+       "j": 22,
+       "ext": "SAINT-RENAN IROISE VOLLEY",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      }
+     ]
+    }
+   ],
    "poule": "Nationale 3 masculine · Poule F",
    "rang": 8,
    "sur": 12,
    "pts": 6,
    "g": 2,
    "p": 4,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "PNF",
@@ -358,13 +1593,1234 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "Prenationale feminine",
+     "nous": "VOLLEY BALL GREGORIEN",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "C.P.B. RENNES 35",
+       "pts": 15,
+       "j": 5,
+       "g": 5,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "pts": 11,
+       "j": 5,
+       "g": 4,
+       "p": 1
+      },
+      {
+       "rang": 3,
+       "club": "VANNES VOLLEY 56",
+       "pts": 9,
+       "j": 5,
+       "g": 3,
+       "p": 2
+      },
+      {
+       "rang": 4,
+       "club": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "pts": 9,
+       "j": 5,
+       "g": 3,
+       "p": 2
+      },
+      {
+       "rang": 5,
+       "club": "PLANCOET VOLLEY-BALL",
+       "pts": 8,
+       "j": 5,
+       "g": 2,
+       "p": 3
+      },
+      {
+       "rang": 6,
+       "club": "UNION SPORTIVE LAILLE",
+       "pts": 6,
+       "j": 5,
+       "g": 3,
+       "p": 2
+      },
+      {
+       "rang": 7,
+       "club": "JEANNE D ARC DE RENNES",
+       "pts": 6,
+       "j": 4,
+       "g": 2,
+       "p": 2
+      },
+      {
+       "rang": 8,
+       "club": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "pts": 6,
+       "j": 4,
+       "g": 2,
+       "p": 2
+      },
+      {
+       "rang": 9,
+       "club": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "pts": 6,
+       "j": 5,
+       "g": 2,
+       "p": 3
+      },
+      {
+       "rang": 10,
+       "club": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "pts": 5,
+       "j": 5,
+       "g": 2,
+       "p": 3
+      },
+      {
+       "rang": 11,
+       "club": "VOLLEY BALL GREGORIEN",
+       "pts": 5,
+       "j": 5,
+       "g": 1,
+       "p": 4
+      },
+      {
+       "rang": 12,
+       "club": "E.SP. CANTON DE PIPRIAC V.B.",
+       "pts": 1,
+       "j": 5,
+       "g": 0,
+       "p": 5
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-09-20",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 1,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-20 25-18 25-12"
+      },
+      {
+       "date": "2026-09-20",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 1,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "sd": 3,
+       "se": 2,
+       "sets": "17-25 25-19 24-26 25-20 15-11"
+      },
+      {
+       "date": "2026-09-19",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "21:00",
+       "j": 1,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-23 25-20 16-25 25-21"
+      },
+      {
+       "date": "2026-09-20",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "11:00",
+       "j": 1,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-16 25-16 25-20"
+      },
+      {
+       "date": "2026-09-20",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "15:00",
+       "j": 1,
+       "ext": "UNION SPORTIVE LAILLE",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-18 19-25 26-24 25-14"
+      },
+      {
+       "date": "2026-09-20",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 1,
+       "ext": "JEANNE D ARC DE RENNES",
+       "sd": 0,
+       "se": 3,
+       "sets": "20-25 22-25 21-25"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 2,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 3,
+       "se": 1,
+       "sets": "26-24 25-16 22-25 26-24"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 2,
+       "ext": "UNION SPORTIVE LAILLE",
+       "sd": 2,
+       "se": 3,
+       "sets": "21-25 25-21 25-17 15-25 9-15"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "12:30",
+       "j": 2,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-18 25-20 25-22"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "14:00",
+       "j": 2,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "sd": 0,
+       "se": 3,
+       "sets": "9-25 13-25 16-25"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 2,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "sd": 1,
+       "se": 3,
+       "sets": "22-25 25-20 19-25 17-25"
+      },
+      {
+       "date": "2026-10-04",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 2,
+       "ext": "VANNES VOLLEY 56",
+       "sd": 0,
+       "se": 3,
+       "sets": "19-25 19-25 16-25"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 3,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "sd": 2,
+       "se": 3,
+       "sets": "25-18 25-27 25-22 20-25 13-15"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 3,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-20 22-25 25-21 27-25"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 3,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-11 25-19 25-18"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "12:00",
+       "j": 3,
+       "ext": "C.P.B. RENNES 35",
+       "sd": 1,
+       "se": 3,
+       "sets": "16-25 25-22 9-25 26-28"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "11:00",
+       "j": 3,
+       "ext": "JEANNE D ARC DE RENNES",
+       "sd": 2,
+       "se": 3,
+       "sets": "25-19 25-17 16-25 20-25 10-15"
+      },
+      {
+       "date": "2026-10-11",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "11:00",
+       "j": 3,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-22 18-25 15-25 20-25"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "11:00",
+       "j": 4,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 3,
+       "se": 2,
+       "sets": "25-20 20-25 18-25 25-18 15-12"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "19:00",
+       "j": 4,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "sd": 1,
+       "se": 3,
+       "sets": "20-25 22-25 25-22 16-25"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "21:00",
+       "j": 4,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "15:00",
+       "j": 4,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-18 25-19 25-18"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "15:00",
+       "j": 4,
+       "ext": "VANNES VOLLEY 56",
+       "sd": 3,
+       "se": 1,
+       "sets": "22-25 25-23 25-19 25-19"
+      },
+      {
+       "date": "2026-10-25",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "15:00",
+       "j": 4,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "sd": 2,
+       "se": 3,
+       "sets": "16-25 25-17 25-9 14-25 10-15"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 5,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-21 25-20 19-25 25-20"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 5,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "sd": 0,
+       "se": 3,
+       "sets": "24-26 14-25 22-25"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 5,
+       "ext": "C.P.B. RENNES 35",
+       "sd": 0,
+       "se": 3,
+       "sets": "16-25 12-25 23-25"
+      },
+      {
+       "date": "2026-11-08",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 5,
+       "ext": "JEANNE D ARC DE RENNES",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-19 26-24 25-20"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "21:00",
+       "j": 5,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "sd": 0,
+       "se": 3,
+       "sets": "19-25 12-25 25-27"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "19:00",
+       "j": 5,
+       "ext": "UNION SPORTIVE LAILLE",
+       "sd": 2,
+       "se": 3,
+       "sets": "25-15 25-16 21-25 17-25 9-15"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "19:00",
+       "j": 6,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "16:00",
+       "j": 6,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "ARENA"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 6,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 6,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "13:00",
+       "j": 6,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 6,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 7,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 7,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 7,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 7,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "SALLE OMNISPORT DE KERCADO"
+      },
+      {
+       "date": "2026-11-29",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "11:30",
+       "j": 7,
+       "ext": "UNION SPORTIVE LAILLE",
+       "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "21:00",
+       "j": 7,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "COMPLEXE SPORTIF DE LA SEICHE"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "21:00",
+       "j": 8,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "COMPLEXE SPORTIF DE LA SEICHE"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "11:00",
+       "j": 8,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "15:00",
+       "j": 8,
+       "ext": "UNION SPORTIVE LAILLE",
+       "salle": "SALLE OMNISPORT DE KERCADO"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 8,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 8,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2026-12-06",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "12:30",
+       "j": 8,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "salle": "CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 9,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "13:00",
+       "j": 9,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 9,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 9,
+       "ext": "UNION SPORTIVE LAILLE",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "11:00",
+       "j": 9,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+      },
+      {
+       "date": "2026-12-20",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 9,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 10,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "21:00",
+       "j": 10,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "COMPLEXE SPORTIF DE LA SEICHE"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "11:00",
+       "j": 10,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "15:00",
+       "j": 10,
+       "ext": "UNION SPORTIVE LAILLE",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 10,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-01-10",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 10,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 11,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "12:30",
+       "j": 11,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "15:00",
+       "j": 11,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "salle": "ARENA"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 11,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 11,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-01-17",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 11,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "SALLE OMNISPORT DE KERCADO"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 12,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 12,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 12,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "12:00",
+       "j": 12,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "15:00",
+       "j": 12,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "ARENA"
+      },
+      {
+       "date": "2027-01-31",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 12,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 13,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "13:00",
+       "j": 13,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "ARENA"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "11:00",
+       "j": 13,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "15:00",
+       "j": 13,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "salle": "SALLE FONTAINES GUY"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 13,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+      },
+      {
+       "date": "2027-02-14",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 13,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "SALLE OMNISPORT DE KERCADO"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "11:00",
+       "j": 14,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 14,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "13:00",
+       "j": 14,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "12:30",
+       "j": 14,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 14,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-02-21",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 14,
+       "ext": "UNION SPORTIVE LAILLE",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 15,
+       "ext": "UNION SPORTIVE LAILLE",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "19:00",
+       "j": 15,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "17:00",
+       "j": 15,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "SALLE FONTAINES GUY"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 15,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 15,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "salle": "SALLE OMNISPORT DE KERCADO"
+      },
+      {
+       "date": "2027-03-21",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 15,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 16,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "15:00",
+       "j": 16,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "12:30",
+       "j": 16,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 16,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-03-28",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 16,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-04-11",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "12:00",
+       "j": 16,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "ARENA"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 17,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "18:00",
+       "j": 17,
+       "ext": "UNION SPORTIVE LAILLE",
+       "salle": "SALLE FONTAINES GUY"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 17,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 17,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "SALLE OMNISPORT DE KERCADO"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 17,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-04-04",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "11:00",
+       "j": 17,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "15:00",
+       "j": 18,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2027-04-10",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "18:00",
+       "j": 18,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "salle": "CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 18,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 18,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "15:00",
+       "j": 18,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "SALLE OMNISPORT"
+      },
+      {
+       "date": "2027-04-18",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "11:00",
+       "j": 18,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+      },
+      {
+       "date": "2027-05-09",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 19,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-05-09",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 19,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+      },
+      {
+       "date": "2027-05-09",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "15:00",
+       "j": 19,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "ARENA"
+      },
+      {
+       "date": "2027-05-09",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 19,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-05-09",
+       "dom": "E.SP. CANTON DE PIPRIAC V.B.",
+       "heure": "13:00",
+       "j": 19,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "SALLE DES TERRES ROUGES"
+      },
+      {
+       "date": "2027-05-09",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "15:00",
+       "j": 19,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2027-05-16",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "12:30",
+       "j": 20,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-05-16",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 20,
+       "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-05-16",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 20,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-05-16",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "15:00",
+       "j": 20,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "ARENA"
+      },
+      {
+       "date": "2027-05-16",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 20,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "SALLE OMNISPORT DE KERCADO"
+      },
+      {
+       "date": "2027-05-16",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "15:00",
+       "j": 20,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "SALLE FONTAINES GUY"
+      },
+      {
+       "date": "2027-05-23",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "11:00",
+       "j": 21,
+       "ext": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2027-05-23",
+       "dom": "VANNES VOLLEY 56",
+       "heure": "11:00",
+       "j": 21,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "salle": "SALLE OMNISPORT DE KERCADO"
+      },
+      {
+       "date": "2027-05-23",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "12:00",
+       "j": 21,
+       "ext": "PLANCOET VOLLEY-BALL",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2027-05-23",
+       "dom": "UNION SPORTIVE LAILLE",
+       "heure": "15:00",
+       "j": 21,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "salle": "ARENA"
+      },
+      {
+       "date": "2027-05-23",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "15:00",
+       "j": 21,
+       "ext": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2027-05-23",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "12:30",
+       "j": 21,
+       "ext": "JEANNE D ARC DE RENNES",
+       "salle": "CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-05-30",
+       "dom": "JEANNE D ARC DE RENNES",
+       "heure": "12:00",
+       "j": 22,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "JA RENNES"
+      },
+      {
+       "date": "2027-05-30",
+       "dom": "SAINT-MEDARD TORCE VOLLEY-BALL",
+       "heure": "15:00",
+       "j": 22,
+       "ext": "C.P.B. RENNES 35",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-05-30",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "15:00",
+       "j": 22,
+       "ext": "UNION SPORTIVE LAILLE",
+       "salle": "PEN AR C'HLEUZ"
+      },
+      {
+       "date": "2027-05-30",
+       "dom": "PLANCOET VOLLEY-BALL",
+       "heure": "11:00",
+       "j": 22,
+       "ext": "E.SP. CANTON DE PIPRIAC V.B.",
+       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+      },
+      {
+       "date": "2027-05-29",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE VB",
+       "heure": "21:00",
+       "j": 22,
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "SALLE FONTAINES GUY"
+      },
+      {
+       "date": "2027-05-30",
+       "dom": "LANESTER LES DEUX RIVIERES VOLLEY-BALL",
+       "heure": "13:00",
+       "j": 22,
+       "ext": "VANNES VOLLEY 56",
+       "salle": "COMPLEXE J.ZAY/L. LAGRANGE"
+      }
+     ]
+    }
+   ],
    "poule": "Prenationale feminine",
    "rang": 11,
    "sur": 12,
    "pts": 5,
    "g": 1,
    "p": 4,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "PRM",
@@ -514,13 +2970,864 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "Pre regionale masculine",
+     "nous": "ST GREGOIRE 2",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "ST GREGOIRE 2",
+       "pts": 12,
+       "j": 4,
+       "g": 4,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "ORGERBLON 1",
+       "pts": 12,
+       "j": 4,
+       "g": 4,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "RENNES CPB 4",
+       "pts": 7,
+       "j": 4,
+       "g": 2,
+       "p": 2
+      },
+      {
+       "rang": 4,
+       "club": "LOUVIGNE DE BAIS 1",
+       "pts": 7,
+       "j": 4,
+       "g": 2,
+       "p": 2
+      },
+      {
+       "rang": 5,
+       "club": "LIFFRE 1",
+       "pts": 5,
+       "j": 4,
+       "g": 2,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "UGS CESSON CHANTEPIE VERN 3",
+       "pts": 5,
+       "j": 4,
+       "g": 2,
+       "p": 2
+      },
+      {
+       "rang": 7,
+       "club": "GUICHEN 2",
+       "pts": 5,
+       "j": 4,
+       "g": 2,
+       "p": 2
+      },
+      {
+       "rang": 8,
+       "club": "LAILLE 1",
+       "pts": 3,
+       "j": 4,
+       "g": 1,
+       "p": 3
+      },
+      {
+       "rang": 9,
+       "club": "VALLONS de VILAINE 1",
+       "pts": 3,
+       "j": 4,
+       "g": 1,
+       "p": 3
+      },
+      {
+       "rang": 10,
+       "club": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "pts": 1,
+       "j": 4,
+       "g": 0,
+       "p": 4
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-03",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "21:00",
+       "j": 1,
+       "ext": "VALLONS de VILAINE 1",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-19 22-25 25-15 25-11"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "GUICHEN 2",
+       "heure": "21:00",
+       "j": 1,
+       "ext": "RENNES CPB 4",
+       "sd": 3,
+       "se": 2,
+       "sets": "24-26 25-22 21-25 25-16 15-11"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 1,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-10 25-14 25-18"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "LAILLE 1",
+       "heure": "20:30",
+       "j": 1,
+       "ext": "ST GREGOIRE 2",
+       "sd": 0,
+       "se": 3,
+       "sets": "13-25 14-25 19-25"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 1,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-12 25-19 25-23"
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 2,
+       "ext": "VALLONS de VILAINE 1",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-16 25-19 25-17"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "18:30",
+       "j": 2,
+       "ext": "LAILLE 1",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-13 20-25 25-13 25-12"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 2,
+       "ext": "LIFFRE 1",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-19 25-20 25-21"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 2,
+       "ext": "GUICHEN 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-22 19-25 21-25 21-25"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 2,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-19 22-25 25-21 26-24"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 3,
+       "ext": "RENNES CPB 4",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-22 7-25 25-22 25-22"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "18:30",
+       "j": 3,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "sd": 3,
+       "se": 2,
+       "sets": "25-23 23-25 23-25 26-24 15-5"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "GUICHEN 2",
+       "heure": "21:00",
+       "j": 3,
+       "ext": "ST GREGOIRE 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "20-25 25-19 19-25 20-25"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 3,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "sd": 3,
+       "se": 2,
+       "sets": "25-23 22-25 23-25 25-21 15-10"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "LAILLE 1",
+       "heure": "18:00",
+       "j": 3,
+       "ext": "ORGERBLON 1",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-27 27-25 13-25 26-28"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "LAILLE 1",
+       "heure": "20:30",
+       "j": 4,
+       "ext": "VALLONS de VILAINE 1",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-16 25-18 22-25 25-15"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 4,
+       "ext": "LIFFRE 1",
+       "sd": 3,
+       "se": 1,
+       "sets": "16-25 25-12 25-19 25-15"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "GUICHEN 2",
+       "heure": "16:00",
+       "j": 4,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "sd": 0,
+       "se": 3,
+       "sets": "21-25 15-25 18-25"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 4,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-18 25-17 25-23"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 4,
+       "ext": "RENNES CPB 4",
+       "sd": 0,
+       "se": 3,
+       "sets": "17-25 14-25 15-25"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 5,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "salle": "Aurélie Aubert BAIN de BZH"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 5,
+       "ext": "ST GREGOIRE 2",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "18:30",
+       "j": 5,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "salle": "Beausoleil à Cesson"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "GUICHEN 2",
+       "heure": "21:00",
+       "j": 5,
+       "ext": "ORGERBLON 1",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 5,
+       "ext": "LAILLE 1",
+       "salle": "jacques prévert"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 6,
+       "ext": "VALLONS de VILAINE 1",
+       "salle": "GYMNASE JACQUES PRÉVERT"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "LAILLE 1",
+       "heure": "18:00",
+       "j": 6,
+       "ext": "GUICHEN 2",
+       "salle": "SALLE DE L'ARCHIPEL"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 6,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "salle": "SALLE DUGUESCLIN"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "18:30",
+       "j": 6,
+       "ext": "RENNES CPB 4",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 6,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 7,
+       "ext": "ST GREGOIRE 2",
+       "salle": "Aurélie Aubert BAIN de BZH"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 7,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "salle": "ONYX st symphorien"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 7,
+       "ext": "ORGERBLON 1",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "18:30",
+       "j": 7,
+       "ext": "LAILLE 1",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "GUICHEN 2",
+       "heure": "21:00",
+       "j": 7,
+       "ext": "LIFFRE 1",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "GUICHEN 2",
+       "heure": "21:00",
+       "j": 8,
+       "ext": "VALLONS de VILAINE 1",
+       "salle": "SALLE JEAN PIERRE LOUSSOUARN"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 8,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "salle": "jacques prévert"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "LAILLE 1",
+       "heure": "20:30",
+       "j": 8,
+       "ext": "RENNES CPB 4",
+       "salle": "SALLE DE L'ARCHIPEL"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 8,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "salle": "SALLE DUGUESCLIN"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "18:30",
+       "j": 8,
+       "ext": "ST GREGOIRE 2",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 9,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "salle": "Aurélie Aubert BAIN de BZH"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 9,
+       "ext": "ORGERBLON 1",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 9,
+       "ext": "LAILLE 1",
+       "salle": "ONYX st symphorien"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 9,
+       "ext": "LIFFRE 1",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "18:30",
+       "j": 9,
+       "ext": "GUICHEN 2",
+       "salle": "Beausoleil à Cesson"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 10,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "salle": "Aurélie Aubert BAIN de BZH"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 10,
+       "ext": "GUICHEN 2",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 10,
+       "ext": "LIFFRE 1",
+       "salle": "ONYX st symphorien"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 10,
+       "ext": "LAILLE 1",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "18:30",
+       "j": 10,
+       "ext": "ORGERBLON 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 11,
+       "ext": "ORGERBLON 1",
+       "salle": "Aurélie Aubert BAIN de BZH"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "LAILLE 1",
+       "heure": "18:00",
+       "j": 11,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "salle": "SALLE DE L'ARCHIPEL"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 11,
+       "ext": "ST GREGOIRE 2",
+       "salle": "jacques prévert"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "GUICHEN 2",
+       "heure": "21:00",
+       "j": 11,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "18:30",
+       "j": 11,
+       "ext": "RENNES CPB 4",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 12,
+       "ext": "VALLONS de VILAINE 1",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 12,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "salle": "ONYX st symphorien"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 12,
+       "ext": "GUICHEN 2",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "18:30",
+       "j": 12,
+       "ext": "LIFFRE 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 12,
+       "ext": "LAILLE 1",
+       "salle": "SALLE RICHARD DACOURY"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 13,
+       "ext": "LAILLE 1",
+       "salle": "Aurélie Aubert BAIN de BZH"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 13,
+       "ext": "ORGERBLON 1",
+       "salle": "jacques prévert"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "21:00",
+       "j": 13,
+       "ext": "GUICHEN 2",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "18:30",
+       "j": 13,
+       "ext": "ST GREGOIRE 2",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 13,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 14,
+       "ext": "VALLONS de VILAINE 1",
+       "salle": "ONYX st symphorien"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 14,
+       "ext": "RENNES CPB 4",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "18:30",
+       "j": 14,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 14,
+       "ext": "GUICHEN 2",
+       "salle": "SALLE RICHARD DACOURY"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "LAILLE 1",
+       "heure": "20:30",
+       "j": 14,
+       "ext": "LIFFRE 1",
+       "salle": "SALLE DE L'ARCHIPEL"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 15,
+       "ext": "LIFFRE 1",
+       "salle": "Aurélie Aubert BAIN de BZH"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "GUICHEN 2",
+       "heure": "21:00",
+       "j": 15,
+       "ext": "LAILLE 1",
+       "salle": "SALLE JEAN PIERRE LOUSSOUARN"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "18:30",
+       "j": 15,
+       "ext": "ORGERBLON 1",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 15,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 15,
+       "ext": "ST GREGOIRE 2",
+       "salle": "ONYX st symphorien"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 16,
+       "ext": "VALLONS de VILAINE 1",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "18:30",
+       "j": 16,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 16,
+       "ext": "RENNES CPB 4",
+       "salle": "SALLE RICHARD DACOURY"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "LAILLE 1",
+       "heure": "18:00",
+       "j": 16,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "salle": "SALLE DE L'ARCHIPEL"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 16,
+       "ext": "GUICHEN 2",
+       "salle": "jacques prévert"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "VALLONS de VILAINE 1",
+       "heure": "21:00",
+       "j": 17,
+       "ext": "GUICHEN 2",
+       "salle": "Aurélie Aubert BAIN de BZH"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "UGS CESSON CHANTEPIE VERN 3",
+       "heure": "18:30",
+       "j": 17,
+       "ext": "LIFFRE 1",
+       "salle": "Beausoleil à Cesson"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "RENNES CPB 4",
+       "heure": "18:30",
+       "j": 17,
+       "ext": "LAILLE 1",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "heure": "19:00",
+       "j": 17,
+       "ext": "ORGERBLON 1",
+       "salle": "ONYX st symphorien"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "ST GREGOIRE 2",
+       "heure": "20:30",
+       "j": 17,
+       "ext": "LOUVIGNE DE BAIS 1",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "LOUVIGNE DE BAIS 1",
+       "heure": "18:30",
+       "j": 18,
+       "ext": "VALLONS de VILAINE 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "ORGERBLON 1",
+       "heure": "21:00",
+       "j": 18,
+       "ext": "ST GREGOIRE 2",
+       "salle": "SALLE RICHARD DACOURY"
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "LAILLE 1",
+       "heure": "20:30",
+       "j": 18,
+       "ext": "VOLLEY ENTENTE GUIPEL/ACLC",
+       "salle": "SALLE DE L'ARCHIPEL"
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "LIFFRE 1",
+       "heure": "21:00",
+       "j": 18,
+       "ext": "RENNES CPB 4",
+       "salle": "jacques prévert"
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "GUICHEN 2",
+       "heure": "21:00",
+       "j": 18,
+       "ext": "UGS CESSON CHANTEPIE VERN 3",
+       "salle": "SALLE DU COSEC"
+      }
+     ]
+    }
+   ],
    "poule": "Pré-régionale masculine · ST GREGOIRE 2",
    "rang": 1,
    "sur": 10,
    "pts": 12,
    "g": 4,
    "p": 0,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "D1F",
@@ -654,13 +3961,811 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "D1 feminine",
+     "nous": "ST GREGOIRE 2",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "BRUZ JA 1",
+       "pts": 10,
+       "j": 4,
+       "g": 3,
+       "p": 1
+      },
+      {
+       "rang": 2,
+       "club": "LOUVIGNE DE BAIS 2",
+       "pts": 9,
+       "j": 3,
+       "g": 3,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "JANZE CORPS NUDS 1",
+       "pts": 8,
+       "j": 4,
+       "g": 3,
+       "p": 1
+      },
+      {
+       "rang": 4,
+       "club": "BROCELIANDE 3",
+       "pts": 6,
+       "j": 3,
+       "g": 2,
+       "p": 1
+      },
+      {
+       "rang": 5,
+       "club": "MAEN ROCH 1",
+       "pts": 6,
+       "j": 4,
+       "g": 2,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "GUIGNEN 3",
+       "pts": 3,
+       "j": 4,
+       "g": 1,
+       "p": 3
+      },
+      {
+       "rang": 7,
+       "club": "ST GREGOIRE 2",
+       "pts": 3,
+       "j": 3,
+       "g": 1,
+       "p": 2
+      },
+      {
+       "rang": 8,
+       "club": "UGS CCV 3",
+       "pts": 3,
+       "j": 4,
+       "g": 1,
+       "p": 3
+      },
+      {
+       "rang": 9,
+       "club": "RENNES JA 3",
+       "pts": 0,
+       "j": 3,
+       "g": 0,
+       "p": 3
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-03",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "heure": "18:00",
+       "j": 1,
+       "ext": "GUIGNEN 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-19 25-17 25-23"
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "ST GREGOIRE 2",
+       "heure": "18:30",
+       "j": 1,
+       "ext": "BROCELIANDE 3",
+       "sd": 0,
+       "se": 3,
+       "sets": "15-25 17-25 10-25"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "RENNES JA 3",
+       "j": 1,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "BRUZ JA 1",
+       "heure": "21:00",
+       "j": 1,
+       "ext": "MAEN ROCH 1",
+       "sd": 3,
+       "se": 0,
+       "sets": "26-24 25-18 25-14"
+      },
+      {
+       "date": "2026-10-31",
+       "dom": "UGS CCV 3",
+       "heure": "18:00",
+       "j": 1,
+       "ext": "JANZE CORPS NUDS 1",
+       "sd": 0,
+       "se": 3,
+       "sets": "7-25 11-25 14-25"
+      },
+      {
+       "date": "2026-10-09",
+       "dom": "GUIGNEN 3",
+       "heure": "21:30",
+       "j": 2,
+       "ext": "UGS CCV 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-9 25-9 25-18"
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "JANZE CORPS NUDS 1",
+       "heure": "21:00",
+       "j": 2,
+       "ext": "BRUZ JA 1",
+       "sd": 3,
+       "se": 2,
+       "sets": "25-23 17-25 25-27 25-15 17-15"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "MAEN ROCH 1",
+       "heure": "21:00",
+       "j": 2,
+       "ext": "RENNES JA 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-12 25-16 25-13"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "ST GREGOIRE 2",
+       "j": 2,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "BROCELIANDE 3",
+       "heure": "18:00",
+       "j": 2,
+       "ext": "LOUVIGNE DE BAIS 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-19 22-25 15-25 21-25"
+      },
+      {
+       "date": "2026-10-31",
+       "dom": "GUIGNEN 3",
+       "heure": "16:00",
+       "j": 3,
+       "ext": "BROCELIANDE 3",
+       "sd": 0,
+       "se": 3,
+       "sets": "16-25 10-25 22-25"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "j": 3,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "ST GREGOIRE 2",
+       "heure": "18:00",
+       "j": 3,
+       "ext": "MAEN ROCH 1",
+       "sd": 0,
+       "se": 3,
+       "sets": "21-25 13-25 16-25"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "RENNES JA 3",
+       "heure": "18:00",
+       "j": 3,
+       "ext": "JANZE CORPS NUDS 1",
+       "sd": 0,
+       "se": 3,
+       "sets": "16-25 9-25 11-25"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "BRUZ JA 1",
+       "heure": "21:00",
+       "j": 3,
+       "ext": "UGS CCV 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-13 25-11 26-24"
+      },
+      {
+       "date": "2026-11-06",
+       "dom": "BRUZ JA 1",
+       "heure": "21:15",
+       "j": 4,
+       "ext": "GUIGNEN 3",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-17 18-25 25-17 25-9"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "UGS CCV 3",
+       "heure": "21:00",
+       "j": 4,
+       "ext": "RENNES JA 3",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-16 24-26 25-21 25-11"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "ST GREGOIRE 2",
+       "heure": "21:00",
+       "j": 4,
+       "ext": "JANZE CORPS NUDS 1",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-13 25-20 23-25 25-18"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "MAEN ROCH 1",
+       "heure": "21:00",
+       "j": 4,
+       "ext": "LOUVIGNE DE BAIS 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-14 22-25 23-25 18-25"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "BROCELIANDE 3",
+       "j": 4,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "GUIGNEN 3",
+       "j": 5,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "BROCELIANDE 3",
+       "heure": "18:30",
+       "j": 5,
+       "ext": "MAEN ROCH 1",
+       "salle": "Treffendel"
+      },
+      {
+       "date": "2026-11-20",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "heure": "20:30",
+       "j": 5,
+       "ext": "JANZE CORPS NUDS 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "ST GREGOIRE 2",
+       "heure": "18:00",
+       "j": 5,
+       "ext": "UGS CCV 3",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "RENNES JA 3",
+       "heure": "18:00",
+       "j": 5,
+       "ext": "BRUZ JA 1",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "GUIGNEN 3",
+       "heure": "20:30",
+       "j": 6,
+       "ext": "RENNES JA 3",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "BRUZ JA 1",
+       "heure": "21:00",
+       "j": 6,
+       "ext": "ST GREGOIRE 2",
+       "salle": "PIERRE BROSSOLETTE"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "UGS CCV 3",
+       "heure": "21:00",
+       "j": 6,
+       "ext": "LOUVIGNE DE BAIS 2",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "JANZE CORPS NUDS 1",
+       "heure": "21:00",
+       "j": 6,
+       "ext": "BROCELIANDE 3",
+       "salle": "CORPS NUDS"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "MAEN ROCH 1",
+       "j": 6,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "GUIGNEN 3",
+       "heure": "20:30",
+       "j": 7,
+       "ext": "MAEN ROCH 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "JANZE CORPS NUDS 1",
+       "j": 7,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "BROCELIANDE 3",
+       "heure": "18:30",
+       "j": 7,
+       "ext": "UGS CCV 3",
+       "salle": "Treffendel"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "heure": "18:00",
+       "j": 7,
+       "ext": "BRUZ JA 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "ST GREGOIRE 2",
+       "heure": "18:00",
+       "j": 7,
+       "ext": "RENNES JA 3",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "ST GREGOIRE 2",
+       "heure": "18:00",
+       "j": 8,
+       "ext": "GUIGNEN 3",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "RENNES JA 3",
+       "j": 8,
+       "ext": "LOUVIGNE DE BAIS 2",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "BRUZ JA 1",
+       "heure": "21:00",
+       "j": 8,
+       "ext": "BROCELIANDE 3",
+       "salle": "PIERRE BROSSOLETTE"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "UGS CCV 3",
+       "j": 8,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "JANZE CORPS NUDS 1",
+       "heure": "21:00",
+       "j": 8,
+       "ext": "MAEN ROCH 1",
+       "salle": "CORPS NUDS"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "GUIGNEN 3",
+       "heure": "18:00",
+       "j": 9,
+       "ext": "JANZE CORPS NUDS 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "MAEN ROCH 1",
+       "heure": "21:00",
+       "j": 9,
+       "ext": "UGS CCV 3",
+       "salle": "la brionnière"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "BRUZ JA 1",
+       "j": 9,
+       "exempt": true
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "BROCELIANDE 3",
+       "heure": "18:30",
+       "j": 9,
+       "ext": "RENNES JA 3",
+       "salle": "Treffendel"
+      },
+      {
+       "date": "2027-01-09",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "heure": "18:00",
+       "j": 9,
+       "ext": "ST GREGOIRE 2",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "GUIGNEN 3",
+       "heure": "20:30",
+       "j": 10,
+       "ext": "LOUVIGNE DE BAIS 2",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "BROCELIANDE 3",
+       "heure": "18:30",
+       "j": 10,
+       "ext": "ST GREGOIRE 2",
+       "salle": "Treffendel"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "RENNES JA 3",
+       "j": 10,
+       "exempt": true
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "MAEN ROCH 1",
+       "heure": "21:00",
+       "j": 10,
+       "ext": "BRUZ JA 1",
+       "salle": "la brionnière"
+      },
+      {
+       "date": "2027-01-16",
+       "dom": "JANZE CORPS NUDS 1",
+       "heure": "21:00",
+       "j": 10,
+       "ext": "UGS CCV 3",
+       "salle": "CORPS NUDS"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "UGS CCV 3",
+       "heure": "20:30",
+       "j": 11,
+       "ext": "GUIGNEN 3",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "BRUZ JA 1",
+       "heure": "21:00",
+       "j": 11,
+       "ext": "JANZE CORPS NUDS 1",
+       "salle": "PIERRE BROSSOLETTE"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "RENNES JA 3",
+       "heure": "18:00",
+       "j": 11,
+       "ext": "MAEN ROCH 1",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "ST GREGOIRE 2",
+       "heure": "18:00",
+       "j": 11,
+       "exempt": true
+      },
+      {
+       "date": "2027-01-30",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "heure": "18:00",
+       "j": 11,
+       "ext": "BROCELIANDE 3",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "BROCELIANDE 3",
+       "heure": "18:30",
+       "j": 12,
+       "ext": "GUIGNEN 3",
+       "salle": "Treffendel"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "j": 12,
+       "exempt": true
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "MAEN ROCH 1",
+       "heure": "21:00",
+       "j": 12,
+       "ext": "ST GREGOIRE 2",
+       "salle": "la brionnière"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "JANZE CORPS NUDS 1",
+       "heure": "21:00",
+       "j": 12,
+       "ext": "RENNES JA 3",
+       "salle": "CORPS NUDS"
+      },
+      {
+       "date": "2027-02-13",
+       "dom": "UGS CCV 3",
+       "heure": "21:00",
+       "j": 12,
+       "ext": "BRUZ JA 1",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "GUIGNEN 3",
+       "heure": "20:30",
+       "j": 13,
+       "ext": "BRUZ JA 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "RENNES JA 3",
+       "heure": "21:00",
+       "j": 13,
+       "ext": "UGS CCV 3",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "JANZE CORPS NUDS 1",
+       "heure": "18:00",
+       "j": 13,
+       "ext": "ST GREGOIRE 2",
+       "salle": "CORPS NUDS"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "heure": "18:00",
+       "j": 13,
+       "ext": "MAEN ROCH 1",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-02-20",
+       "dom": "BROCELIANDE 3",
+       "j": 13,
+       "exempt": true
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "GUIGNEN 3",
+       "j": 14,
+       "exempt": true
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "MAEN ROCH 1",
+       "heure": "21:00",
+       "j": 14,
+       "ext": "BROCELIANDE 3",
+       "salle": "la brionnière"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "JANZE CORPS NUDS 1",
+       "heure": "21:00",
+       "j": 14,
+       "ext": "LOUVIGNE DE BAIS 2",
+       "salle": "CORPS NUDS"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "UGS CCV 3",
+       "heure": "21:00",
+       "j": 14,
+       "ext": "ST GREGOIRE 2",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2027-03-20",
+       "dom": "BRUZ JA 1",
+       "heure": "21:00",
+       "j": 14,
+       "ext": "RENNES JA 3",
+       "salle": "PIERRE BROSSOLETTE"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "RENNES JA 3",
+       "heure": "20:30",
+       "j": 15,
+       "ext": "GUIGNEN 3",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "ST GREGOIRE 2",
+       "heure": "18:00",
+       "j": 15,
+       "ext": "BRUZ JA 1",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "heure": "18:00",
+       "j": 15,
+       "ext": "UGS CCV 3",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "BROCELIANDE 3",
+       "heure": "18:30",
+       "j": 15,
+       "ext": "JANZE CORPS NUDS 1",
+       "salle": "Treffendel"
+      },
+      {
+       "date": "2027-03-27",
+       "dom": "MAEN ROCH 1",
+       "j": 15,
+       "exempt": true
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "MAEN ROCH 1",
+       "heure": "21:00",
+       "j": 16,
+       "ext": "GUIGNEN 3",
+       "salle": "la brionnière"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "JANZE CORPS NUDS 1",
+       "j": 16,
+       "exempt": true
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "UGS CCV 3",
+       "heure": "21:00",
+       "j": 16,
+       "ext": "BROCELIANDE 3",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "BRUZ JA 1",
+       "heure": "21:00",
+       "j": 16,
+       "ext": "LOUVIGNE DE BAIS 2",
+       "salle": "PIERRE BROSSOLETTE"
+      },
+      {
+       "date": "2027-04-03",
+       "dom": "RENNES JA 3",
+       "j": 16,
+       "ext": "ST GREGOIRE 2",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "GUIGNEN 3",
+       "heure": "20:30",
+       "j": 17,
+       "ext": "ST GREGOIRE 2",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "LOUVIGNE DE BAIS 2",
+       "heure": "18:00",
+       "j": 17,
+       "ext": "RENNES JA 3",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "BROCELIANDE 3",
+       "heure": "18:30",
+       "j": 17,
+       "ext": "BRUZ JA 1",
+       "salle": "Treffendel"
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "UGS CCV 3",
+       "j": 17,
+       "exempt": true
+      },
+      {
+       "date": "2027-04-17",
+       "dom": "MAEN ROCH 1",
+       "heure": "21:00",
+       "j": 17,
+       "ext": "JANZE CORPS NUDS 1",
+       "salle": "la brionnière"
+      },
+      {
+       "date": "2027-03-06",
+       "dom": "JANZE CORPS NUDS 1",
+       "heure": "21:00",
+       "j": 18,
+       "ext": "GUIGNEN 3",
+       "salle": "COMPLEXE SPORTIF RENÉ LACROIX"
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "UGS CCV 3",
+       "heure": "21:00",
+       "j": 18,
+       "ext": "MAEN ROCH 1",
+       "salle": "LA CHALOTAIS à VERN"
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "BRUZ JA 1",
+       "j": 18,
+       "exempt": true
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "RENNES JA 3",
+       "heure": "18:00",
+       "j": 18,
+       "ext": "BROCELIANDE 3",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2027-05-15",
+       "dom": "ST GREGOIRE 2",
+       "heure": "18:00",
+       "j": 18,
+       "ext": "LOUVIGNE DE BAIS 2",
+       "salle": "SALLE DU COSEC"
+      }
+     ]
+    }
+   ],
    "poule": "D1 feminine · ST GREGOIRE 2",
    "rang": 7,
    "sur": 9,
    "pts": 3,
    "g": 1,
    "p": 2,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "D2M",
@@ -724,13 +4829,308 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "Departementale 2 masculine A",
+     "nous": "ST GREGOIRE 3",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "DINARD 1",
+       "pts": 12,
+       "j": 4,
+       "g": 4,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "ROMILLE 1",
+       "pts": 6,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "ST GREGOIRE 3",
+       "pts": 6,
+       "j": 3,
+       "g": 2,
+       "p": 1
+      },
+      {
+       "rang": 4,
+       "club": "RENNES TA 1",
+       "pts": 3,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 5,
+       "club": "LE RHEU 3",
+       "pts": 3,
+       "j": 3,
+       "g": 1,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "MAEN ROCH 2",
+       "pts": 3,
+       "j": 4,
+       "g": 1,
+       "p": 3
+      },
+      {
+       "rang": 7,
+       "club": "THORIGNE FOUILLARD 1",
+       "pts": 0,
+       "j": 4,
+       "g": 0,
+       "p": 4
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-03",
+       "dom": "ST GREGOIRE 3",
+       "j": 1,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-21",
+       "dom": "DINARD 1",
+       "heure": "20:00",
+       "j": 1,
+       "ext": "LE RHEU 3",
+       "sd": 3,
+       "se": 1,
+       "sets": "11-25 25-16 25-23 32-30"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "ROMILLE 1",
+       "heure": "21:00",
+       "j": 1,
+       "ext": "THORIGNE FOUILLARD 1",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-6 25-14 25-14"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "RENNES TA 1",
+       "j": 1,
+       "ext": "MAEN ROCH 2",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-19 25-17 25-19"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "RENNES TA 1",
+       "j": 2,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "MAEN ROCH 2",
+       "heure": "18:30",
+       "j": 2,
+       "ext": "ROMILLE 1",
+       "sd": 1,
+       "se": 3,
+       "sets": "16-25 25-18 21-25 16-25"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "THORIGNE FOUILLARD 1",
+       "heure": "21:00",
+       "j": 2,
+       "ext": "DINARD 1",
+       "sd": 0,
+       "se": 3,
+       "sets": "17-25 19-25 11-25"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "LE RHEU 3",
+       "j": 2,
+       "ext": "ST GREGOIRE 3",
+       "sd": 1,
+       "se": 3,
+       "sets": "19-25 25-20 18-25 25-27"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "LE RHEU 3",
+       "j": 3,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "ST GREGOIRE 3",
+       "heure": "21:00",
+       "j": 3,
+       "ext": "THORIGNE FOUILLARD 1",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-17 25-18 25-19"
+      },
+      {
+       "date": "2026-10-24",
+       "dom": "DINARD 1",
+       "heure": "18:00",
+       "j": 3,
+       "ext": "MAEN ROCH 2",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-17 22-25 25-22 25-14"
+      },
+      {
+       "date": "2026-11-22",
+       "dom": "ROMILLE 1",
+       "heure": "14:00",
+       "j": 3,
+       "ext": "RENNES TA 1",
+       "salle": "SALLE ANITA CONTI"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "ROMILLE 1",
+       "j": 4,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "RENNES TA 1",
+       "j": 4,
+       "ext": "DINARD 1",
+       "sd": 0,
+       "se": 3,
+       "sets": "22-25 22-25 23-25"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "MAEN ROCH 2",
+       "heure": "18:30",
+       "j": 4,
+       "ext": "ST GREGOIRE 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-22 25-15 25-20"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "THORIGNE FOUILLARD 1",
+       "heure": "21:00",
+       "j": 4,
+       "ext": "LE RHEU 3",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-22 10-25 19-25 21-25"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "THORIGNE FOUILLARD 1",
+       "j": 5,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "LE RHEU 3",
+       "heure": "21:00",
+       "j": 5,
+       "ext": "MAEN ROCH 2",
+       "salle": "GYMNASE DU COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "ST GREGOIRE 3",
+       "heure": "21:00",
+       "j": 5,
+       "ext": "RENNES TA 1",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "DINARD 1",
+       "heure": "18:00",
+       "j": 5,
+       "ext": "ROMILLE 1",
+       "salle": "HALLE MICHELET"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "DINARD 1",
+       "j": 6,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "ROMILLE 1",
+       "heure": "21:00",
+       "j": 6,
+       "ext": "ST GREGOIRE 3",
+       "salle": "SALLE ANITA CONTI"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "RENNES TA 1",
+       "j": 6,
+       "ext": "LE RHEU 3",
+       "salle": "SALLE PARQUET"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "MAEN ROCH 2",
+       "heure": "21:00",
+       "j": 6,
+       "ext": "THORIGNE FOUILLARD 1",
+       "salle": "COMPLEXE SPORTIF BRIONNIÈRE"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "MAEN ROCH 2",
+       "j": 7,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "THORIGNE FOUILLARD 1",
+       "heure": "21:00",
+       "j": 7,
+       "ext": "RENNES TA 1",
+       "salle": "SALLE DES LONGRAIS"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "LE RHEU 3",
+       "heure": "21:00",
+       "j": 7,
+       "ext": "ROMILLE 1",
+       "salle": "GYMNASE DU COSEC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "ST GREGOIRE 3",
+       "heure": "21:00",
+       "j": 7,
+       "ext": "DINARD 1",
+       "salle": "SALLE DU COSEC"
+      }
+     ]
+    }
+   ],
    "poule": "Departementale 2 masculine A · ST GREGOIRE 3",
    "rang": 3,
    "sur": 7,
    "pts": 6,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "M18M région",
@@ -783,9 +5183,152 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "M18M performance poule C",
+     "nous": "VOLLEY BALL GREGORIEN",
+     "active": true,
+     "classement": [],
+     "matchs": [
+      {
+       "date": "2026-11-21",
+       "dom": "VOLLEY BALL CLUB MALOUIN",
+       "heure": "13:30",
+       "j": 1,
+       "ext": "LA GUIDELOISE",
+       "salle": "BELLEVUE"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "heure": "13:30",
+       "j": 1,
+       "ext": "UNION SPORTIVE VERN",
+       "salle": "GYMNASE DE BEAUFEUILLAGE"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "FOUGERES VOLLEY-BALL",
+       "heure": "14:00",
+       "j": 1,
+       "ext": "ASPTT LANNION",
+       "salle": "LES COTTERETS"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "heure": "13:30",
+       "j": 1,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "salle": "PEN AR C'HLEUZ"
+      }
+     ]
+    },
+    {
+     "titre": "M18M performance poule E",
+     "nous": "VOLLEY BALL GREGORIEN",
+     "active": false,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "VOLLEY BALL CLUB MALOUIN",
+       "pts": 7,
+       "j": 3,
+       "g": 3,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "UNION SPORTIVE VERN",
+       "pts": 7,
+       "j": 3,
+       "g": 2,
+       "p": 1
+      },
+      {
+       "rang": 3,
+       "club": "FOUGERES VOLLEY-BALL",
+       "pts": 4,
+       "j": 3,
+       "g": 1,
+       "p": 2
+      },
+      {
+       "rang": 4,
+       "club": "VOLLEY BALL GREGORIEN",
+       "pts": 0,
+       "j": 3,
+       "g": 0,
+       "p": 3
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-03",
+       "dom": "VOLLEY BALL CLUB MALOUIN",
+       "heure": "14:30",
+       "j": 1,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-13 25-21 22-25 25-19"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "UNION SPORTIVE VERN",
+       "heure": "13:30",
+       "j": 1,
+       "ext": "FOUGERES VOLLEY-BALL",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-17 25-23 25-20"
+      },
+      {
+       "date": "2026-10-31",
+       "dom": "UNION SPORTIVE VERN",
+       "heure": "13:30",
+       "j": 2,
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-22 25-21 26-24"
+      },
+      {
+       "date": "2026-10-31",
+       "dom": "FOUGERES VOLLEY-BALL",
+       "heure": "13:30",
+       "j": 2,
+       "ext": "VOLLEY BALL CLUB MALOUIN",
+       "sd": 2,
+       "se": 3,
+       "sets": "22-25 25-27 25-23 25-21 10-15"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "13:30",
+       "j": 3,
+       "ext": "FOUGERES VOLLEY-BALL",
+       "sd": 0,
+       "se": 3,
+       "sets": "18-25 25-27 22-25"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "VOLLEY BALL CLUB MALOUIN",
+       "heure": "14:30",
+       "j": 3,
+       "ext": "UNION SPORTIVE VERN",
+       "sd": 3,
+       "se": 2,
+       "sets": "25-20 16-25 25-19 20-25 15-12"
+      }
+     ]
+    }
+   ],
    "poule": "M18M performance poule C",
    "noteRang": "Classement de la poule pas encore publié.",
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "M18M départemental",
@@ -831,13 +5374,181 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "M18 masculins honneur poule B",
+     "nous": "ST GREGOIRE",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "PLANCOET (22)",
+       "pts": 3,
+       "j": 1,
+       "g": 1,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "COMBOURG",
+       "pts": 3,
+       "j": 1,
+       "g": 1,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "LE RHEU 1",
+       "pts": 3,
+       "j": 1,
+       "g": 1,
+       "p": 0
+      },
+      {
+       "rang": 4,
+       "club": "TINTENIAC",
+       "pts": 0,
+       "j": 2,
+       "g": 0,
+       "p": 2
+      },
+      {
+       "rang": 5,
+       "club": "ST GREGOIRE",
+       "pts": 0,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      },
+      {
+       "rang": 6,
+       "club": "DINARD",
+       "pts": 0,
+       "j": 0,
+       "g": 0,
+       "p": 0
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-11-14",
+       "dom": "DINARD",
+       "heure": "16:00",
+       "j": 1,
+       "ext": "COMBOURG",
+       "salle": "HALLE MICHELET"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "TINTENIAC",
+       "j": 1,
+       "ext": "LE RHEU 1",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-13 23-25 21-25 22-25"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "ST GREGOIRE",
+       "j": 1,
+       "ext": "PLANCOET (22)",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "ST GREGOIRE",
+       "j": 2,
+       "ext": "COMBOURG",
+       "sd": 0,
+       "se": 3,
+       "sets": "14-25 18-25 21-25"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "PLANCOET (22)",
+       "j": 2,
+       "ext": "TINTENIAC",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-13 25-17 25-17"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "LE RHEU 1",
+       "j": 2,
+       "ext": "DINARD",
+       "salle": "GYMNASE DU COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "COMBOURG",
+       "j": 3,
+       "ext": "LE RHEU 1"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "DINARD",
+       "j": 3,
+       "ext": "PLANCOET (22)",
+       "salle": "HALLE MICHELET"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "TINTENIAC",
+       "j": 3,
+       "ext": "ST GREGOIRE",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "TINTENIAC",
+       "j": 4,
+       "ext": "COMBOURG",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "ST GREGOIRE",
+       "j": 4,
+       "ext": "DINARD",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "PLANCOET (22)",
+       "j": 4,
+       "ext": "LE RHEU 1"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "COMBOURG",
+       "j": 5,
+       "ext": "PLANCOET (22)"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "LE RHEU 1",
+       "j": 5,
+       "ext": "ST GREGOIRE",
+       "salle": "GYMNASE DU COSEC"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "DINARD",
+       "j": 5,
+       "ext": "TINTENIAC",
+       "salle": "HALLE MICHELET"
+      }
+     ]
+    }
+   ],
    "poule": "M18 masculins honneur poule B · ST GREGOIRE",
    "rang": 5,
    "sur": 6,
    "pts": 0,
    "g": 0,
    "p": 1,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "M18F 1",
@@ -892,13 +5603,195 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "M18 filles honneurs poule D",
+     "nous": "ST GREGOIRE 1",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "ROMILLE",
+       "pts": 6,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "ST GREGOIRE 1",
+       "pts": 5,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "LA CANE VOLLEY",
+       "pts": 3,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 4,
+       "club": "LE RHEU 1",
+       "pts": 3,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 5,
+       "club": "RENNES TA",
+       "pts": 1,
+       "j": 2,
+       "g": 0,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "PLEUMELEUC/BEDEE",
+       "pts": 0,
+       "j": 2,
+       "g": 0,
+       "p": 2
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-03",
+       "dom": "ST GREGOIRE 1",
+       "j": 1,
+       "ext": "RENNES TA",
+       "sd": 3,
+       "se": 2,
+       "sets": "21-25 25-21 24-26 25-22 15-10"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "LE RHEU 1",
+       "j": 1,
+       "ext": "PLEUMELEUC/BEDEE",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-15 25-20 15-25 25-15"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "ROMILLE",
+       "heure": "14:00",
+       "j": 1,
+       "ext": "LA CANE VOLLEY",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-20 25-12 25-14"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "ROMILLE",
+       "heure": "14:00",
+       "j": 2,
+       "ext": "RENNES TA",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-14 26-24 23-25 25-15"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "LA CANE VOLLEY",
+       "heure": "14:00",
+       "j": 2,
+       "ext": "LE RHEU 1",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-16 25-17 25-22"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "PLEUMELEUC/BEDEE",
+       "j": 2,
+       "ext": "ST GREGOIRE 1",
+       "sd": 0,
+       "se": 3,
+       "sets": "17-25 14-25 17-25"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "RENNES TA",
+       "j": 3,
+       "ext": "PLEUMELEUC/BEDEE",
+       "salle": "SALLE PARQUET"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "ST GREGOIRE 1",
+       "j": 3,
+       "ext": "LA CANE VOLLEY",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "LE RHEU 1",
+       "j": 3,
+       "ext": "ROMILLE",
+       "salle": "GYMNASE DU COSEC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "LE RHEU 1",
+       "j": 4,
+       "ext": "RENNES TA",
+       "salle": "GYMNASE DU COSEC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "ROMILLE",
+       "heure": "15:00",
+       "j": 4,
+       "ext": "ST GREGOIRE 1",
+       "salle": "SALLE ANITA CONTI"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "LA CANE VOLLEY",
+       "heure": "14:00",
+       "j": 4,
+       "ext": "PLEUMELEUC/BEDEE",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "RENNES TA",
+       "j": 5,
+       "ext": "LA CANE VOLLEY",
+       "salle": "SALLE PARQUET"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "ROMILLE",
+       "heure": "15:30",
+       "j": 5,
+       "ext": "PLEUMELEUC/BEDEE",
+       "salle": "salle Anita CONTI"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "ST GREGOIRE 1",
+       "j": 5,
+       "ext": "LE RHEU 1",
+       "salle": "SALLE DU COSEC"
+      }
+     ]
+    }
+   ],
    "poule": "M18 filles honneurs poule D · ST GREGOIRE 1",
    "rang": 2,
    "sur": 6,
    "pts": 5,
    "g": 2,
    "p": 0,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "M18F 2",
@@ -953,13 +5846,183 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "M18 filles honneurs poule B",
+     "nous": "ST GREGOIRE 2",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "GEVEZE",
+       "pts": 6,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "COMBOURG",
+       "pts": 3,
+       "j": 1,
+       "g": 1,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "ST GREGOIRE 2",
+       "pts": 3,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 4,
+       "club": "DINARD 3",
+       "pts": 0,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      },
+      {
+       "rang": 5,
+       "club": "GUIPEL / LANGAN",
+       "pts": 0,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      },
+      {
+       "rang": 6,
+       "club": "DINARD 2",
+       "pts": 0,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-03",
+       "dom": "ST GREGOIRE 2",
+       "j": 1,
+       "ext": "COMBOURG",
+       "sd": 0,
+       "se": 3,
+       "sets": "22-25 11-25 18-25"
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "DINARD 2",
+       "heure": "15:00",
+       "j": 1,
+       "ext": "DINARD 3",
+       "salle": "HALLE MICHELET"
+      },
+      {
+       "date": "2026-10-03",
+       "dom": "GUIPEL / LANGAN",
+       "j": 1,
+       "ext": "GEVEZE",
+       "sd": 0,
+       "se": 3,
+       "sets": "18-25 7-25 14-25"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "GUIPEL / LANGAN",
+       "j": 2,
+       "ext": "COMBOURG",
+       "salle": "SALLE DE SPORT MICHELLE SÉVIN"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "GEVEZE",
+       "j": 2,
+       "ext": "DINARD 2",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-9 25-6 25-22"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "DINARD 3",
+       "j": 2,
+       "ext": "ST GREGOIRE 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-21 22-25 17-25 19-25"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "COMBOURG",
+       "j": 3,
+       "ext": "DINARD 3"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "ST GREGOIRE 2",
+       "j": 3,
+       "ext": "GEVEZE",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "DINARD 2",
+       "j": 3,
+       "ext": "GUIPEL / LANGAN",
+       "salle": "HALLE MICHELET"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "DINARD 2",
+       "j": 4,
+       "ext": "COMBOURG",
+       "salle": "HALLE MICHELET"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "GUIPEL / LANGAN",
+       "j": 4,
+       "ext": "ST GREGOIRE 2",
+       "salle": "SALLE DE SPORT MICHELLE SÉVIN"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "GEVEZE",
+       "j": 4,
+       "ext": "DINARD 3"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "COMBOURG",
+       "j": 5,
+       "ext": "GEVEZE"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "DINARD 3",
+       "j": 5,
+       "ext": "GUIPEL / LANGAN",
+       "salle": "HALLE MICHELET"
+      },
+      {
+       "date": "2026-12-19",
+       "dom": "ST GREGOIRE 2",
+       "j": 5,
+       "ext": "DINARD 2",
+       "salle": "SALLE DU COSEC"
+      }
+     ]
+    }
+   ],
    "poule": "M18 filles honneurs poule B · ST GREGOIRE 2",
    "rang": 3,
    "sur": 6,
    "pts": 3,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "M15F",
@@ -1015,13 +6078,194 @@
      "salle": "SALLE DES SPORTS"
     }
    ],
+   "poules": [
+    {
+     "titre": "M15 filles honneurs poule C",
+     "nous": "ST GREGOIRE",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "LOUVIGNE DE BAIS",
+       "pts": 9,
+       "j": 3,
+       "g": 3,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "LES BLEUETS PORTES DE BRETAGNE",
+       "pts": 5,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "MAEN ROCH",
+       "pts": 4,
+       "j": 3,
+       "g": 1,
+       "p": 2
+      },
+      {
+       "rang": 4,
+       "club": "LIFFRE",
+       "pts": 3,
+       "j": 3,
+       "g": 1,
+       "p": 2
+      },
+      {
+       "rang": 5,
+       "club": "RENNES CPB 2",
+       "pts": 3,
+       "j": 3,
+       "g": 1,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "ST GREGOIRE",
+       "pts": 0,
+       "j": 2,
+       "g": 0,
+       "p": 2
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-10",
+       "dom": "LOUVIGNE DE BAIS",
+       "j": 1,
+       "ext": "LIFFRE",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-6 25-7 25-3"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE",
+       "j": 1,
+       "ext": "RENNES CPB 2",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-12 25-8 25-17"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "ST GREGOIRE",
+       "j": 1,
+       "ext": "MAEN ROCH",
+       "sd": 0,
+       "se": 3,
+       "sets": "6-25 23-25 12-25"
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "LIFFRE",
+       "j": 2,
+       "ext": "ST GREGOIRE",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-14 25-14 25-15"
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "MAEN ROCH",
+       "j": 2,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE",
+       "sd": 2,
+       "se": 3,
+       "sets": "20-25 25-17 23-25 27-25 14-16"
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "RENNES CPB 2",
+       "j": 2,
+       "ext": "LOUVIGNE DE BAIS",
+       "sd": 0,
+       "se": 3,
+       "sets": "4-25 9-25 9-25"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "LIFFRE",
+       "heure": "16:00",
+       "j": 3,
+       "ext": "RENNES CPB 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-23 17-25 14-25 18-25"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "LOUVIGNE DE BAIS",
+       "j": 3,
+       "ext": "MAEN ROCH",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-22 25-11 25-14"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE",
+       "j": 3,
+       "ext": "ST GREGOIRE",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "LES BLEUETS PORTES DE BRETAGNE",
+       "j": 4,
+       "ext": "LIFFRE",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "ST GREGOIRE",
+       "j": 4,
+       "ext": "LOUVIGNE DE BAIS",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "MAEN ROCH",
+       "j": 4,
+       "ext": "RENNES CPB 2"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "LIFFRE",
+       "heure": "13:15",
+       "j": 5,
+       "ext": "MAEN ROCH",
+       "salle": "JACQUES PRÉVERT"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "RENNES CPB 2",
+       "j": 5,
+       "ext": "ST GREGOIRE",
+       "salle": "STADE CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "LOUVIGNE DE BAIS",
+       "j": 5,
+       "ext": "LES BLEUETS PORTES DE BRETAGNE",
+       "salle": "SALLE DES SPORTS"
+      }
+     ]
+    }
+   ],
    "poule": "M15 filles honneurs poule C · ST GREGOIRE",
    "rang": 6,
    "sur": 6,
    "pts": 0,
    "g": 0,
    "p": 2,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "M15M",
@@ -1069,13 +6313,134 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "M15 masculins honneurs poule B",
+     "nous": "ST GREGOIRE",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "RENNES JA",
+       "pts": 8,
+       "j": 3,
+       "g": 3,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "ST GREGOIRE",
+       "pts": 4,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 3,
+       "club": "ACIGNE (mixte)",
+       "pts": 0,
+       "j": 3,
+       "g": 0,
+       "p": 3
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-10",
+       "dom": "ACIGNE (mixte)",
+       "j": 1,
+       "ext": "RENNES JA",
+       "sd": 1,
+       "se": 3,
+       "sets": "20-25 14-25 27-25 9-25"
+      },
+      {
+       "date": "2026-10-10",
+       "dom": "ST GREGOIRE",
+       "j": 1,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "RENNES JA",
+       "j": 2,
+       "ext": "ST GREGOIRE",
+       "sd": 3,
+       "se": 2,
+       "sets": "21-25 25-14 11-25 25-22 15-12"
+      },
+      {
+       "date": "2026-10-17",
+       "dom": "ACIGNE (mixte)",
+       "j": 2,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-31",
+       "dom": "RENNES JA",
+       "j": 3,
+       "exempt": true
+      },
+      {
+       "date": "2026-10-31",
+       "dom": "ACIGNE (mixte)",
+       "j": 3,
+       "ext": "ST GREGOIRE",
+       "sd": 0,
+       "se": 3,
+       "sets": "15-25 21-25 14-25"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "RENNES JA",
+       "j": 4,
+       "ext": "ACIGNE (mixte)",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-18 25-17 16-25 25-8"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "ST GREGOIRE",
+       "j": 4,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "ST GREGOIRE",
+       "j": 5,
+       "ext": "RENNES JA",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2026-11-28",
+       "dom": "ACIGNE (mixte)",
+       "j": 5,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "RENNES JA",
+       "j": 6,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "ST GREGOIRE",
+       "j": 6,
+       "ext": "ACIGNE (mixte)",
+       "salle": "SALLE DU COSEC"
+      }
+     ]
+    }
+   ],
    "poule": "M15 masculins honneurs poule B · ST GREGOIRE",
    "rang": 2,
    "sur": 3,
    "pts": 4,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "M13F",
@@ -1121,13 +6486,221 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "M13 féminines bronze poule C",
+     "nous": "VB GREGORIEN",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "MONTGERMONT VBC 3",
+       "pts": 4,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "MAEN ROCH VB",
+       "pts": 4,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "CHATEAUBOURG MARPIRE 35 V 2",
+       "pts": 2,
+       "j": 2,
+       "g": 0,
+       "p": 2
+      },
+      {
+       "rang": 4,
+       "club": "LIFFRE US",
+       "pts": 1,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      },
+      {
+       "rang": 5,
+       "club": "VB GREGORIEN",
+       "pts": 1,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      },
+      {
+       "rang": 6,
+       "club": "RENNNES EC 2",
+       "pts": 0,
+       "j": 0,
+       "g": 0,
+       "p": 0
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-11-07",
+       "dom": "LIFFRE US",
+       "j": 1,
+       "ext": "MONTGERMONT VBC 3",
+       "sd": 1,
+       "se": 2,
+       "sets": "26-28 26-24 12-15"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "CHATEAUBOURG MARPIRE 35 V 2",
+       "j": 1,
+       "ext": "MAEN ROCH VB",
+       "sd": 1,
+       "se": 2,
+       "sets": "25-17 21-25 13-15"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "VB GREGORIEN",
+       "j": 1,
+       "ext": "RENNNES EC 2",
+       "salle": "MAEN ROCH"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "LIFFRE US",
+       "j": 1,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "MONTGERMONT VBC 3",
+       "j": 1,
+       "ext": "CHATEAUBOURG MARPIRE 35 V 2",
+       "sd": 2,
+       "se": 0,
+       "sets": "25-16 25-12"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "VB GREGORIEN",
+       "j": 1,
+       "ext": "MAEN ROCH VB",
+       "sd": 0,
+       "se": 2,
+       "sets": "15-25 20-25"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "RENNNES EC 2",
+       "j": 1,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "LIFFRE US",
+       "j": 2,
+       "ext": "CHATEAUBOURG MARPIRE 35 V 2",
+       "salle": "LIFFRE"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "MONTGERMONT VBC 3",
+       "j": 2,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "MAEN ROCH VB",
+       "j": 2,
+       "ext": "RENNNES EC 2",
+       "salle": "LIFFRE"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "MAEN ROCH VB",
+       "j": 2,
+       "ext": "LIFFRE US",
+       "salle": "LIFFRE"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "CHATEAUBOURG MARPIRE 35 V 2",
+       "j": 2,
+       "ext": "VB GREGORIEN",
+       "salle": "LIFFRE"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "MONTGERMONT VBC 3",
+       "j": 2,
+       "ext": "RENNNES EC 2",
+       "salle": "LIFFRE"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "VB GREGORIEN",
+       "j": 2,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "LIFFRE US",
+       "j": 3,
+       "ext": "VB GREGORIEN",
+       "salle": "RENNES EC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "MONTGERMONT VBC 3",
+       "j": 3,
+       "ext": "MAEN ROCH VB",
+       "salle": "RENNES EC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "CHATEAUBOURG MARPIRE 35 V 2",
+       "j": 3,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "LIFFRE US",
+       "j": 3,
+       "ext": "RENNNES EC 2",
+       "salle": "RENNES EC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "MONTGERMONT VBC 3",
+       "j": 3,
+       "ext": "VB GREGORIEN",
+       "salle": "RENNES EC"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "MAEN ROCH VB",
+       "j": 3,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "CHATEAUBOURG MARPIRE 35 V 2",
+       "j": 3,
+       "ext": "RENNNES EC 2",
+       "salle": "RENNES EC"
+      }
+     ]
+    }
+   ],
    "poule": "M13 féminines bronze poule C · VB GREGORIEN",
    "rang": 5,
    "sur": 6,
    "pts": 1,
    "g": 0,
    "p": 1,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "M13M",
@@ -1135,7 +6708,7 @@
     "date": "2026-11-21",
     "lieu": "D",
     "adv": "VIC COMBOURG (mixte)",
-    "heure": null,
+    "heure": "11:00",
     "salle": "ST GREGOIRE COSEC"
    },
    "resultats": [
@@ -1154,14 +6727,14 @@
      "date": "2026-11-21",
      "lieu": "D",
      "adv": "VIC COMBOURG (mixte)",
-     "heure": null,
+     "heure": "11:00",
      "salle": "ST GREGOIRE COSEC"
     },
     {
      "date": "2026-11-21",
      "lieu": "E",
      "adv": "VE GUIPEL LANGAN 3 (mixte)",
-     "heure": null,
+     "heure": "11:00",
      "salle": "ST GREGOIRE COSEC"
     },
     {
@@ -1180,13 +6753,230 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "M13 masculins et mixtes cuivre D",
+     "nous": "VB GREGORIEN (masc)",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "VIC COMBOURG (mixte)",
+       "pts": 4,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "VE GUIPEL LANGAN 3 (mixte)",
+       "pts": 3,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 3,
+       "club": "RENNES TA 1 (masc)",
+       "pts": 3,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 4,
+       "club": "VB GREGORIEN (masc)",
+       "pts": 2,
+       "j": 1,
+       "g": 1,
+       "p": 0
+      },
+      {
+       "rang": 5,
+       "club": "ANTRAIN US (mixte)",
+       "pts": 2,
+       "j": 2,
+       "g": 0,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "RENNES TA 2 (mixte)",
+       "pts": 1,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-11-07",
+       "dom": "VB GREGORIEN (masc)",
+       "j": 1,
+       "ext": "ANTRAIN US (mixte)",
+       "sd": 2,
+       "se": 1,
+       "sets": "25-15 17-25 15-10"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "VIC COMBOURG (mixte)",
+       "j": 1,
+       "ext": "VE GUIPEL LANGAN 3 (mixte)",
+       "sd": 2,
+       "se": 1,
+       "sets": "25-23 21-25 18-16"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "RENNES TA 1 (masc)",
+       "j": 1,
+       "ext": "RENNES TA 2 (mixte)",
+       "sd": 2,
+       "se": 1,
+       "sets": "18-25 25-20 15-9"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "VB GREGORIEN (masc)",
+       "j": 1,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "ANTRAIN US (mixte)",
+       "j": 1,
+       "ext": "VIC COMBOURG (mixte)",
+       "sd": 0,
+       "se": 2,
+       "sets": "19-25 18-25"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "RENNES TA 1 (masc)",
+       "j": 1,
+       "ext": "VE GUIPEL LANGAN 3 (mixte)",
+       "sd": 1,
+       "se": 2,
+       "sets": "10-25 25-19 15-17"
+      },
+      {
+       "date": "2026-11-07",
+       "dom": "RENNES TA 2 (mixte)",
+       "j": 1,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "VB GREGORIEN (masc)",
+       "heure": "11:00",
+       "j": 2,
+       "ext": "VIC COMBOURG (mixte)",
+       "salle": "ST GREGOIRE COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "ANTRAIN US (mixte)",
+       "heure": "11:00",
+       "j": 2,
+       "exempt": true
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "VE GUIPEL LANGAN 3 (mixte)",
+       "heure": "11:00",
+       "j": 2,
+       "ext": "RENNES TA 2 (mixte)",
+       "salle": "ST GREGOIRE COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "VE GUIPEL LANGAN 3 (mixte)",
+       "heure": "11:00",
+       "j": 2,
+       "ext": "VB GREGORIEN (masc)",
+       "salle": "ST GREGOIRE COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "VIC COMBOURG (mixte)",
+       "heure": "11:00",
+       "j": 2,
+       "ext": "RENNES TA 1 (masc)",
+       "salle": "ST GREGOIRE COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "ANTRAIN US (mixte)",
+       "heure": "11:00",
+       "j": 2,
+       "ext": "RENNES TA 2 (mixte)",
+       "salle": "ST GREGOIRE COSEC"
+      },
+      {
+       "date": "2026-11-21",
+       "dom": "RENNES TA 1 (masc)",
+       "heure": "11:00",
+       "j": 2,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "VB GREGORIEN (masc)",
+       "j": 3,
+       "ext": "RENNES TA 1 (masc)",
+       "salle": "RENNES TA"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "ANTRAIN US (mixte)",
+       "j": 3,
+       "ext": "VE GUIPEL LANGAN 3 (mixte)",
+       "salle": "RENNES TA"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "VIC COMBOURG (mixte)",
+       "j": 3,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "VB GREGORIEN (masc)",
+       "j": 3,
+       "ext": "RENNES TA 2 (mixte)",
+       "salle": "RENNES TA"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "ANTRAIN US (mixte)",
+       "j": 3,
+       "ext": "RENNES TA 1 (masc)",
+       "salle": "RENNES TA"
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "VE GUIPEL LANGAN 3 (mixte)",
+       "j": 3,
+       "exempt": true
+      },
+      {
+       "date": "2026-12-05",
+       "dom": "VIC COMBOURG (mixte)",
+       "j": 3,
+       "ext": "RENNES TA 2 (mixte)",
+       "salle": "RENNES TA"
+      }
+     ]
+    }
+   ],
    "poule": "M13 masculins et mixtes cuivre D · VB GREGORIEN (masc)",
    "rang": 4,
    "sur": 6,
    "pts": 2,
    "g": 1,
    "p": 0,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 1",
@@ -1243,24 +7033,218 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "Compet lib' poule Z",
+     "nous": "ST GREGOIRE 1",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "ST GREGOIRE 1",
+       "pts": 7,
+       "j": 3,
+       "g": 2,
+       "p": 1
+      },
+      {
+       "rang": 2,
+       "club": "FOUGERES 2",
+       "pts": 5,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "THORIGNE FOUILLARD 3",
+       "pts": 4,
+       "j": 3,
+       "g": 1,
+       "p": 2
+      },
+      {
+       "rang": 4,
+       "club": "LIFFRE 1",
+       "pts": 3,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 5,
+       "club": "RENNES JA 2",
+       "pts": 2,
+       "j": 3,
+       "g": 1,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "RENNES ASLC 3",
+       "pts": 0,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-05",
+       "dom": "RENNES ASLC 3",
+       "j": 1,
+       "ext": "THORIGNE FOUILLARD 3",
+       "sd": 1,
+       "se": 3,
+       "sets": "11-25 25-23 19-25 19-25"
+      },
+      {
+       "date": "2026-10-05",
+       "dom": "RENNES JA 2",
+       "j": 1,
+       "ext": "LIFFRE 1",
+       "sd": 3,
+       "se": 2,
+       "sets": "25-20 22-25 25-13 20-25 17-15"
+      },
+      {
+       "date": "2026-10-05",
+       "dom": "ST GREGOIRE 1",
+       "j": 1,
+       "ext": "FOUGERES 2",
+       "sd": 2,
+       "se": 3,
+       "sets": "21-25 22-25 25-15 25-12 14-16"
+      },
+      {
+       "date": "2026-10-19",
+       "dom": "ST GREGOIRE 1",
+       "j": 2,
+       "ext": "THORIGNE FOUILLARD 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-16 25-14 25-18"
+      },
+      {
+       "date": "2026-10-19",
+       "dom": "FOUGERES 2",
+       "j": 2,
+       "ext": "RENNES JA 2",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-17 25-11 25-23"
+      },
+      {
+       "date": "2026-10-19",
+       "dom": "LIFFRE 1",
+       "j": 2,
+       "ext": "RENNES ASLC 3"
+      },
+      {
+       "date": "2026-11-13",
+       "dom": "THORIGNE FOUILLARD 3",
+       "heure": "20:45",
+       "j": 3,
+       "ext": "LIFFRE 1",
+       "sd": 2,
+       "se": 3,
+       "sets": "28-26 20-25 25-17 22-25 12-15"
+      },
+      {
+       "date": "2026-11-09",
+       "dom": "RENNES ASLC 3",
+       "j": 3,
+       "ext": "FOUGERES 2"
+      },
+      {
+       "date": "2026-11-09",
+       "dom": "RENNES JA 2",
+       "j": 3,
+       "ext": "ST GREGOIRE 1",
+       "sd": 1,
+       "se": 3,
+       "sets": "12-25 32-30 17-25 23-25"
+      },
+      {
+       "date": "2026-11-23",
+       "dom": "RENNES JA 2",
+       "j": 4,
+       "ext": "THORIGNE FOUILLARD 3",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2026-11-23",
+       "dom": "ST GREGOIRE 1",
+       "j": 4,
+       "ext": "RENNES ASLC 3",
+       "salle": "la ricoquais"
+      },
+      {
+       "date": "2026-11-23",
+       "dom": "FOUGERES 2",
+       "j": 4,
+       "ext": "LIFFRE 1",
+       "salle": "LES COTTERETS"
+      },
+      {
+       "date": "2026-12-11",
+       "dom": "THORIGNE FOUILLARD 3",
+       "heure": "20:45",
+       "j": 5,
+       "ext": "FOUGERES 2",
+       "salle": "SALLE DES LONGRAIS"
+      },
+      {
+       "date": "2026-12-07",
+       "dom": "LIFFRE 1",
+       "j": 5,
+       "ext": "ST GREGOIRE 1"
+      },
+      {
+       "date": "2026-12-07",
+       "dom": "RENNES ASLC 3",
+       "j": 5,
+       "ext": "RENNES JA 2"
+      }
+     ]
+    }
+   ],
    "poule": "Compet lib' poule Z · ST GREGOIRE 1",
    "rang": 1,
    "sur": 6,
    "pts": 7,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 2",
    "prochain": {
-    "date": "2026-11-23",
-    "lieu": "D",
-    "adv": "QUEDILLAC",
+    "date": "2026-12-07",
+    "lieu": "E",
+    "adv": "RENNES TA 3",
     "heure": null,
-    "salle": "la ricoquais"
+    "salle": "SALLE PARQUET"
    },
    "resultats": [
+    {
+     "date": "2026-11-23",
+     "lieu": "D",
+     "adv": "QUEDILLAC",
+     "pour": 3,
+     "contre": 1,
+     "sets": "25-19 21-25 25-22 25-23",
+     "heure": null
+    },
+    {
+     "date": "2026-11-09",
+     "lieu": "E",
+     "adv": "GEVEZE 2",
+     "pour": 2,
+     "contre": 3,
+     "sets": "26-24 22-25 23-25 25-23 11-15",
+     "heure": null
+    },
     {
      "date": "2026-10-19",
      "lieu": "D",
@@ -1282,13 +7266,6 @@
    ],
    "avenir": [
     {
-     "date": "2026-11-23",
-     "lieu": "D",
-     "adv": "QUEDILLAC",
-     "heure": null,
-     "salle": "la ricoquais"
-    },
-    {
      "date": "2026-12-07",
      "lieu": "E",
      "adv": "RENNES TA 3",
@@ -1296,28 +7273,205 @@
      "salle": "SALLE PARQUET"
     }
    ],
-   "attente": [
+   "attente": [],
+   "poules": [
     {
-     "date": "2026-11-09",
-     "lieu": "E",
-     "adv": "GEVEZE 2",
-     "heure": null,
-     "salle": null
+     "titre": "Compet lib' poule X",
+     "nous": "ST GREGOIRE 2",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "LA CHAPELLE DES FGTZ 1",
+       "pts": 9,
+       "j": 3,
+       "g": 3,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "GEVEZE 2",
+       "pts": 8,
+       "j": 3,
+       "g": 3,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "LA CANE VOLLEY 3",
+       "pts": 6,
+       "j": 3,
+       "g": 2,
+       "p": 1
+      },
+      {
+       "rang": 4,
+       "club": "ST GREGOIRE 2",
+       "pts": 4,
+       "j": 4,
+       "g": 1,
+       "p": 3
+      },
+      {
+       "rang": 5,
+       "club": "RENNES TA 3",
+       "pts": 0,
+       "j": 2,
+       "g": 0,
+       "p": 2
+      },
+      {
+       "rang": 6,
+       "club": "QUEDILLAC",
+       "pts": 0,
+       "j": 3,
+       "g": 0,
+       "p": 3
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-10-05",
+       "dom": "GEVEZE 2",
+       "j": 1,
+       "ext": "RENNES TA 3",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-22 25-18 22-25 25-13"
+      },
+      {
+       "date": "2026-10-05",
+       "dom": "LA CHAPELLE DES FGTZ 1",
+       "j": 1,
+       "ext": "QUEDILLAC",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-19 25-14 25-5"
+      },
+      {
+       "date": "2026-10-05",
+       "dom": "LA CANE VOLLEY 3",
+       "j": 1,
+       "ext": "ST GREGOIRE 2",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-20 25-19 21-25 27-25"
+      },
+      {
+       "date": "2026-10-19",
+       "dom": "LA CANE VOLLEY 3",
+       "j": 2,
+       "ext": "RENNES TA 3",
+       "sd": 3,
+       "se": 1,
+       "sets": "22-25 25-20 25-20 25-21"
+      },
+      {
+       "date": "2026-10-19",
+       "dom": "ST GREGOIRE 2",
+       "j": 2,
+       "ext": "LA CHAPELLE DES FGTZ 1",
+       "sd": 1,
+       "se": 3,
+       "sets": "14-25 25-18 23-25 15-25"
+      },
+      {
+       "date": "2026-10-19",
+       "dom": "QUEDILLAC",
+       "j": 2,
+       "ext": "GEVEZE 2",
+       "sd": 1,
+       "se": 3,
+       "sets": "23-25 18-25 25-22 22-25"
+      },
+      {
+       "date": "2026-11-09",
+       "dom": "RENNES TA 3",
+       "j": 3,
+       "ext": "QUEDILLAC",
+       "salle": "SALLE PARQUET"
+      },
+      {
+       "date": "2026-11-09",
+       "dom": "GEVEZE 2",
+       "j": 3,
+       "ext": "ST GREGOIRE 2",
+       "sd": 3,
+       "se": 2,
+       "sets": "24-26 25-22 25-23 23-25 15-11"
+      },
+      {
+       "date": "2026-11-09",
+       "dom": "LA CHAPELLE DES FGTZ 1",
+       "j": 3,
+       "ext": "LA CANE VOLLEY 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-15 25-17 25-23"
+      },
+      {
+       "date": "2026-11-23",
+       "dom": "LA CHAPELLE DES FGTZ 1",
+       "j": 4,
+       "ext": "RENNES TA 3"
+      },
+      {
+       "date": "2026-11-23",
+       "dom": "LA CANE VOLLEY 3",
+       "j": 4,
+       "ext": "GEVEZE 2",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-11-23",
+       "dom": "ST GREGOIRE 2",
+       "j": 4,
+       "ext": "QUEDILLAC",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-19 21-25 25-22 25-23"
+      },
+      {
+       "date": "2026-12-07",
+       "dom": "RENNES TA 3",
+       "j": 5,
+       "ext": "ST GREGOIRE 2",
+       "salle": "SALLE PARQUET"
+      },
+      {
+       "date": "2026-12-07",
+       "dom": "QUEDILLAC",
+       "j": 5,
+       "ext": "LA CANE VOLLEY 3"
+      },
+      {
+       "date": "2026-12-07",
+       "dom": "GEVEZE 2",
+       "j": 5,
+       "ext": "LA CHAPELLE DES FGTZ 1"
+      }
+     ]
     }
    ],
    "poule": "Compet lib' poule X · ST GREGOIRE 2",
    "rang": 4,
    "sur": 6,
-   "pts": 0,
-   "g": 0,
-   "p": 2,
-   "lu": "2026-11-17T08:40:48+01:00"
+   "pts": 4,
+   "g": 1,
+   "p": 3,
+   "lu": "2026-11-19T11:34:50+01:00"
   }
  ],
  "coupes": [
   {
    "nom": "Coupe de France fédérale masculine",
-   "prochain": null,
+   "prochain": {
+    "date": "2026-12-12",
+    "lieu": "D",
+    "adv": "C'CHARTRES VOLLEY",
+    "heure": "20:00",
+    "salle": "COSEC"
+   },
    "resultats": [
     {
      "date": "2026-11-14",
@@ -1329,10 +7483,219 @@
      "heure": "21:00"
     }
    ],
-   "avenir": [],
+   "avenir": [
+    {
+     "date": "2026-12-12",
+     "lieu": "D",
+     "adv": "C'CHARTRES VOLLEY",
+     "heure": "20:00",
+     "salle": "COSEC"
+    }
+   ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "Coupe de france federale masculine",
+     "nous": "VOLLEY BALL GREGORIEN",
+     "active": true,
+     "classement": [],
+     "matchs": [
+      {
+       "date": "2026-11-14",
+       "dom": "AMICAL CS CORMEILLAIS",
+       "heure": "20:00",
+       "ext": "I.A.F.V.O.",
+       "sd": 1,
+       "se": 3,
+       "sets": "25-22 22-25 19-25 19-25"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "MORSANG VOLLEY",
+       "heure": "20:00",
+       "ext": "UNION SPORTIVE CARRIERES SUR SEINE",
+       "illisible": true
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "MAEN ROCH VOLLEY BALL",
+       "heure": "21:00",
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 0,
+       "se": 3,
+       "sets": "13-25 11-25 11-25"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "VOLLEY CLUB DE RUITZ",
+       "heure": "18:00",
+       "ext": "VOLLEY CLUB MARCQ BAROEUL",
+       "sd": 0,
+       "se": 3,
+       "sets": "10-25 12-25 7-25"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "CLUB SPORTIF MENNECY",
+       "heure": "20:00",
+       "ext": "TREMBLAY ATHLETIQUE CLUB",
+       "sd": 3,
+       "se": 1,
+       "sets": "25-19 22-25 25-17 30-28"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "COSMIC VOLLEY",
+       "heure": "16:00",
+       "ext": "ROYAN ATLANTIQUE VOLLEY-BALL",
+       "sd": 0,
+       "se": 3,
+       "sets": "15-25 14-25 26-28"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "VOLLEY-BALL CLUB DE MUNDOLSHEIM",
+       "heure": "20:00",
+       "ext": "UNION SPORTIVE DU JARNISY",
+       "sd": 3,
+       "se": 2,
+       "sets": "18-25 25-20 18-25 25-20 15-11"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "FONSORBES SEYSSES VOLLEY-BALL",
+       "heure": "16:00",
+       "ext": "C.A. BRIVE/CORREZE VOLLEY",
+       "sd": 2,
+       "se": 3,
+       "sets": "13-25 32-30 25-23 21-25 10-15"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "PONT L'EVEQUE VOLLEY-BALL",
+       "heure": "20:00",
+       "ext": "ALERTE SPORTIVE MONTLOUIS",
+       "sd": 3,
+       "se": 2,
+       "sets": "25-19 14-25 22-25 25-23 16-14"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "UNION SPORTIVE CARRIERES SUR SEINE",
+       "heure": "20:00",
+       "ext": "UGSI VOLLEY SEINE OUEST - UGSI VSO",
+       "salle": "GYMNASE LES ALOUETTES"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "I.A.F.V.O.",
+       "heure": "20:00",
+       "ext": "CONFLANS-ANDRESY-JOUY VB",
+       "salle": "CENTRE SPORTIF AMELIE MAURESMO"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "VOLLEY-BALL CLUB SARRASIN",
+       "heure": "20:00",
+       "ext": "AL CAUDRY VOLLEY-BALL",
+       "salle": "SALLE DES SPORTS"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "CLUB SPORTIF MENNECY",
+       "heure": "20:00",
+       "ext": "CNM CHARENTON",
+       "salle": "GYMNASE ALEXANDRE RIDEAU 2"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "VOLLEY-BALL CLUB DE MUNDOLSHEIM",
+       "heure": "20:00",
+       "ext": "STRASBOURG UNIVERSITE CLUB",
+       "salle": "GYMNASE MUNICIPAL"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "VOLLEY CLUB MARCQ BAROEUL",
+       "heure": "20:00",
+       "ext": "VC BELLAING/PORTE DU HAINAUT",
+       "salle": "SAINT EXUPERY"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "BEAUVAIS OISE UC VOLLEY",
+       "heure": "20:00",
+       "ext": "AMIENS METROPOLE VOLLEY",
+       "salle": "PIERRE DE COUBERTIN"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "MARSEILLE VOLLEY 13",
+       "heure": "20:00",
+       "ext": "VOLLEY-BALL ARLESIEN",
+       "salle": "GYMNASE DE LA ROSE FUVEAU"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "C.P.B. RENNES 35",
+       "heure": "20:00",
+       "ext": "ASPTT LAVAL",
+       "salle": "GYMNASE CDT BOUGOUIN"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "ROYAN ATLANTIQUE VOLLEY-BALL",
+       "heure": "20:00",
+       "ext": "SPORT ATHLETIQUE MERIGNACAIS",
+       "salle": "ESPACE CORDOUAN"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "HEOL SANTEC",
+       "heure": "20:00",
+       "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
+       "salle": "SALLE OMNISPORTS"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "EPINAL GOLBEY VOLLEY-BALL (EGVB)",
+       "heure": "20:00",
+       "ext": "MAIZIERES ATHLETIC CLUB VOLLEY-BALL",
+       "salle": "VIVIANI"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "ASS SPORTIVE DE MONACO",
+       "heure": "20:00",
+       "ext": "VOLLEY CLUB HYERES/PIERREFEU LA LONDE",
+       "salle": "MONEGHETTI"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "heure": "20:00",
+       "ext": "C'CHARTRES VOLLEY",
+       "salle": "COSEC"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "PONT L'EVEQUE VOLLEY-BALL",
+       "heure": "20:00",
+       "ext": "LOISIRS INTER SPORT ST PIERRE",
+       "salle": "MOSAGNA"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "C.A. BRIVE/CORREZE VOLLEY",
+       "heure": "20:00",
+       "ext": "GRENOBLE V.UNIVERSITE CLUB",
+       "salle": "ROLLINAT"
+      }
+     ]
+    }
+   ],
    "equipe": "N3M",
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "Coupe de Bretagne M18M",
@@ -1359,8 +7722,68 @@
    ],
    "avenir": [],
    "attente": [],
+   "poules": [
+    {
+     "titre": "Coupe de bretagne M18M pd",
+     "nous": "VOLLEY BALL GREGORIEN",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "VOLLEY BALL GREGORIEN",
+       "pts": 4,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "UNION SPORTIVE LIFFREENNE",
+       "pts": 2,
+       "j": 2,
+       "g": 1,
+       "p": 1
+      },
+      {
+       "rang": 3,
+       "club": "MAEN ROCH VOLLEY BALL",
+       "pts": 0,
+       "j": 2,
+       "g": 0,
+       "p": 2
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-11-15",
+       "dom": "UNION SPORTIVE LIFFREENNE",
+       "heure": "11:00",
+       "ext": "VOLLEY BALL GREGORIEN",
+       "sd": 0,
+       "se": 2,
+       "sets": "13-25 18-25"
+      },
+      {
+       "date": "2026-11-15",
+       "dom": "VOLLEY BALL GREGORIEN",
+       "ext": "MAEN ROCH VOLLEY BALL",
+       "sd": 2,
+       "se": 0,
+       "sets": "26-24 25-11"
+      },
+      {
+       "date": "2026-11-15",
+       "dom": "UNION SPORTIVE LIFFREENNE",
+       "ext": "MAEN ROCH VOLLEY BALL",
+       "sd": 2,
+       "se": 1,
+       "sets": "25-16 12-25 15-8"
+      }
+     ]
+    }
+   ],
    "equipe": "M18M région",
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   },
   {
    "nom": "Coupe CD35 masculine",
@@ -1399,9 +7822,105 @@
     }
    ],
    "attente": [],
+   "poules": [
+    {
+     "titre": "Coupe du cd 35 masculin poule C",
+     "nous": "ST GREGOIRE 2",
+     "active": true,
+     "classement": [
+      {
+       "rang": 1,
+       "club": "ST GREGOIRE 2",
+       "pts": 3,
+       "j": 1,
+       "g": 1,
+       "p": 0
+      },
+      {
+       "rang": 2,
+       "club": "RENNES JA 3",
+       "pts": 2,
+       "j": 1,
+       "g": 1,
+       "p": 0
+      },
+      {
+       "rang": 3,
+       "club": "ROMILLE 1",
+       "pts": 1,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      },
+      {
+       "rang": 4,
+       "club": "BROCELIANDE 1",
+       "pts": 0,
+       "j": 1,
+       "g": 0,
+       "p": 1
+      }
+     ],
+     "matchs": [
+      {
+       "date": "2026-11-14",
+       "dom": "BROCELIANDE 1",
+       "heure": "18:30",
+       "j": 1,
+       "ext": "ST GREGOIRE 2",
+       "sd": 0,
+       "se": 3,
+       "sets": "22-25 17-25 22-25"
+      },
+      {
+       "date": "2026-11-14",
+       "dom": "ROMILLE 1",
+       "j": 1,
+       "ext": "RENNES JA 3",
+       "sd": 2,
+       "se": 3,
+       "sets": "16-25 19-25 25-23 25-19 11-15"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "ROMILLE 1",
+       "j": 2,
+       "ext": "ST GREGOIRE 2",
+       "salle": "SALLE ANITA CONTI"
+      },
+      {
+       "date": "2026-12-12",
+       "dom": "RENNES JA 3",
+       "j": 2,
+       "ext": "BROCELIANDE 1",
+       "salle": "MARCEL PAGNOL"
+      },
+      {
+       "date": "2027-01-23",
+       "dom": "ST GREGOIRE 2",
+       "j": 3,
+       "ext": "RENNES JA 3",
+       "salle": "SALLE DU COSEC"
+      },
+      {
+       "date": "2027-01-23",
+       "dom": "BROCELIANDE 1",
+       "j": 3,
+       "ext": "ROMILLE 1",
+       "salle": "SALLE DES SPORTS"
+      }
+     ]
+    }
+   ],
    "equipe": "PRM",
-   "lu": "2026-11-17T08:40:48+01:00"
+   "lu": "2026-11-19T11:34:50+01:00"
   }
  ],
- "nonsuivies": []
+ "nonsuivies": [],
+ "salles_club": [
+  "SALLE DU COSEC",
+  "COSEC",
+  "ST GREGOIRE COSEC",
+  "la ricoquais"
+ ]
 }
