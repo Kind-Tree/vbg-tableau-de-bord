@@ -621,6 +621,84 @@ def fusionner(ancien, nouveau_equipes, nouveau_coupes, ordre_eq, ordre_co, maj_i
             "coupes": choisir(ordre_co, nouveau_coupes, vieux_co)}
 
 
+# ------------------------------------------------------------- heures saisies par le club
+# `heures.json` (racine du dépôt) : [{"equipe", "date" AAAA-MM-JJ, "heure" HH:MM, "saisie"}], écrit par
+# `heures.py` (workflow « Ajouter une heure »). La collecte ne l'écrit jamais : elle l'ajoute à data.json sous
+# `heure_saisie`, à chaque passage, même si FFvolley ne publie jamais l'heure. L'heure de FFvolley gagne toujours.
+RE_ISO = re.compile(r"\d{4}-\d\d-\d\d")
+RE_HEURE = re.compile(r"([01]\d|2[0-3]):[0-5]\d")
+
+
+def charger_heures(chemin):
+    """Saisies valides de `heures.json`. Fichier absent : liste vide. Illisible : ValueError (la collecte
+    continue sans les heures, `heures.py` refuse d'écrire par-dessus). Une ligne mal formée est ignorée."""
+    try:
+        with open(chemin, encoding="utf-8") as f:
+            brut = json.load(f)
+    except FileNotFoundError:
+        return []
+    except (OSError, ValueError) as e:
+        raise ValueError("heures.json illisible : %s" % e)
+    if not isinstance(brut, list):
+        raise ValueError("heures.json : une liste est attendue")
+    return [s for s in brut if isinstance(s, dict) and isinstance(s.get("equipe"), str)
+            and isinstance(s.get("date"), str) and RE_ISO.fullmatch(s["date"])
+            and isinstance(s.get("heure"), str) and RE_HEURE.fullmatch(s["heure"])]
+
+
+def matchs_du_jour(e, iso):
+    """Dictionnaires de l'équipe `e` (prochain, avenir, attente, poules[].matchs) qui portent un match du club
+    à la date `iso`. Les lignes exemptes (la vraie équipe en `dom`, pas de match) sont écartées."""
+    out = []
+    p = e.get("prochain")
+    if isinstance(p, dict) and p.get("date") == iso:
+        out.append(p)
+    for cle in ("avenir", "attente"):
+        out += [m for m in e.get(cle) or [] if isinstance(m, dict) and m.get("date") == iso]
+    for poule in e.get("poules") or []:
+        nous = poule.get("nous")
+        out += [m for m in poule.get("matchs") or [] if isinstance(m, dict) and m.get("date") == iso
+                and not m.get("exempt") and nous in (m.get("dom"), m.get("ext"))]
+    return out
+
+
+def appliquer_heures(data, saisies, rapport=print):
+    """Ajoute `heure_saisie` à tous les matchs du club (plateau compris) des jours saisis. Retire d'abord toute
+    ancienne `heure_saisie` : une heure supprimée de heures.json disparaît. `heure` de FFvolley n'est jamais
+    modifiée ; si elle diffère de la saisie, un « ECART heure » est signalé (pas un échec)."""
+    equipes = data.get("equipes", [])
+    for e in equipes:
+        for m in _tous_les_matchs(e):
+            m.pop("heure_saisie", None)
+    par_nom = {e.get("nom"): e for e in equipes}
+    vus = set()
+    for s in saisies:
+        e = par_nom.get(s["equipe"])
+        ms = matchs_du_jour(e, s["date"]) if e else []
+        if not ms:
+            rapport("AVERTISSEMENT heure saisie sans match : %s %s %s" % (s["equipe"], s["date"], s["heure"]))
+            continue
+        for m in ms:
+            m["heure_saisie"] = s["heure"]
+            ff = m.get("heure")
+            if ff and ff != s["heure"] and (s["equipe"], s["date"], ff) not in vus:
+                vus.add((s["equipe"], s["date"], ff))
+                rapport("ECART heure : %s %s FFvolley %s, saisie %s" % (s["equipe"], s["date"], ff, s["heure"]))
+                if os.environ.get("GITHUB_ACTIONS"):
+                    rapport("::warning::ECART heure : %s %s FFvolley %s, saisie %s"
+                            % (s["equipe"], s["date"], ff, s["heure"]))
+    return data
+
+
+def _tous_les_matchs(e):
+    out = [e["prochain"]] if isinstance(e.get("prochain"), dict) else []
+    for cle in ("avenir", "attente"):
+        out += [m for m in e.get(cle) or [] if isinstance(m, dict)]
+    for poule in e.get("poules") or []:
+        out += [m for m in poule.get("matchs") or [] if isinstance(m, dict)]
+    return out
+
+
 def ecrire_atomiquement(chemin, data):
     tmp = chemin + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
@@ -639,6 +717,8 @@ def main(argv=None):
     ap.add_argument("--diagnostic", action="store_true",
                     help="compare la configuration aux pages club et hebdo ; n'écrit aucun fichier (0 : concordance, 2 : écarts, 1 : pages illisibles)")
     ap.add_argument("--out", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs", "data.json"))
+    ap.add_argument("--heures", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "heures.json"),
+                    help="heures saisies par le club (lecture seule)")
     args = ap.parse_args(argv)
     if args.diagnostic:
         return main_diagnostic()  # avant toute lecture ou écriture de data.json
@@ -720,6 +800,13 @@ def main(argv=None):
                      [e["nom"] for e in EQUIPES], [c["nom"] for c in COUPES], maj_iso, echecs)
     data["nonsuivies"] = nonsuivies
     data["salles_club"] = list(SALLES_CLUB)
+    try:
+        saisies = charger_heures(args.heures)
+    except ValueError as e:
+        print("AVERTISSEMENT :", e, ": heures saisies ignorées pour ce passage")
+        saisies = None
+    if saisies is not None:
+        appliquer_heures(data, saisies)
     encore_configurees = {e["nom"] for e in ancien.get("equipes", [])} & {e["nom"] for e in EQUIPES}
     if len(data["equipes"]) < len(encore_configurees):
         print("Moins d'équipes qu'avant : data.json inchangé.")

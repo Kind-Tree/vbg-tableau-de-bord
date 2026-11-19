@@ -1,0 +1,86 @@
+name: Ajouter une heure
+
+# Lancement manuel seulement (app GitHub : dépôt, Actions, « Ajouter une heure », Run workflow).
+# Les trois valeurs saisies passent par `env:` et sont lues par heures.py (os.environ) : jamais de
+# « ${{ inputs.… }} » dans un `run:`, ce qui rendrait possible l'injection d'une commande.
+# La liste des équipes doit rester identique à EQUIPES de collect.py (un test le vérifie).
+on:
+  workflow_dispatch:
+    inputs:
+      equipe:
+        description: "Équipe"
+        type: choice
+        required: true
+        options:
+          - "N3M"
+          - "PNF"
+          - "PRM"
+          - "D1F"
+          - "D2M"
+          - "M18M région"
+          - "M18M départemental"
+          - "M18F 1"
+          - "M18F 2"
+          - "M15F"
+          - "M15M"
+          - "M13F"
+          - "M13M"
+          - "Loisir Compet'Lib 1"
+          - "Loisir Compet'Lib 2"
+      date:
+        description: "Date du match, JJ/MM (exemple 21/11)"
+        type: string
+        required: true
+      heure:
+        description: "Heure HH:MM (exemple 18:30). Vide : supprime l'heure saisie ce jour-là"
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+# Plusieurs saisies à la suite font la queue : sans « queue: max », GitHub annulerait celle qui attend.
+concurrency:
+  group: heures
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  ajout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validation et enregistrement
+        env:
+          HEURE_EQUIPE: ${{ inputs.equipe }}
+          HEURE_DATE: ${{ inputs.date }}
+          HEURE_HEURE: ${{ inputs.heure }}
+        run: python heures.py
+
+      - name: Publication de heures.json
+        run: |
+          git config user.name "collecte-vbg"
+          git config user.email "collecte-vbg@users.noreply.github.com"
+          git add heures.json
+          if git diff --cached --quiet; then echo "Aucun changement."; exit 0; fi
+          git commit -m "Heure saisie"
+          for essai in 1 2 3; do
+            if git pull --rebase && git push; then exit 0; fi
+            sleep 5
+          done
+          echo "::error::Publication de heures.json impossible après 3 essais."
+          exit 1
+
+      # Un lancement manuel par le jeton du workflow crée bien un passage de collecte (doc GitHub).
+      - name: Lancement de la collecte
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCHE: ${{ github.ref_name }}
+        run: gh workflow run collecte.yml --ref "$BRANCHE"
