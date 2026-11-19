@@ -65,3 +65,9 @@ Fond #111111, cartes #1F1F1F, texte blanc, accent orange #F26910 (jamais en text
 Voir `ETAT.md` (état en cours, passages à vérifier, décisions ouvertes).
 
 Détail complet : `RECAP-FABLE.md` (local, 35 Ko).
+
+## Socle
+@ETAT.md
+- À la fin de chaque tâche, mets à jour ETAT.md (40 lignes au plus).
+- Reprise sur un PC neuf : INSTALLATION.md. Envies futures : IDEES.md.
+- Un dépôt distant de sauvegarde existe (public) : pousse après chaque commit.

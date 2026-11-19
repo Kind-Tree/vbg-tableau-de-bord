@@ -30,7 +30,8 @@ Heure tolérante faite (19/11) : 9:30, 9h30, 9h, 14h00, 14 h 30, heure seule (13
 - Passages du 20/11 (18 h) et du 22/11 : voir « Reste à faire ».
 - Non vérifiés : e-mail d'échec réel (y compris « ECHEC contrôle »), rendu iPhone des nouvelles vues.
 - Janvier : changement de phase des poules jeunes (SAISON.md, section « Changement de phase »).
-- Décisions ouvertes : historique Git de `main` (vrais noms d'arbitres dans `ebf790f`), adresse et propriétaire du dépôt, rappel d'agenda fin août 2027.
+- Décisions ouvertes : historique Git de `main` (vrais noms d'arbitres dans `ebf790f`), dépôt GitHub PUBLIC (vérifié le 19/11) donc ebf790f est lisible de tous, adresse et propriétaire du dépôt, rappel d'agenda fin août 2027.
 - Défauts mineurs connus : plafond de 5 résultats par carte, ordre à égalité de date, page ouverte non recalculée avant retour au premier plan.
 - Crochets git : `git config core.hooksPath .githooks` à refaire sur toute nouvelle copie du dépôt.
 - JMJ (Coupe de France M21) volontairement ignorée (`IGNOREES`).
+- Socle installé le 19/11 : IDEES.md, INSTALLATION.md, `python assembler_dossier.py` -> dossier_revue/ (local, hors Git).
