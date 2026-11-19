@@ -6,8 +6,8 @@ Mis à jour à la fin de chaque tâche. Le stable est dans CLAUDE.md.
 Branche `programme-poule`. Rien n'est fusionné sur main avant le feu vert du président (après les passages du 20 et du 22/11).
 Plan complet : `C:\Users\samue\.claude\plans\co-t-lourd-lis-swirling-reef.md`
 - [x] 1 préparation (branche, ETAT.md)
-- [ ] 2 pages de test anonymisées
-- [ ] 3 collect.py (exempt, poules, contrôle page club)
+- [x] 2 pages de test anonymisées
+- [x] 3 collect.py (exempt, poules, contrôle page club) : 124 tests Python, 9 mutations détectées
 - [ ] 4 vue Programme
 - [ ] 5 vue Poule
 - [ ] 6 essai et SECOURS
