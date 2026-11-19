@@ -124,7 +124,9 @@ function blocProchain(m,note,lu){
   const p=el("div","proch");p.append(el("span","pastille","Prochain match"));
   if(m&&m.date<aujourdhuiParis()){p.append(el("p","note","Prochain match passé"+(lu?" : données du "+dateLue(lu):", données non actualisées.")))}
   else if(m){const qui=el("p","qui");
-    p.append(el("p","quand",jour(m.date)+(m.heure?" · "+m.heure.replace(":"," h "):"")));
+    const hs=m.heure?null:heureHM(m.heure_saisie);
+    p.append(el("p","quand",jour(m.date)+(m.heure?" · "+m.heure.replace(":"," h "):hs?" · "+heureTxt(hs):"")));
+    if(hs)p.append(el("p","note",SAISIE_VBG));
     qui.append(el("span","lieu",m.lieu==="D"?"DOMICILE":"EXTÉRIEUR"),m.adv);p.append(qui);
     if(m.salle)p.append(el("p","salle",m.salle));
   }else p.append(el("p","note",note||"Aucun match programmé."));
@@ -169,12 +171,16 @@ function semaineDe(auj){const lundi=ajouterJours(auj,-((jourSemaine(auj)+6)%7));
 function dejaJoue(m,auj,h){return m.date<auj||(m.date===auj&&!!m.heure&&m.heure<=h)}
 const ISO=/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 function texte(v){return typeof v==="string"&&v?v:null}
+// Heure saisie par le club (« heure_saisie » dans data.json) : seulement si FFvolley ne donne pas la sienne.
+function heureHM(v){return typeof v==="string"&&/^([01]\d|2[0-3]):[0-5]\d$/.test(v)?v:null}
+function heureAff(x){return x.heure||x.saisie||null}
+const SAISIE_VBG="saisie VBG";
 // Un match est joué dès qu'il a un score, quelle que soit sa date.
 function aScore(x){return typeof x.pour==="number"&&typeof x.contre==="number"}
 // Match d'une poule vu de notre équipe (« nous » : notre nom FFvolley dans la poule). Sets retournés si extérieur.
 function vueClub(m,nous){
   if(m.exempt)return{date:m.date,heure:null,exempt:true};
-  const dom=m.dom===nous,o={date:m.date,heure:texte(m.heure),lieu:dom?"D":"E",adv:dom?m.ext:m.dom,salle:texte(m.salle)};
+  const dom=m.dom===nous,o={date:m.date,heure:texte(m.heure),saisie:heureHM(m.heure_saisie),lieu:dom?"D":"E",adv:dom?m.ext:m.dom,salle:texte(m.salle)};
   if(typeof m.sd==="number"&&typeof m.se==="number"){
     o.pour=dom?m.sd:m.se;o.contre=dom?m.se:m.sd;
     o.sets=typeof m.sets==="string"?m.sets.split(" ").filter(Boolean).map(s=>dom?s:s.split("-").reverse().join("-")).join(" "):""}
@@ -190,7 +196,7 @@ function matchsDeCarte(q){
       if(!p||typeof p.nous!=="string"||!Array.isArray(p.matchs))throw new Error("poule illisible");
       p.matchs.forEach(m=>{if(date(m)&&(m.dom===p.nous||m.ext===p.nous))out.push({...vueClub(m,p.nous),poule:i})})});
     return out}
-  const base=m=>({date:m.date,heure:texte(m.heure),lieu:m.lieu,adv:m.adv,salle:texte(m.salle),poule:0});
+  const base=m=>({date:m.date,heure:texte(m.heure),saisie:heureHM(m.heure_saisie),lieu:m.lieu,adv:m.adv,salle:texte(m.salle),poule:0});
   liste(q.resultats).filter(date).forEach(r=>out.push({...base(r),pour:r.pour,contre:r.contre,sets:typeof r.sets==="string"?r.sets:"",res:true}));
   (Array.isArray(q.avenir)?q.avenir:(q.prochain?[q.prochain]:[])).filter(date).forEach(m=>out.push(base(m)));
   liste(q.attente).filter(date).forEach(m=>out.push({...base(m),illisible:!!m.illisible}));
@@ -220,9 +226,9 @@ function blocsDuJour(ls,salles){
   const groupes=new Map();
   ls.forEach(x=>{if(!groupes.has(x.cle))groupes.set(x.cle,[]);groupes.get(x.cle).push(x)});
   return[...groupes.values()].map(g=>{
-    const vrais=g.filter(x=>!x.exempt).sort((a,b)=>trier(a.heure||"99:99",b.heure||"99:99")),plateau=g.length>=2;
+    const vrais=g.filter(x=>!x.exempt).sort((a,b)=>trier(heureAff(a)||"99:99",heureAff(b)||"99:99")),plateau=g.length>=2;
     return{ls:g,vrais,exempt:g.some(x=>x.exempt),plateau,lieu:plateau?lieuPlateau(vrais,salles):null,
-           heure:(vrais.find(x=>x.heure)||{}).heure||null,ordre:g[0].ordre,carte:g[0].carte,nonlu:g[0].nonlu,lu:g[0].lu}})
+           heure:(vrais.map(heureAff).find(Boolean))||null,ordre:g[0].ordre,carte:g[0].carte,nonlu:g[0].nonlu,lu:g[0].lu}})
     .sort((a,b)=>trier(a.heure||"99:99",b.heure||"99:99")||a.ordre-b.ordre)}
 // Filtre « À domicile » : hors plateau, le domicile de FFvolley (fiable) ; sur un plateau, la salle seule décide.
 function estDomicile(b){return b.plateau?b.lieu==="VBG":(!b.exempt&&b.ls[0].lieu==="D")}
@@ -241,12 +247,14 @@ function liSimple(b,auj,h,sansCarte){
     if(typeof x.adv!=="string"||(x.res&&!aScore(x)))throw new Error("ligne illisible");
     if(aScore(x))g.append(pastilleVD(x));
     else if(x.heure)g.textContent=heureTxt(x.heure);
+    else if(x.saisie)g.textContent=heureTxt(x.saisie);
     else{g.className="hre sans";g.textContent="Heure à confirmer"}
     const qui=el("p","qui");
     if(x.lieu==="D"||x.lieu==="E")qui.append(el("span","lieu",x.lieu==="D"?"Domicile":"Extérieur"));
     qui.append(x.adv);t.append(qui);
     if(aScore(x))t.append(el("p","note",x.pour+"–"+x.contre+(x.sets?" · "+x.sets:"")));
     if(x.salle)t.append(el("p","salle",x.salle));
+    if(!aScore(x)&&!x.heure&&x.saisie)t.append(el("p","note",SAISIE_VBG));
     const s=statutMatch(x,auj,h);if(s)t.append(el("p","note",s))}
   const n=noteNonLu(b);if(n)t.append(n);
   li.append(g,t);return li}
@@ -261,8 +269,10 @@ function liPlateau(b,auj,h,sansCarte){
     const r=el("div","pl"),q=el("span","pl-txt",x.adv),h1=el("span","h");
     if(aScore(x))h1.append(pastilleVD(x));
     else if(x.heure)h1.textContent=heureTxt(x.heure);
+    else if(x.saisie)h1.textContent=heureTxt(x.saisie);
     else{h1.className="h sans";h1.textContent="Heure à confirmer"}
     if(aScore(x))q.append(el("small",null,x.pour+"–"+x.contre+(x.sets?" · "+x.sets:"")));
+    if(!aScore(x)&&!x.heure&&x.saisie)q.append(el("small",null,SAISIE_VBG));
     const s=statutMatch(x,auj,h);if(s)q.append(el("small",null,s));
     r.append(h1,q);t.append(r)});
   if(b.exempt)t.append(el("p","note","exempte d'un tour"));
@@ -363,7 +373,7 @@ function ligneDePoule(m,p,q){
   let info;
   if(typeof m.sd==="number"&&typeof m.se==="number")info=m.sd+"–"+m.se+(m.sets?" · "+m.sets:"");
   else if(m.illisible)info="Résultat à lire sur FFvolley";
-  else info=[m.heure?heureTxt(m.heure):"Heure à confirmer",m.salle].filter(Boolean).join(" · ");
+  else{const hs=heureHM(m.heure_saisie);info=[m.heure?heureTxt(m.heure):hs?heureTxt(hs)+" · "+SAISIE_VBG:"Heure à confirmer",m.salle].filter(Boolean).join(" · ")}
   t.append(el("p","note",info));li.append(g,t);return li}
 function journeesDePoule(p,q){
   const ms=(Array.isArray(p.matchs)?p.matchs:[]).filter(m=>m&&typeof m.date==="string"&&ISO.test(m.date)&&typeof m.dom==="string");
@@ -373,7 +383,7 @@ function journeesDePoule(p,q){
   const noeuds=[];
   cles.forEach(k=>{
     const ul=el("ul","mts");
-    groupes.get(k).sort((a,b)=>trier(a.date+(a.heure||"99:99"),b.date+(b.heure||"99:99"))).forEach(m=>{
+    groupes.get(k).sort((a,b)=>trier(a.date+(a.heure||heureHM(a.heure_saisie)||"99:99"),b.date+(b.heure||heureHM(b.heure_saisie)||"99:99"))).forEach(m=>{
       let li;try{li=ligneDePoule(m,p,q)}catch(e){li=el("li","mt");li.append(el("p","note","Ligne illisible."))}
       ul.append(li)});
     noeuds.push(el("h3",null,typeof k==="number"?"Journée "+k:"Le "+court(k)),ul)});

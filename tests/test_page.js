@@ -1514,3 +1514,74 @@ test("programme : quand le bouton cliqué devient inactif (borne), le focus pass
   assert.equal(b.auj.disabled, true);
   assert.ok(p.actif() !== b.auj && !p.actif().disabled);
 });
+
+// ---- heures saisies par le club (« heure_saisie » dans data.json) : affichage seulement ----
+function avecSaisies() {
+  const d = donneesPoules();
+  const eq = nom => d.equipes.find(e => e.nom === nom);
+  const match = (nom, pred) => eq(nom).poules[0].matchs.find(pred);
+  match("M18F 2", m => m.date === "2026-11-21").heure_saisie = "18:30";
+  match("M13F", m => m.ext === "VB GREGORIEN").heure_saisie = "17:15";
+  match("D1F", m => m.date === "2026-11-21").heure_saisie = "17:00";                 // FFvolley donne 18:00 : elle gagne
+  match("M13M", m => m.ext === "RENNES TA 2 (mixte)").heure_saisie = "14:00";
+  return d;
+}
+
+test("saisie : heure du club affichée avec « saisie VBG » quand FFvolley n'en donne pas (ligne simple, plateau)", async () => {
+  const p = await programme19({ donnees: avecSaisies() });
+  const samedi = jours(p)[0].lignes;
+  assert.match(samedi.find(l => l.includes("M18F 2")), /^18 h 30M18F 2DomicileGEVEZESALLE DU COSECsaisie VBG$/);
+  assert.match(samedi.find(l => l.includes("M13F")), /^M13FPlateauLIFFRE17 h 15CHATEAUBOURG MARPIRE 35 V 2saisie VBGexempte d'un tour$/);
+  assert.doesNotMatch(programme(p), /Heure à confirmerM18F 2|Heure à confirmerM13F/);
+});
+
+test("saisie : l'heure de FFvolley l'emporte, sans mention « saisie VBG »", async () => {
+  const p = await programme19({ donnees: avecSaisies() });
+  const d1f = jours(p)[0].lignes.find(l => l.includes("D1F"));
+  assert.match(d1f, /^18 h 00D1FDomicileUGS CCV 3SALLE DU COSEC$/);
+  assert.doesNotMatch(d1f, /saisie|17 h/);
+});
+
+test("saisie : l'heure du club sert aussi à l'ordre du jour (avant un match sans heure, selon l'heure)", async () => {
+  const d = donneesPoules();
+  d.equipes.find(e => e.nom === "M18F 2").poules[0].matchs[0].heure_saisie = "09:00";
+  const lignes = jours(await programme19({ donnees: d }))[0].lignes;
+  assert.ok(lignes.findIndex(l => l.includes("M18F 2")) < lignes.findIndex(l => l.includes("M13M")), "09 h 00 passe avant 11 h 00");
+});
+
+test("saisie : une valeur illisible n'est jamais affichée (« Heure à confirmer » reste)", async () => {
+  const d = donneesPoules();
+  const m = d.equipes.find(e => e.nom === "M18F 2").poules[0].matchs[0];
+  for (const mauvais of ["25:99", "18:30; rm", "18h30", 1830, null, "<b>18:30</b>", "18:30\n"]) {
+    m.heure_saisie = mauvais;
+    const l = jours(await programme19({ donnees: d }))[0].lignes.find(x => x.includes("M18F 2"));
+    assert.match(l, /^Heure à confirmerM18F 2DomicileGEVEZESALLE DU COSEC$/, String(mauvais));
+  }
+});
+
+test("saisie : vue Poule (« Toute la poule ») et fiche d'équipe (prochain match)", async () => {
+  const d = avecSaisies();
+  d.equipes.find(e => e.nom === "M18F 2").prochain = { date: "2026-11-21", lieu: "D", adv: "GEVEZE", heure: null, salle: "SALLE DU COSEC", heure_saisie: "18:30" };
+  d.equipes.find(e => e.nom === "M18F 2").classement = undefined;
+  const fiche = await charger({ donnees: d, aujourdhui: JEUDI_19, hash: "#m18f-2" });
+  assert.match(fiche.cartes()[0].textContent, /Prochain matchsam. 21 nov. · 18 h 30saisie VBGDOMICILEGEVEZE/);
+  assert.match(fiche.cartes()[0].textContent, /saisie VBG/);
+  const poule = await charger({ donnees: d, aujourdhui: JEUDI_19, hash: "#poule-m13m" });
+  const c = poule.cartes()[0];
+  await cliquer(c.trouver(e => e.tag === "button").find(b => b.className === "bascule"));
+  assert.match(c.trouver(e => e.className === "journees")[0].textContent, /M13M – RENNES TA 2 \(mixte\)14 h 00 · saisie VBG · RENNES TA/);
+});
+
+test("saisie : ordre — l'heure de FFvolley prime sur la saisie pour trier ; sur un plateau, les lignes suivent l'heure saisie", async () => {
+  const d = donneesPoules();
+  const eq = nom => d.equipes.find(e => e.nom === nom);
+  eq("D1F").poules[0].matchs[0].heure_saisie = "08:00";                  // FFvolley : 18:00, donc après M13M (11:00)
+  const l = jours(await programme19({ donnees: d }))[0].lignes;
+  assert.ok(l.findIndex(x => x.includes("D1F")) > l.findIndex(x => x.includes("M13M")), "D1F reste à 18 h 00");
+  const ms = eq("M13M").poules[0].matchs;
+  ms.find(m => m.ext === "RENNES TA 1 (masc)").heure_saisie = "15:00";
+  ms.find(m => m.ext === "RENNES TA 2 (mixte)").heure_saisie = "14:00";
+  const p = await programme19({ donnees: d, aujourdhui: "2026-12-03T12:00:00Z" });
+  const plateau = jours(p).flatMap(j => j.lignes).find(x => x.includes("M13M"));
+  assert.match(plateau, /14 h 00RENNES TA 2 \(mixte\)saisie VBG15 h 00RENNES TA 1 \(masc\)saisie VBG/);
+});
