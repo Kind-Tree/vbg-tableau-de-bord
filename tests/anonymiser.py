@@ -2,16 +2,21 @@
 """Anonymise les pages FFvolley enregistrées pour les tests : les noms d'arbitres sont remplacés par
 « ARBITREnnn TEST ». Aucun vrai nom d'arbitre ne doit entrer dans le dépôt.
 
-Les arbitres sont dans la dernière cellule d'une ligne de match : <td class='liengris_pt'>NOM / NOM</td>
-juste avant <td></td></tr>. Les cellules vides (poules, matchs sans arbitre) ne bougent pas.
+Les arbitres sont dans une cellule de la ligne de match, à deux emplacements selon la page :
+  - page club : <td class='liengris_pt'>NOM / NOM</td> juste avant <td></td></tr> ;
+  - page de poule : <td class='liengris_pt' align='left'>NOM/NOM</td> juste après la cellule des points « 075-059 ».
+Les cellules vides (matchs sans arbitre) ne bougent pas.
 
 Usage : python tests/anonymiser.py brut.html [sortie.html]   (sans sortie : le fichier est réécrit)
 """
 import re
 import sys
 
-# Cellule d'arbitres : texte non vide entre <td class='liengris_pt'> et </td><td></td></tr>.
-MOTIF = re.compile(rb"(<td class='liengris_pt'>)([^<]+)(</td><td></td></tr>)")
+# Cellule d'arbitres : texte non vide, à l'un des deux emplacements ci-dessus (groupes : début, noms, fin).
+MOTIFS = [
+    re.compile(rb"(<td class='liengris_pt'>)([^<]+)(</td><td></td></tr>)"),
+    re.compile(rb"(class='liensuite4_pt'>\d+-\d+</td><td class='liengris_pt'[^>]*>)([^<]+)(</td>)"),
+]
 
 
 def anonymiser(octets, depart=500):
@@ -28,8 +33,11 @@ def anonymiser(octets, depart=500):
         return m.group(1) + b"".join(
             x if i % 2 else (pseudo(x.strip()) if x.strip() else x) for i, x in enumerate(morceaux)) + m.group(3)
 
-    sortie, n = MOTIF.subn(remplacer, octets)
-    return sortie, n
+    n = 0
+    for motif in MOTIFS:
+        octets, k = motif.subn(remplacer, octets)
+        n += k
+    return octets, n
 
 
 def main(argv):

@@ -191,7 +191,7 @@ function matchsDeCarte(q){
       p.matchs.forEach(m=>{if(date(m)&&(m.dom===p.nous||m.ext===p.nous))out.push({...vueClub(m,p.nous),poule:i})})});
     return out}
   const base=m=>({date:m.date,heure:texte(m.heure),lieu:m.lieu,adv:m.adv,salle:texte(m.salle),poule:0});
-  liste(q.resultats).filter(date).forEach(r=>out.push({...base(r),pour:r.pour,contre:r.contre,sets:r.sets,res:true}));
+  liste(q.resultats).filter(date).forEach(r=>out.push({...base(r),pour:r.pour,contre:r.contre,sets:typeof r.sets==="string"?r.sets:"",res:true}));
   (Array.isArray(q.avenir)?q.avenir:(q.prochain?[q.prochain]:[])).filter(date).forEach(m=>out.push(base(m)));
   liste(q.attente).filter(date).forEach(m=>out.push({...base(m),illisible:!!m.illisible}));
   return out}
@@ -207,12 +207,13 @@ function lignesProgramme(d){
     catch(e){illisibles++}});
   return{lignes,illisibles}}
 // Plateau : une équipe a au moins deux lignes le même jour dans la même poule (exempt compris). Qui reçoit : « VBG » si
-// toutes les salles sont les nôtres (liste « salles_club », nom entier, casse ignorée), sinon le nom de la salle ;
-// rien si la salle n'est plus publiée (match joué) ou si elles diffèrent : jamais deviné.
+// toutes les salles sont les nôtres (liste « salles_club », nom entier, casse ignorée) ET qu'une des lignes nous met
+// à domicile pour FFvolley (« SALLE DU COSEC » existe aussi chez d'autres clubs : une salle seule ne prouve rien) ;
+// sinon le nom de la salle ; rien si la salle n'est plus publiée (match joué) ou si elles diffèrent : jamais deviné.
 function lieuPlateau(vrais,salles){
   const s=[...new Set(vrais.map(x=>x.salle).filter(Boolean))],bas=salles.map(x=>String(x).toLowerCase());
   if(!s.length)return null;
-  if(s.every(x=>bas.includes(x.toLowerCase())))return "VBG";
+  if(s.every(x=>bas.includes(x.toLowerCase()))&&vrais.some(x=>x.lieu==="D"))return "VBG";
   return s.length===1?s[0]:null}
 function trier(a,b){return a<b?-1:a>b?1:0}
 function blocsDuJour(ls,salles){
@@ -300,10 +301,14 @@ function carteProgramme(d){
     if(masquesJoues)noeuds.push(el("p","note",masquesJoues+" plateau(x) déjà joué(s) masqué(s) : leur salle n'est plus publiée."));
     if(illisibles)noeuds.push(el("p","note","Données illisibles pour "+illisibles+" carte(s)."));
     zone.replaceChildren(...noeuds)}
-  prec.addEventListener("click",()=>{SEM_PROG.debut=ajouterJours(courant,-7);maj()});
-  suiv.addEventListener("click",()=>{SEM_PROG.debut=ajouterJours(courant,7);maj()});
-  auj_b.addEventListener("click",()=>{SEM_PROG.debut=null;maj()});
-  dom.addEventListener("click",()=>{SEM_PROG.dom=!SEM_PROG.dom;maj()});
+  // Le bouton cliqué peut devenir inactif (borne, semaine d'aujourd'hui) : le focus clavier passe à un bouton actif.
+  function apres(b){maj();if(b.disabled){const autre=[prec,suiv,auj_b,dom].find(x=>!x.disabled);if(autre)autre.focus()}}
+  // Revenir à la semaine d'aujourd'hui remet « null » : la page la suit alors au changement de date de Paris.
+  function aller(lundi){SEM_PROG.debut=lundi===semaineDe(aujourdhuiParis()).debut?null:lundi}
+  prec.addEventListener("click",()=>{aller(ajouterJours(courant,-7));apres(prec)});
+  suiv.addEventListener("click",()=>{aller(ajouterJours(courant,7));apres(suiv)});
+  auj_b.addEventListener("click",()=>{SEM_PROG.debut=null;apres(auj_b)});
+  dom.addEventListener("click",()=>{SEM_PROG.dom=!SEM_PROG.dom;apres(dom)});
   maj();return c}
 // ---- Vue « Poule » : classement complet, nos matchs restants, toute la poule. Adresse #poule-<équipe> (ex. #poule-n3m) ----
 // L'adresse porte le nom de l'équipe (stable d'une saison à l'autre), pas le code FFvolley de la poule.
@@ -320,8 +325,9 @@ function blocClassement(q,p){
     ["","Équipe","Pts","J","G","P"].forEach(x=>t.append(el("span",null,x)));ul.append(t);
     cl.forEach(r=>{
       const moi=r.club===p.nous,li=el("li",moi?"moi":null);
-      li.append(el("span","num",String(r.rang)),el("span","eq",moi?q.nom:String(r.club)),
-        el("span","num pts",String(r.pts)),el("span","num",String(r.j)),el("span","num",String(r.g)),el("span","num",String(r.p)));
+      const nb=v=>typeof v==="number"?String(v):"–"; // jamais « undefined » : un chiffre absent ou illisible s'écrit « – »
+      li.append(el("span","num",nb(r.rang)),el("span","eq",moi?q.nom:(typeof r.club==="string"?r.club:"–")),
+        el("span","num pts",nb(r.pts)),el("span","num",nb(r.j)),el("span","num",nb(r.g)),el("span","num",nb(r.p)));
       ul.append(li)});
     s.append(ul,el("p","note","Pts points · J joués · G gagnés · P perdus"))}
   else if(p)s.append(el("p","note","Classement de la poule pas encore publié."));
@@ -333,14 +339,20 @@ function blocClassement(q,p){
 function blocRestants(q,salles){
   const s=el("section","bloc"),auj=aujourdhuiParis(),h=heureParis();
   s.append(el("h3",null,"Nos matchs restants"));
-  const restants=lignesCarte(q,q.nom,0).filter(x=>x.exempt?x.date>=auj:(!aScore(x)&&!x.illisible&&!dejaJoue(x,auj,h)));
-  if(!restants.length)s.append(el("p","qui","Aucun match restant."));
-  [...new Set(restants.map(x=>x.date))].sort().forEach(j=>{
+  // Plateau et exempt se décident sur TOUTES les lignes du jour (un match déjà joué reste dans le plateau) ; on ne
+  // montre ensuite que les matchs restants.
+  const toutes=lignesCarte(q,q.nom,0),restant=x=>!aScore(x)&&!x.illisible&&!dejaJoue(x,auj,h);
+  let n=0;
+  [...new Set(toutes.filter(x=>x.date>=auj).map(x=>x.date))].sort().forEach(j=>{
+    const blocs=blocsDuJour(toutes.filter(x=>x.date===j),salles).map(b=>({...b,vrais:b.vrais.filter(restant)}))
+      .filter(b=>b.vrais.length||(b.exempt&&!b.plateau));
+    if(!blocs.length)return;
     const t=el("h3",null,JOURS_L[jourSemaine(j)]+" "+court(j)),ul=el("ul","mts");
-    blocsDuJour(restants.filter(x=>x.date===j),salles).forEach(b=>{
-      let li;try{li=b.plateau?liPlateau(b,auj,h,true):liSimple(b,auj,h,true)}catch(e){li=el("li","mt");li.append(el("p","note","Ligne illisible."))}
+    blocs.forEach(b=>{
+      n++;let li;try{li=b.plateau?liPlateau(b,auj,h,true):liSimple(b,auj,h,true)}catch(e){li=el("li","mt");li.append(el("p","note","Ligne illisible."))}
       ul.append(li)});
     s.append(t,ul)});
+  if(!n)s.append(el("p","qui","Aucun match restant."));
   return s}
 // Une ligne de « Toute la poule » : « A – B », puis score et sets (du point de vue de celui qui reçoit) ou heure et salle.
 function ligneDePoule(m,p,q){

@@ -1440,3 +1440,77 @@ test("poule : charte — lien de 48 px, ligne surlignée en #111111 avec filet o
   }
   assert.doesNotMatch(SCRIPT, /innerHTML|insertAdjacentHTML|outerHTML/);
 });
+
+// ---- Relecture indépendante : défauts trouvés puis corrigés ----
+test("programme et poule : « SALLE DU COSEC » ne suffit pas — un plateau où nous ne recevons dans aucune ligne affiche la salle, pas « VBG »", async () => {
+  const d = donneesPoules();
+  d.equipes[3].poules[0].matchs = [
+    { date: "2026-11-21", heure: "10:00", dom: "GUICHEN 2", ext: "ST GREGOIRE 2", salle: "SALLE DU COSEC", j: 2 },
+    { date: "2026-11-21", heure: "11:00", dom: "GUICHEN 2", ext: "AUTRE", salle: "SALLE DU COSEC", j: 2 },
+    { date: "2026-11-21", heure: "12:00", dom: "AUTRE", ext: "ST GREGOIRE 2", salle: "SALLE DU COSEC", j: 2 }];
+  const p = await programme19({ donnees: d });
+  const ligne = jours(p)[0].lignes.find(l => l.includes("M18F 2"));
+  assert.match(ligne, /^M18F 2PlateauSALLE DU COSEC/);
+  assert.doesNotMatch(ligne, /VBG/);
+  await cliquer(boutons(p).dom);
+  assert.doesNotMatch(texteJours(p), /M18F 2/, "ce plateau n'est pas à domicile");
+  const q = await poulePage("#poule-m18f-2", { donnees: d });
+  assert.match(carteP(q).trouver(e => e.tag === "section")[1].textContent, /PlateauSALLE DU COSEC/);
+  d.equipes[3].poules[0].matchs[0].dom = "ST GREGOIRE 2"; d.equipes[3].poules[0].matchs[0].ext = "GUICHEN 2"; // une ligne nous met à domicile
+  assert.match(jours(await programme19({ donnees: d }))[0].lignes.find(l => l.includes("M18F 2")), /PlateauVBG/);
+});
+
+test("poule : un plateau déjà entamé reste un plateau (le match joué compte) ; un exempt n'est pas « Exempt » le jour d'un match joué", async () => {
+  const d = donneesPoulesClassees();
+  d.equipes[3].poules[0].matchs = [
+    { date: "2026-11-21", heure: "10:00", dom: "ST GREGOIRE 2", ext: "ADV JOUE", salle: "SALLE DU COSEC", j: 2, sd: 3, se: 0, sets: "25-10 25-10 25-10" },
+    { date: "2026-11-21", heure: "14:00", dom: "ADV RESTANT", ext: "ST GREGOIRE 2", salle: "SALLE DU COSEC", j: 2 }];
+  const treize = { donnees: d, aujourdhui: "2026-11-21T12:00:00Z" }; // samedi 13 h à Paris
+  const r = carteP(await poulePage("#poule-m18f-2", treize)).trouver(e => e.tag === "section")[1].textContent;
+  assert.match(r, /samedi 21\/11PlateauVBG14 h 00ADV RESTANT/);
+  assert.doesNotMatch(r, /Extérieur|ADV JOUE/, "pas de ligne simple « Extérieur » : c'est un plateau");
+  d.equipes[3].poules[0].matchs = [
+    { date: "2026-11-21", heure: "10:00", dom: "ST GREGOIRE 2", ext: "ADV JOUE", salle: "SALLE DU COSEC", j: 2, sd: 3, se: 0, sets: "25-10 25-10 25-10" },
+    { date: "2026-11-21", dom: "ST GREGOIRE 2", exempt: true, j: 2 }];
+  const e = carteP(await poulePage("#poule-m18f-2", treize)).trouver(e2 => e2.tag === "section")[1].textContent;
+  assert.match(e, /Aucun match restant\./);
+  assert.doesNotMatch(e, /Exempt/);
+});
+
+test("poule : un chiffre de classement absent ou illisible s'écrit « – », jamais « undefined »", async () => {
+  const d = donneesPoulesClassees();
+  d.equipes[0].poules[0].classement = [{ club: "VOLLEY BALL GREGORIEN" }, { rang: "2", club: null, pts: null, j: 1, g: 1, p: 0 }];
+  const c = carteP(await poulePage("#poule-n3m", { donnees: d }));
+  const lignes = c.trouver(e => e.tag === "ul" && e.className === "cl")[0].children.map(l => l.textContent);
+  assert.equal(lignes[1], "–N3M––––");
+  assert.equal(lignes[2], "–––110");
+  assert.doesNotMatch(c.textContent, /undefined|null|NaN/);
+});
+
+test("programme : revenir par ‹ ou › à la semaine d'aujourd'hui la fait suivre au changement de date de Paris", async () => {
+  const p = await charger({ donnees: donneesPoules(), aujourdhui: "2026-11-22T22:30:00Z" }); // dimanche 23 h 30 Paris
+  await cliquer(boutons(p).suiv); await cliquer(boutons(p).prec);
+  assert.equal(periode(p), "Du 16/11 au 22/11");
+  assert.equal(boutons(p).auj.disabled, true);
+  p.horloge("2026-11-22T23:30:00Z"); await p.revenir(); // lundi 0 h 30
+  assert.equal(periode(p), "Du 23/11 au 29/11");
+});
+
+test("programme : repli sans « poules », des sets qui ne sont pas du texte ne s'affichent pas", async () => {
+  const d = donneesSemaine();
+  d.equipes[0].resultats[0].sets = { a: 1 };
+  const p = await charger({ donnees: d, aujourdhui: SAMEDI_MIDI });
+  assert.doesNotMatch(p.cartes()[0].textContent, /\[object|undefined|null/);
+  assert.match(jours(p)[1].lignes[0], /^VN3MDomicileADV MERCREDI3–0$/);
+});
+
+test("programme : quand le bouton cliqué devient inactif (borne), le focus passe à un bouton actif", async () => {
+  const p = await programme19();
+  const b = boutons(p);
+  await cliquer(b.prec); await cliquer(b.prec); // première semaine : ‹ inactif
+  assert.equal(b.prec.disabled, true);
+  assert.ok(p.actif() && p.actif() !== b.prec && !p.actif().disabled, "le focus ne reste pas sur un bouton inactif");
+  await cliquer(b.auj);
+  assert.equal(b.auj.disabled, true);
+  assert.ok(p.actif() !== b.auj && !p.actif().disabled);
+});

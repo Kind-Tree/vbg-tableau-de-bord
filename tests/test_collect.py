@@ -822,11 +822,13 @@ class DiagnosticSansEcritureTest(unittest.TestCase):
 
 class AnonymisationTest(unittest.TestCase):
     """Aucun vrai nom d'arbitre dans les pages de test (la cellule d'arbitres est la dernière de la ligne)."""
-    CELLULE = re.compile(rb"<td></td><td class='liengris_pt'>([^<]+)</td><td></td></tr>")
-    PSEUDO = re.compile(rb"ARBITRE\d+ TEST( / ARBITRE\d+ TEST)?( / ?)?")
+    # Deux emplacements : page club (avant la fin de ligne) et page de poule (juste après les points « 075-059 »).
+    CELLULES = [re.compile(rb"<td></td><td class='liengris_pt'>([^<]+)</td><td></td></tr>"),
+                re.compile(rb"class='liensuite4_pt'>\d+-\d+</td><td class='liengris_pt'[^>]*>([^<]+)</td>")]
+    PSEUDO = re.compile(rb"ARBITRE\d+ TEST( ?/ ?ARBITRE\d+ TEST)?( ?/ ?)?")
 
     def cellules_en_clair(self, octets):
-        return [c for c in self.CELLULE.findall(octets) if not self.PSEUDO.fullmatch(c.strip())]
+        return [c for motif in self.CELLULES for c in motif.findall(octets) if not self.PSEUDO.fullmatch(c.strip())]
 
     def test_aucune_page_de_test_ne_contient_un_nom_d_arbitre(self):
         for nom in sorted(os.listdir(FIX)):
@@ -837,6 +839,23 @@ class AnonymisationTest(unittest.TestCase):
     def test_le_detecteur_voit_un_nom_en_clair(self):
         brut = b"<td></td><td class='liengris_pt'>DUPONT JEAN / MARTIN LUC</td><td></td></tr>"
         self.assertEqual(len(self.cellules_en_clair(brut)), 1)
+
+    def test_le_detecteur_voit_un_nom_en_clair_sur_une_page_de_poule(self):
+        brut = (b"<td bgcolor='#E4E4E4' align='center' class='liensuite4_pt'>075-059</td>"
+                b"<td class='liengris_pt' align='left'>DUPONT JEAN/MARTIN LUC</td><form name=divers>")
+        self.assertEqual(len(self.cellules_en_clair(brut)), 1)
+        self.assertEqual(self.cellules_en_clair(brut.replace(b"DUPONT JEAN/MARTIN LUC", b"ARBITRE9 TEST/ARBITRE8 TEST")), [])
+
+    def test_l_anonymiseur_traite_aussi_la_cellule_d_arbitres_d_une_page_de_poule(self):
+        sys.path.insert(0, os.path.dirname(__file__))
+        import anonymiser
+        brut = (b"class='liensuite4_pt'>075-059</td><td class='liengris_pt' align='left'>DUPONT JEAN/MARTIN LUC</td><form>"
+                b"class='liensuite4_pt'>075-059</td><td class='liengris_pt' align='left'></td><form>")
+        sortie, n = anonymiser.anonymiser(brut)
+        self.assertEqual(n, 1)  # la cellule vide ne bouge pas
+        self.assertNotIn(b"DUPONT", sortie)
+        self.assertNotIn(b"MARTIN", sortie)
+        self.assertEqual(self.cellules_en_clair(sortie), [])
 
     def test_l_anonymiseur_remplace_les_noms_et_garde_les_cellules_vides(self):
         sys.path.insert(0, os.path.dirname(__file__))
