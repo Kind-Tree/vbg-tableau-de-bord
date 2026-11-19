@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-19T13:53:23+01:00",
+ "maj": "2026-11-19T22:43:29+01:00",
  "equipes": [
   {
    "nom": "N3M",
@@ -1413,7 +1413,7 @@
    "pts": 6,
    "g": 2,
    "p": 4,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "PNF",
@@ -2820,7 +2820,7 @@
    "pts": 5,
    "g": 1,
    "p": 4,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "PRM",
@@ -3827,7 +3827,7 @@
    "pts": 12,
    "g": 4,
    "p": 0,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "D1F",
@@ -4765,7 +4765,7 @@
    "pts": 3,
    "g": 1,
    "p": 2,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "D2M",
@@ -5130,7 +5130,7 @@
    "pts": 6,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "M18M région",
@@ -5328,7 +5328,7 @@
    ],
    "poule": "M18M performance poule C",
    "noteRang": "Classement de la poule pas encore publié.",
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "M18M départemental",
@@ -5338,7 +5338,7 @@
     "adv": "TINTENIAC",
     "heure": null,
     "salle": "SALLE DES SPORTS",
-    "heure_saisie": "14:30"
+    "heure_saisie": "14:00"
    },
    "resultats": [
     {
@@ -5358,7 +5358,7 @@
      "adv": "TINTENIAC",
      "heure": null,
      "salle": "SALLE DES SPORTS",
-     "heure_saisie": "14:30"
+     "heure_saisie": "14:00"
     },
     {
      "date": "2026-12-05",
@@ -5500,7 +5500,7 @@
        "j": 3,
        "ext": "ST GREGOIRE",
        "salle": "SALLE DES SPORTS",
-       "heure_saisie": "14:30"
+       "heure_saisie": "14:00"
       },
       {
        "date": "2026-12-05",
@@ -5551,7 +5551,7 @@
    "pts": 0,
    "g": 0,
    "p": 1,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "M18F 1",
@@ -5561,7 +5561,7 @@
     "adv": "LA CANE VOLLEY",
     "heure": null,
     "salle": "SALLE DU COSEC",
-    "heure_saisie": "13:00"
+    "heure_saisie": "13:45"
    },
    "resultats": [
     {
@@ -5590,7 +5590,7 @@
      "adv": "LA CANE VOLLEY",
      "heure": null,
      "salle": "SALLE DU COSEC",
-     "heure_saisie": "13:00"
+     "heure_saisie": "13:45"
     },
     {
      "date": "2026-12-05",
@@ -5734,7 +5734,7 @@
        "j": 3,
        "ext": "LA CANE VOLLEY",
        "salle": "SALLE DU COSEC",
-       "heure_saisie": "13:00"
+       "heure_saisie": "13:45"
       },
       {
        "date": "2026-11-21",
@@ -5774,12 +5774,12 @@
        "salle": "SALLE PARQUET"
       },
       {
-       "date": "2026-12-19",
+       "date": "2026-11-28",
        "dom": "ROMILLE",
        "heure": "15:30",
        "j": 5,
        "ext": "PLEUMELEUC/BEDEE",
-       "salle": "salle Anita CONTI"
+       "salle": "SALLE ANITA CONTI"
       },
       {
        "date": "2026-12-19",
@@ -5797,7 +5797,7 @@
    "pts": 5,
    "g": 2,
    "p": 0,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "M18F 2",
@@ -5806,7 +5806,8 @@
     "lieu": "D",
     "adv": "GEVEZE",
     "heure": null,
-    "salle": "SALLE DU COSEC"
+    "salle": "SALLE DU COSEC",
+    "heure_saisie": "16:00"
    },
    "resultats": [
     {
@@ -5834,7 +5835,8 @@
      "lieu": "D",
      "adv": "GEVEZE",
      "heure": null,
-     "salle": "SALLE DU COSEC"
+     "salle": "SALLE DU COSEC",
+     "heure_saisie": "16:00"
     },
     {
      "date": "2026-12-05",
@@ -5970,7 +5972,8 @@
        "dom": "ST GREGOIRE 2",
        "j": 3,
        "ext": "GEVEZE",
-       "salle": "SALLE DU COSEC"
+       "salle": "SALLE DU COSEC",
+       "heure_saisie": "16:00"
       },
       {
        "date": "2026-11-21",
@@ -6028,7 +6031,7 @@
    "pts": 3,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "M15F",
@@ -6271,7 +6274,7 @@
    "pts": 0,
    "g": 0,
    "p": 2,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "M15M",
@@ -6446,7 +6449,7 @@
    "pts": 4,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "M13F",
@@ -6709,7 +6712,7 @@
    "pts": 1,
    "g": 0,
    "p": 1,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "M13M",
@@ -6985,7 +6988,7 @@
    "pts": 2,
    "g": 1,
    "p": 0,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 1",
@@ -7224,7 +7227,7 @@
    "pts": 7,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 2",
@@ -7468,7 +7471,7 @@
    "pts": 4,
    "g": 1,
    "p": 3,
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   }
  ],
  "coupes": [
@@ -7704,7 +7707,7 @@
     }
    ],
    "equipe": "N3M",
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "Coupe de Bretagne M18M",
@@ -7792,7 +7795,7 @@
     }
    ],
    "equipe": "M18M région",
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   },
   {
    "nom": "Coupe CD35 masculine",
@@ -7922,7 +7925,7 @@
     }
    ],
    "equipe": "PRM",
-   "lu": "2026-11-19T13:53:23+01:00"
+   "lu": "2026-11-19T22:43:29+01:00"
   }
  ],
  "nonsuivies": [],
