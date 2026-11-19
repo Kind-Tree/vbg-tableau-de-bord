@@ -8,7 +8,7 @@ Plan complet : `C:\Users\samue\.claude\plans\co-t-lourd-lis-swirling-reef.md`
 - [x] 1 préparation (branche, ETAT.md)
 - [x] 2 pages de test anonymisées
 - [x] 3 collect.py (exempt, poules, contrôle page club) : 124 tests Python, 9 mutations détectées
-- [ ] 4 vue Programme
+- [x] 4 vue Programme : 108 tests Node, 18 mutations détectées, vérifiée à 360 px sur données réelles
 - [ ] 5 vue Poule
 - [ ] 6 essai et SECOURS
 - [ ] 7 relecture
