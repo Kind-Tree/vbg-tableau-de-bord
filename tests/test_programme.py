@@ -347,5 +347,58 @@ class CollecteCompleteTest(unittest.TestCase):
         self.assertIn("Contrôle par la page club ignoré", sortie)
 
 
+class CopieDeSecoursTest(unittest.TestCase):
+    PAGE = "<html>\n// Données de secours : ancienne.\nconst SECOURS={\"maj\":\"x\"};\nconst AUTRE=1;\n</html>\n"
+    DATA = {"maj": "2026-11-19T10:17:00+01:00", "salles_club": ["COSEC"],
+            "equipes": [{"nom": "N3M", "rang": 8, "poules": [{"matchs": [1, 2, 3]}]}],
+            "coupes": [{"nom": "C", "poules": [{"matchs": []}]}], "nonsuivies": []}
+
+    def secours(self, html):
+        import json
+        ligne = [l for l in html.split("\n") if l.startswith("const SECOURS=")][0]
+        return json.loads(ligne[len("const SECOURS="):-1])
+
+    def test_la_copie_est_allegee_sans_poules_et_le_reste_est_intact(self):
+        import regenerer_secours
+        sortie = regenerer_secours.regenerer(self.PAGE, self.DATA)
+        copie = self.secours(sortie)
+        self.assertEqual(copie["equipes"], [{"nom": "N3M", "rang": 8}])
+        self.assertEqual(copie["coupes"], [{"nom": "C"}])
+        self.assertEqual((copie["maj"], copie["nonsuivies"]), (self.DATA["maj"], []))
+        self.assertIn("copie de data.json du 19/11/2026", sortie)
+        self.assertIn("const AUTRE=1;", sortie)
+        self.assertIn("poules", self.DATA["equipes"][0])  # la donnée d'origine n'est pas modifiée
+
+    def test_ligne_ou_commentaire_introuvable_est_une_erreur_claire(self):
+        import regenerer_secours
+        with self.assertRaises(ValueError):
+            regenerer_secours.regenerer("<html></html>", self.DATA)
+
+    def test_les_fins_de_ligne_de_la_page_sont_conservées(self):
+        import regenerer_secours
+        with tempfile.TemporaryDirectory() as dossier:
+            page, data = os.path.join(dossier, "index.html"), os.path.join(dossier, "data.json")
+            with open(page, "wb") as f:
+                f.write(self.PAGE.replace("\n", "\r\n").encode("utf-8"))
+            with open(data, "w", encoding="utf-8") as f:
+                json.dump(self.DATA, f)
+            with mock.patch("sys.stdout", new=io.StringIO()):
+                self.assertEqual(regenerer_secours.main(["x", data, page]), 0)
+            with open(page, "rb") as f:
+                octets = f.read()
+        self.assertIn(b"\r\n", octets)
+        self.assertNotIn(b"\n", octets.replace(b"\r\n", b""))
+
+    def test_la_copie_integree_de_la_page_est_complete_legere_et_sans_poules(self):
+        with open(os.path.join(os.path.dirname(__file__), "..", "docs", "index.html"), encoding="utf-8") as f:
+            html = f.read().replace("\r\n", "\n")
+        copie = self.secours(html)
+        self.assertEqual([e["nom"] for e in copie["equipes"]], [e["nom"] for e in collect.EQUIPES])
+        self.assertEqual([c["nom"] for c in copie["coupes"]], [c["nom"] for c in collect.COUPES])
+        self.assertFalse([e for e in copie["equipes"] + copie["coupes"] if "poules" in e])
+        self.assertLess(len(html.encode("utf-8")), 80000, "la page doit rester légère (copie de secours sans les poules)")
+        self.assertNotIn("ARBITRE", html)
+
+
 if __name__ == "__main__":
     unittest.main()

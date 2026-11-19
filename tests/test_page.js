@@ -783,8 +783,11 @@ test("données anciennes : des données fraîches effacent la ligne (Actualiser)
   assert.equal(p.el("ancien").textContent, "");
 });
 
-test("données anciennes : hors ligne, la ligne suit les données affichées (copie intégrée du 15/11, ou données déjà chargées)", async () => {
-  const integree = await charger({ reseau: false, aujourdhui: "2026-11-25T11:00:00Z" });
+test("données anciennes : hors ligne, la ligne suit les données affichées (copie intégrée, ou données déjà chargées)", async () => {
+  // dix jours après la date de la copie intégrée, quelle que soit sa date de régénération
+  const jourCopie = SCRIPT.match(/const SECOURS=\{"maj":"(\d{4}-\d\d-\d\d)/)[1];
+  const dixJoursApres = new Date(new Date(jourCopie + "T11:00:00Z").getTime() + 10 * 864e5).toISOString();
+  const integree = await charger({ reseau: false, aujourdhui: dixJoursApres });
   assert.equal(integree.el("src").textContent, "Données intégrées du");
   assert.equal(integree.el("ancien").textContent, "Données anciennes : dernière collecte il y a 10 jours");
   const p = await charger({ donnees: avecMaj("2026-11-25T07:00:00+01:00"), aujourdhui: "2026-11-25T11:00:00Z" });

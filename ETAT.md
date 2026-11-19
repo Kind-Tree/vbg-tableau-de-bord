@@ -10,7 +10,7 @@ Plan complet : `C:\Users\samue\.claude\plans\co-t-lourd-lis-swirling-reef.md`
 - [x] 3 collect.py (exempt, poules, contrôle page club) : 124 tests Python, 9 mutations détectées
 - [x] 4 vue Programme : 108 tests Node, 18 mutations détectées, vérifiée à 360 px sur données réelles
 - [x] 5 vue Poule (#poule-<équipe>) : 109 tests Node, 34 mutations détectées au total, bloc « Calendrier » retiré
-- [ ] 6 essai et SECOURS
+- [x] 6 essai réel (code 0, contrôle page club OK) et SECOURS régénérée sans « poules » (regenerer_secours.py)
 - [ ] 7 relecture
 - [ ] 8 livraison (CLAUDE.md, SAISON.md, liste iPhone)
 
