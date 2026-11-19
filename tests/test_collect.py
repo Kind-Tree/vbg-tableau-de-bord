@@ -818,3 +818,36 @@ class DiagnosticSansEcritureTest(unittest.TestCase):
         code, texte, _ = self.lancer(["--diagnostic"], erreur="HTTP 503")
         self.assertEqual(code, 1)
         self.assertIn("Diagnostic impossible", texte)
+
+
+class AnonymisationTest(unittest.TestCase):
+    """Aucun vrai nom d'arbitre dans les pages de test (la cellule d'arbitres est la dernière de la ligne)."""
+    CELLULE = re.compile(rb"<td></td><td class='liengris_pt'>([^<]+)</td><td></td></tr>")
+    PSEUDO = re.compile(rb"ARBITRE\d+ TEST( / ARBITRE\d+ TEST)?( / ?)?")
+
+    def cellules_en_clair(self, octets):
+        return [c for c in self.CELLULE.findall(octets) if not self.PSEUDO.fullmatch(c.strip())]
+
+    def test_aucune_page_de_test_ne_contient_un_nom_d_arbitre(self):
+        for nom in sorted(os.listdir(FIX)):
+            if nom.endswith(".html"):
+                with open(os.path.join(FIX, nom), "rb") as f:
+                    self.assertEqual(self.cellules_en_clair(f.read()), [], nom)
+
+    def test_le_detecteur_voit_un_nom_en_clair(self):
+        brut = b"<td></td><td class='liengris_pt'>DUPONT JEAN / MARTIN LUC</td><td></td></tr>"
+        self.assertEqual(len(self.cellules_en_clair(brut)), 1)
+
+    def test_l_anonymiseur_remplace_les_noms_et_garde_les_cellules_vides(self):
+        sys.path.insert(0, os.path.dirname(__file__))
+        import anonymiser
+        brut = (b"<td></td><td class='liengris_pt'>DUPONT JEAN / MARTIN LUC</td><td></td></tr>"
+                b"<td></td><td class='liengris_pt'>DUPONT JEAN /</td><td></td></tr>"
+                b"<td></td><td class='liengris_pt'></td><td></td></tr>")
+        sortie, n = anonymiser.anonymiser(brut)
+        self.assertEqual(n, 2)
+        self.assertEqual(self.cellules_en_clair(sortie), [])
+        self.assertNotIn(b"DUPONT", sortie)
+        self.assertNotIn(b"MARTIN", sortie)
+        self.assertEqual(sortie.count(b"ARBITRE500 TEST"), 2)  # même nom, même pseudo
+        self.assertIn(b"<td class='liengris_pt'></td>", sortie)
