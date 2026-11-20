@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-19T22:43:29+01:00",
+ "maj": "2026-11-20T23:55:26+01:00",
  "equipes": [
   {
    "nom": "N3M",
@@ -750,10 +750,10 @@
       },
       {
        "date": "2026-12-06",
-       "dom": "ASPTT LAVAL 2",
-       "heure": "16:00",
+       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "heure": "14:00",
        "j": 9,
-       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "ext": "ASPTT LAVAL 2",
        "salle": "GYMNASE NOEMIE HAMARD"
       },
       {
@@ -1278,11 +1278,11 @@
       },
       {
        "date": "2027-04-04",
-       "dom": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "dom": "ASPTT LAVAL 2",
        "heure": "16:00",
        "j": 20,
-       "ext": "ASPTT LAVAL 2",
-       "salle": "JEAN JAHAN 2"
+       "ext": "LES NEPTUNES NANTES VOLLEY ASSOCIATION",
+       "salle": "GYMNASE NOEMIE HAMARD"
       },
       {
        "date": "2027-04-04",
@@ -1413,7 +1413,7 @@
    "pts": 6,
    "g": 2,
    "p": 4,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "PNF",
@@ -2820,7 +2820,7 @@
    "pts": 5,
    "g": 1,
    "p": 4,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "PRM",
@@ -3827,7 +3827,7 @@
    "pts": 12,
    "g": 4,
    "p": 0,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "D1F",
@@ -3969,6 +3969,14 @@
      "classement": [
       {
        "rang": 1,
+       "club": "LOUVIGNE DE BAIS 2",
+       "pts": 12,
+       "j": 4,
+       "g": 4,
+       "p": 0
+      },
+      {
+       "rang": 2,
        "club": "BRUZ JA 1",
        "pts": 10,
        "j": 4,
@@ -3976,20 +3984,12 @@
        "p": 1
       },
       {
-       "rang": 2,
-       "club": "LOUVIGNE DE BAIS 2",
-       "pts": 9,
-       "j": 3,
-       "g": 3,
-       "p": 0
-      },
-      {
        "rang": 3,
        "club": "JANZE CORPS NUDS 1",
        "pts": 8,
-       "j": 4,
+       "j": 5,
        "g": 3,
-       "p": 1
+       "p": 2
       },
       {
        "rang": 4,
@@ -4245,7 +4245,9 @@
        "heure": "20:30",
        "j": 5,
        "ext": "JANZE CORPS NUDS 1",
-       "salle": "SALLE DES SPORTS"
+       "sd": 3,
+       "se": 0,
+       "sets": "25-23 25-15 25-22"
       },
       {
        "date": "2026-11-21",
@@ -4765,7 +4767,7 @@
    "pts": 3,
    "g": 1,
    "p": 2,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "D2M",
@@ -5130,7 +5132,7 @@
    "pts": 6,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "M18M région",
@@ -5201,7 +5203,7 @@
       {
        "date": "2026-11-21",
        "dom": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
-       "heure": "13:30",
+       "heure": "15:00",
        "j": 1,
        "ext": "UNION SPORTIVE VERN",
        "salle": "GYMNASE DE BEAUFEUILLAGE"
@@ -5328,7 +5330,7 @@
    ],
    "poule": "M18M performance poule C",
    "noteRang": "Classement de la poule pas encore publié.",
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "M18M départemental",
@@ -5551,7 +5553,7 @@
    "pts": 0,
    "g": 0,
    "p": 1,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "M18F 1",
@@ -5797,7 +5799,7 @@
    "pts": 5,
    "g": 2,
    "p": 0,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "M18F 2",
@@ -6031,7 +6033,7 @@
    "pts": 3,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "M15F",
@@ -6274,7 +6276,7 @@
    "pts": 0,
    "g": 0,
    "p": 2,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "M15M",
@@ -6449,7 +6451,7 @@
    "pts": 4,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "M13F",
@@ -6506,48 +6508,48 @@
       {
        "rang": 1,
        "club": "MONTGERMONT VBC 3",
-       "pts": 4,
-       "j": 2,
-       "g": 2,
+       "pts": 6,
+       "j": 3,
+       "g": 3,
        "p": 0
       },
       {
        "rang": 2,
        "club": "MAEN ROCH VB",
-       "pts": 4,
-       "j": 2,
-       "g": 2,
+       "pts": 6,
+       "j": 3,
+       "g": 3,
        "p": 0
       },
       {
        "rang": 3,
        "club": "CHATEAUBOURG MARPIRE 35 V 2",
-       "pts": 2,
-       "j": 2,
-       "g": 0,
+       "pts": 4,
+       "j": 3,
+       "g": 1,
        "p": 2
       },
       {
        "rang": 4,
        "club": "LIFFRE US",
-       "pts": 1,
-       "j": 1,
-       "g": 0,
+       "pts": 3,
+       "j": 2,
+       "g": 1,
        "p": 1
       },
       {
        "rang": 5,
        "club": "VB GREGORIEN",
-       "pts": 1,
-       "j": 1,
-       "g": 0,
+       "pts": 3,
+       "j": 2,
+       "g": 1,
        "p": 1
       },
       {
        "rang": 6,
        "club": "RENNNES EC 2",
        "pts": 0,
-       "j": 0,
+       "j": 5,
        "g": 0,
        "p": 0
       }
@@ -6576,7 +6578,7 @@
        "dom": "VB GREGORIEN",
        "j": 1,
        "ext": "RENNNES EC 2",
-       "salle": "MAEN ROCH"
+       "illisible": true
       },
       {
        "date": "2026-11-07",
@@ -6626,7 +6628,7 @@
        "dom": "MAEN ROCH VB",
        "j": 2,
        "ext": "RENNNES EC 2",
-       "salle": "LIFFRE"
+       "illisible": true
       },
       {
        "date": "2026-11-21",
@@ -6648,7 +6650,7 @@
        "dom": "MONTGERMONT VBC 3",
        "j": 2,
        "ext": "RENNNES EC 2",
-       "salle": "LIFFRE"
+       "illisible": true
       },
       {
        "date": "2026-11-21",
@@ -6681,7 +6683,7 @@
        "dom": "LIFFRE US",
        "j": 3,
        "ext": "RENNNES EC 2",
-       "salle": "RENNES EC"
+       "illisible": true
       },
       {
        "date": "2026-12-05",
@@ -6701,18 +6703,19 @@
        "dom": "CHATEAUBOURG MARPIRE 35 V 2",
        "j": 3,
        "ext": "RENNNES EC 2",
-       "salle": "RENNES EC"
+       "illisible": true
       }
      ]
     }
    ],
+   "noteResultats": "1 match(s) à lire sur FFvolley (forfait ou score non numérique).",
    "poule": "M13 féminines bronze poule C · VB GREGORIEN",
    "rang": 5,
    "sur": 6,
-   "pts": 1,
-   "g": 0,
+   "pts": 3,
+   "g": 1,
    "p": 1,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "M13M",
@@ -6988,7 +6991,7 @@
    "pts": 2,
    "g": 1,
    "p": 0,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 1",
@@ -7227,7 +7230,7 @@
    "pts": 7,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 2",
@@ -7471,7 +7474,7 @@
    "pts": 4,
    "g": 1,
    "p": 3,
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   }
  ],
  "coupes": [
@@ -7707,7 +7710,7 @@
     }
    ],
    "equipe": "N3M",
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "Coupe de Bretagne M18M",
@@ -7795,7 +7798,7 @@
     }
    ],
    "equipe": "M18M région",
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   },
   {
    "nom": "Coupe CD35 masculine",
@@ -7925,7 +7928,7 @@
     }
    ],
    "equipe": "PRM",
-   "lu": "2026-11-19T22:43:29+01:00"
+   "lu": "2026-11-20T23:55:26+01:00"
   }
  ],
  "nonsuivies": [],
