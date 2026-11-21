@@ -1,4 +1,4 @@
-# ETAT : chantier en cours
+﻿# ETAT : chantier en cours
 
 Mis à jour à la fin de chaque tâche. Le stable est dans CLAUDE.md.
 
@@ -37,4 +37,4 @@ Heure tolérante faite (19/11) : 9:30, 9h30, 9h, 14h00, 14 h 30, heure seule (13
 - JMJ (Coupe de France M21) volontairement ignorée (`IGNOREES`).
 - Socle installé le 19/11 : IDEES.md, INSTALLATION.md, `python assembler_dossier.py` -> dossier_revue/ (local, hors Git).
 - Été (juin à août) : une fois par mois, onglet Actions : aucun workflow désactivé ; lancer une collecte à la main. Vérifier une fois à l'écran le réglage d'e-mail « échecs seulement » (CLAUDE.md, Sources).
-- Archives de conception déplacées hors projet (19/11) : `..\_archivesolley-vbg\`.
+- Archives de conception déplacées hors projet (19/11) : `..\_archives\volley-vbg\`.
