@@ -1,4 +1,4 @@
-# Tableau de bord VBG (Volley-Ball Grégorien)
+﻿# Tableau de bord VBG (Volley-Ball Grégorien)
 
 Page web mobile du club : vue « Programme » (une semaine à la fois, toute la saison), fiche de chaque équipe (prochain match, derniers résultats, rang) et vue « Poule » (classement complet, matchs restants, toute la poule). Site : https://kind-tree.github.io/vbg-tableau-de-bord/ (dépôt `Kind-Tree/vbg-tableau-de-bord`, branche `main`, Pages sur `/docs`).
 Le président (non développeur) pilote en français et valide chaque étape. Réponses courtes, en français.
@@ -9,7 +9,7 @@ Le président (non développeur) pilote en français et valide chaque étape. R�
 - `docs/data.json` : produit par le robot (`collecte-vbg`) à chaque collecte. Ne pas l'éditer à la main.
 - `.github/workflows/collecte.yml` : collecte planifiée (ven. 18 h, dim. 9 h/21 h/23 h, lun. 7 h, heure de Paris) + lancement manuel. Aucun test dans ce workflow. `tests.yml` : tests à chaque push.
 - Heures saisies par le club : `heures.json` (racine ; `[{equipe, date AAAA-MM-JJ, heure, saisie}]`, une ligne par équipe et jour), écrit seulement par `heures.py` via le workflow `.github/workflows/heure.yml` (« Ajouter une heure », lancement manuel : équipe en liste déroulante, date `JJ/MM`, heure `HH:MM` ou vide pour supprimer ; valide, commite `heures.json`, puis lance `collecte.yml`). La collecte lit `heures.json` (jamais écrit par elle) et ajoute `heure_saisie` à tous les matchs du club ce jour-là (plateau compris) dans `prochain/avenir/attente/poules[].matchs`. La page affiche l'heure de FFvolley si elle existe, sinon `heure_saisie` avec « saisie VBG ». Écart avec FFvolley : « ECART heure » dans le rapport, pas un échec. Une heure saisie reste après chaque collecte (même poule non lue) : testé.
-- Archives (hors projet, `..\_archivesolley-vbg\` : `RECAP-FABLE.md`, `CADRAGE.md`, `NUIT.md`, historique de la conception, rien d'actif). Dossier local `dossier_revue/` (ignoré par Git, `python assembler_dossier.py`). Dans le dépôt : `MODE-D-EMPLOI.md`, `SAISON.md`.
+- Archives (hors projet, `..\_archives\volley-vbg\` : `RECAP-FABLE.md`, `CADRAGE.md`, `NUIT.md`, historique de la conception, rien d'actif). Dossier local `dossier_revue/` (ignoré par Git, `python assembler_dossier.py`). Dans le dépôt : `MODE-D-EMPLOI.md`, `SAISON.md`.
 - Pas de service worker (un cache pourrait servir un vieux `data.json`).
 - Crochets git versionnés dans `.githooks/` (`git config core.hooksPath .githooks`, à refaire sur chaque copie du dépôt) : `pre-commit` et `pre-push` bloquent tout nom d'arbitre en clair dans une page de test (`tests/verifier_arbitres.py`).
 
@@ -40,38 +40,13 @@ node --test tests/test_page.js
 ## Charte graphique (stricte)
 Fond #111111, cartes #1F1F1F, texte blanc, accent orange #F26910 (jamais en texte courant), victoire #1E7A3C et défaite #B3261E toujours avec la lettre V ou D, Arial, titres en majuscules gras. Interdits : bleu, dégradés, logo déformé ou recoloré. Zones tactiles de 44 px minimum, mobile d'abord (360 px).
 
-## Sources FFvolley et GitHub (repris des archives)
-- Poule : `https://www.ffvbbeach.org/ffvbapp/resu/vbspo_calendrier.php?saison=<SAISON>&codent=<ENTITE>&poule=<CODE>&calend=COMPLET` ; page club (classements, formulaires saison/entité/poule) : `.../planning_club_class.php?cnclub=0357988` ; hebdo : `.../planning_club.php?cnclub=0357988`. Contrôle de saison et poules non suivies.
-- User-Agent : `VBG-tableau-de-bord/1.0 (club amateur Saint-Gregoire; releve hebdomadaire)`. Garde d'identité : le code de match commence par le code de poule et le nom du club correspond exactement.
-- Formats FFvolley réels jamais observés : forfait, pénalité, match reporté (à vérifier à la première occurrence).
-- GitHub désactive les workflows planifiés d'un dépôt public après 60 jours sans activité (doc). Les commits du robot comptent-ils ? Non documenté. Risque : collecte en échec partout = aucun commit = coupure possible. Une collecte réussie commite toujours (`maj` change). Les workflows planifiés ne tournent que sur `main`, avec retards possibles. E-mail d'échec : va à la dernière personne qui a modifié le `cron` (compte `Kind-Tree`) ; réglage « échecs seulement » : Settings, Notifications, Actions (de mémoire).
-- Dépôt public voulu (Pages gratuit exige un dépôt public). Historique de `main` : voir IDEES.md.
-
-## Décisions prises
-- Saison = constante unique `SAISON` dans `collect.py` (testée). Changement de saison : suivre `SAISON.md`, lancer `python collect.py --diagnostic` (n'écrit rien, ne lit pas data.json) avant d'éditer la config.
-- Pas de commit « de maintien en vie » automatique contre la désactivation des workflows après 60 jours (non documenté par GitHub).
-- Menu sans étiquette visible : voulu. Pas de code de match dans `data.json` (extension « poules » acceptée, ajouts seulement).
-- Pas d'itinéraire ni d'adresse de salle : le nom de la salle en texte simple (l'adresse n'est que dans la fiche PDF de match, qui contient des données personnelles : jamais lue).
-- « À domicile » : hors plateau, le domicile/extérieur de FFvolley (fiable). Plateau = au moins 2 lignes d'une équipe le même jour dans la même poule (exempt compris) : une seule mention « Plateau », « VBG » si toutes les salles sont dans `SALLES_CLUB` (nom entier, casse ignorée) ET qu'une ligne nous met à domicile (« SALLE DU COSEC » existe chez d'autres clubs), sinon le nom de la salle ; plateau déjà joué (salle effacée par le score) : « Plateau » seul, masqué par le filtre avec une note.
-- Exempt : ligne « Exempt » si aucun autre match ce jour-là, sinon « exempte d'un tour » sur le plateau. Match « joué » dès qu'il a un score, quelle que soit sa date.
-- Vues « Programme » et « Poule » remplacent « Cette semaine », « Semaine dernière » et le bloc « Calendrier » (supprimés).
-- Changement de phase en janvier : voir `SAISON.md`.
-
-## Pièges rencontrés
-- Écrire les regex avec `\b` ou `\n` directement dans les fichiers, pas via un script Python en ligne de commande : le shell altère les doubles barres obliques inverses (un test de charte ne pouvait ainsi jamais échouer).
-- Le cron GitHub est en UTC : les deux heures (été et hiver) sont programmées, l'étape « Saison » ignore celle qui ne correspond pas. Deux exécutions par passage dans Actions, c'est normal.
-- Les poules régionales exigent `calend=COMPLET` dans l'URL. Encodage des pages : windows-1252.
-- Le bouton « Actualiser » recharge `data.json`, il ne déclenche pas de collecte.
-- Pas de `git add -p` disponible : des hunks de tâches différentes peuvent finir dans un même commit.
-- Le shell Windows altère aussi les heredocs contenant des guillemets : écrire les gros fichiers de test avec l'outil de fichier, pas avec `cat <<EOF`.
-- `SALLE DU COSEC` n'est pas propre au club : une salle seule ne prouve pas qu'on reçoit.
-
-- Workflows : jamais `${{ inputs.… }}` dans un `run:` (injection de commande) : passer par `env:` (testé). Dans un groupe de concurrence, GitHub annule le passage déjà en attente : `queue: max` (incompatible avec `cancel-in-progress: true`) dans `collecte.yml` et `heure.yml`.
-
 ## En attente / à surveiller
 Voir `ETAT.md` (état en cours, passages à vérifier, décisions ouvertes).
 
 Détail de la conception : archives ci-dessus (lecture seule).
+
+## Détail
+Sources FFvolley et GitHub, décisions prises, pièges rencontrés : `reference/DETAIL.md` (lire la section utile avant de toucher à la collecte, aux workflows ou à l'affichage du plateau/exempt/« À domicile »). Le dossier `docs/` est le site publié : ne rien y mettre d'autre.
 
 ## Socle
 @ETAT.md
