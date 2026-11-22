@@ -1,14 +1,14 @@
 {
- "maj": "2026-11-21T17:36:17+01:00",
+ "maj": "2026-11-22T16:49:14+01:00",
  "equipes": [
   {
    "nom": "N3M",
    "prochain": {
-    "date": "2026-11-22",
-    "lieu": "E",
-    "adv": "C.P.B. RENNES 35",
-    "heure": "16:00",
-    "salle": "GYMNASE CDT BOUGOUIN"
+    "date": "2026-11-29",
+    "lieu": "D",
+    "adv": "SAINT-RENAN IROISE VOLLEY",
+    "heure": "15:00",
+    "salle": "COSEC"
    },
    "resultats": [
     {
@@ -58,13 +58,6 @@
     }
    ],
    "avenir": [
-    {
-     "date": "2026-11-22",
-     "lieu": "E",
-     "adv": "C.P.B. RENNES 35",
-     "heure": "16:00",
-     "salle": "GYMNASE CDT BOUGOUIN"
-    },
     {
      "date": "2026-11-29",
      "lieu": "D",
@@ -171,7 +164,15 @@
      "salle": "COSEC"
     }
    ],
-   "attente": [],
+   "attente": [
+    {
+     "date": "2026-11-22",
+     "lieu": "E",
+     "adv": "C.P.B. RENNES 35",
+     "heure": "16:00",
+     "salle": "GYMNASE CDT BOUGOUIN"
+    }
+   ],
    "poules": [
     {
      "titre": "Nationale 3 masculine poule F",
@@ -229,9 +230,9 @@
       {
        "rang": 7,
        "club": "JEANNE D ARC DE RENNES",
-       "pts": 7,
-       "j": 6,
-       "g": 2,
+       "pts": 10,
+       "j": 7,
+       "g": 3,
        "p": 4
       },
       {
@@ -260,7 +261,7 @@
       },
       {
        "rang": 11,
-       "club": "CHATEAUBOURG MARPIRE VOLLEY 35",
+       "club": "VOLLEY CLUB HEROUVILLE",
        "pts": 0,
        "j": 6,
        "g": 0,
@@ -268,11 +269,11 @@
       },
       {
        "rang": 12,
-       "club": "VOLLEY CLUB HEROUVILLE",
+       "club": "CHATEAUBOURG MARPIRE VOLLEY 35",
        "pts": 0,
-       "j": 6,
+       "j": 7,
        "g": 0,
-       "p": 6
+       "p": 7
       }
      ],
      "matchs": [
@@ -642,7 +643,9 @@
        "heure": "15:00",
        "j": 7,
        "ext": "CHATEAUBOURG MARPIRE VOLLEY 35",
-       "salle": "JA RENNES"
+       "sd": 3,
+       "se": 0,
+       "sets": "29-27 25-18 26-24"
       },
       {
        "date": "2026-11-22",
@@ -1413,18 +1416,27 @@
    "pts": 6,
    "g": 2,
    "p": 4,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "PNF",
    "prochain": {
-    "date": "2026-11-21",
-    "lieu": "E",
-    "adv": "PLANCOET VOLLEY-BALL",
-    "heure": "19:00",
-    "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+    "date": "2026-11-29",
+    "lieu": "D",
+    "adv": "ETOILE ST LAURENT VB METROPOLE BREST",
+    "heure": "11:00",
+    "salle": "COSEC"
    },
    "resultats": [
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "PLANCOET VOLLEY-BALL",
+     "pour": 3,
+     "contre": 1,
+     "sets": "25-21 19-25 25-23 25-19",
+     "heure": "19:00"
+    },
     {
      "date": "2026-11-08",
      "lieu": "D",
@@ -1460,25 +1472,9 @@
      "contre": 3,
      "sets": "24-26 16-25 25-22 24-26",
      "heure": "15:00"
-    },
-    {
-     "date": "2026-09-20",
-     "lieu": "E",
-     "adv": "VANNES VOLLEY 56",
-     "pour": 0,
-     "contre": 3,
-     "sets": "20-25 18-25 12-25",
-     "heure": "11:00"
     }
    ],
    "avenir": [
-    {
-     "date": "2026-11-21",
-     "lieu": "E",
-     "adv": "PLANCOET VOLLEY-BALL",
-     "heure": "19:00",
-     "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
-    },
     {
      "date": "2026-11-29",
      "lieu": "D",
@@ -1602,9 +1598,9 @@
       {
        "rang": 1,
        "club": "C.P.B. RENNES 35",
-       "pts": 15,
-       "j": 5,
-       "g": 5,
+       "pts": 18,
+       "j": 6,
+       "g": 6,
        "p": 0
       },
       {
@@ -1617,7 +1613,7 @@
       },
       {
        "rang": 3,
-       "club": "VANNES VOLLEY 56",
+       "club": "JEANNE D ARC DE RENNES",
        "pts": 9,
        "j": 5,
        "g": 3,
@@ -1633,14 +1629,38 @@
       },
       {
        "rang": 5,
-       "club": "PLANCOET VOLLEY-BALL",
-       "pts": 8,
-       "j": 5,
-       "g": 2,
+       "club": "VANNES VOLLEY 56",
+       "pts": 9,
+       "j": 6,
+       "g": 3,
        "p": 3
       },
       {
        "rang": 6,
+       "club": "ETOILE ST LAURENT VB METROPOLE BREST",
+       "pts": 8,
+       "j": 6,
+       "g": 3,
+       "p": 3
+      },
+      {
+       "rang": 7,
+       "club": "PLANCOET VOLLEY-BALL",
+       "pts": 8,
+       "j": 6,
+       "g": 2,
+       "p": 4
+      },
+      {
+       "rang": 8,
+       "club": "VOLLEY BALL GREGORIEN",
+       "pts": 8,
+       "j": 6,
+       "g": 2,
+       "p": 4
+      },
+      {
+       "rang": 9,
        "club": "UNION SPORTIVE LAILLE",
        "pts": 6,
        "j": 5,
@@ -1648,15 +1668,7 @@
        "p": 2
       },
       {
-       "rang": 7,
-       "club": "JEANNE D ARC DE RENNES",
-       "pts": 6,
-       "j": 4,
-       "g": 2,
-       "p": 2
-      },
-      {
-       "rang": 8,
+       "rang": 10,
        "club": "LES BLEUETS PORTES DE BRETAGNE VB",
        "pts": 6,
        "j": 4,
@@ -1664,36 +1676,20 @@
        "p": 2
       },
       {
-       "rang": 9,
-       "club": "ETOILE ST LAURENT VB METROPOLE BREST",
-       "pts": 6,
-       "j": 5,
-       "g": 2,
-       "p": 3
-      },
-      {
-       "rang": 10,
+       "rang": 11,
        "club": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
        "pts": 5,
-       "j": 5,
+       "j": 6,
        "g": 2,
-       "p": 3
-      },
-      {
-       "rang": 11,
-       "club": "VOLLEY BALL GREGORIEN",
-       "pts": 5,
-       "j": 5,
-       "g": 1,
        "p": 4
       },
       {
        "rang": 12,
        "club": "E.SP. CANTON DE PIPRIAC V.B.",
-       "pts": 1,
-       "j": 5,
+       "pts": 2,
+       "j": 6,
        "g": 0,
-       "p": 5
+       "p": 6
       }
      ],
      "matchs": [
@@ -2001,7 +1997,9 @@
        "heure": "19:00",
        "j": 6,
        "ext": "VOLLEY BALL GREGORIEN",
-       "salle": "SALLE OMNISPORTS JOSEPH SAMSON"
+       "sd": 1,
+       "se": 3,
+       "sets": "21-25 25-19 23-25 19-25"
       },
       {
        "date": "2026-11-22",
@@ -2025,7 +2023,9 @@
        "heure": "12:00",
        "j": 6,
        "ext": "VANNES VOLLEY 56",
-       "salle": "JA RENNES"
+       "sd": 3,
+       "se": 0,
+       "sets": "25-22 25-20 25-21"
       },
       {
        "date": "2026-11-22",
@@ -2033,7 +2033,9 @@
        "heure": "13:00",
        "j": 6,
        "ext": "CESSON VOLLEY SAINT-BRIEUC COTES D'ARMOR",
-       "salle": "CDT BOUGOUIN"
+       "sd": 3,
+       "se": 0,
+       "sets": "25-21 25-20 25-23"
       },
       {
        "date": "2026-11-22",
@@ -2041,7 +2043,9 @@
        "heure": "13:00",
        "j": 6,
        "ext": "ETOILE ST LAURENT VB METROPOLE BREST",
-       "salle": "SALLE DES TERRES ROUGES"
+       "sd": 2,
+       "se": 3,
+       "sets": "19-25 25-19 25-18 21-25 13-15"
       },
       {
        "date": "2026-11-29",
@@ -2815,23 +2819,32 @@
     }
    ],
    "poule": "Prenationale feminine",
-   "rang": 11,
+   "rang": 8,
    "sur": 12,
-   "pts": 5,
-   "g": 1,
+   "pts": 8,
+   "g": 2,
    "p": 4,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "PRM",
    "prochain": {
-    "date": "2026-11-21",
-    "lieu": "E",
-    "adv": "RENNES CPB 4",
-    "heure": "18:30",
-    "salle": "STADE CDT BOUGOUIN"
+    "date": "2026-11-28",
+    "lieu": "D",
+    "adv": "VOLLEY ENTENTE GUIPEL/ACLC",
+    "heure": "20:30",
+    "salle": "SALLE DU COSEC"
    },
    "resultats": [
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "RENNES CPB 4",
+     "pour": 1,
+     "contre": 3,
+     "sets": "20-25 15-25 25-22 23-25",
+     "heure": "18:30"
+    },
     {
      "date": "2026-11-07",
      "lieu": "D",
@@ -2870,13 +2883,6 @@
     }
    ],
    "avenir": [
-    {
-     "date": "2026-11-21",
-     "lieu": "E",
-     "adv": "RENNES CPB 4",
-     "heure": "18:30",
-     "salle": "STADE CDT BOUGOUIN"
-    },
     {
      "date": "2026-11-28",
      "lieu": "D",
@@ -2978,63 +2984,63 @@
      "classement": [
       {
        "rang": 1,
-       "club": "ST GREGOIRE 2",
-       "pts": 12,
-       "j": 4,
-       "g": 4,
+       "club": "ORGERBLON 1",
+       "pts": 15,
+       "j": 5,
+       "g": 5,
        "p": 0
       },
       {
        "rang": 2,
-       "club": "ORGERBLON 1",
+       "club": "ST GREGOIRE 2",
        "pts": 12,
-       "j": 4,
+       "j": 5,
        "g": 4,
-       "p": 0
+       "p": 1
       },
       {
        "rang": 3,
        "club": "RENNES CPB 4",
-       "pts": 7,
-       "j": 4,
-       "g": 2,
+       "pts": 10,
+       "j": 5,
+       "g": 3,
        "p": 2
       },
       {
        "rang": 4,
        "club": "LOUVIGNE DE BAIS 1",
-       "pts": 7,
-       "j": 4,
-       "g": 2,
+       "pts": 9,
+       "j": 5,
+       "g": 3,
        "p": 2
       },
       {
        "rang": 5,
        "club": "LIFFRE 1",
-       "pts": 5,
-       "j": 4,
-       "g": 2,
+       "pts": 8,
+       "j": 5,
+       "g": 3,
        "p": 2
       },
       {
        "rang": 6,
        "club": "UGS CESSON CHANTEPIE VERN 3",
-       "pts": 5,
-       "j": 4,
+       "pts": 6,
+       "j": 5,
        "g": 2,
-       "p": 2
+       "p": 3
       },
       {
        "rang": 7,
        "club": "GUICHEN 2",
        "pts": 5,
-       "j": 4,
+       "j": 5,
        "g": 2,
-       "p": 2
+       "p": 3
       },
       {
        "rang": 8,
-       "club": "LAILLE 1",
+       "club": "VALLONS de VILAINE 1",
        "pts": 3,
        "j": 4,
        "g": 1,
@@ -3042,11 +3048,11 @@
       },
       {
        "rang": 9,
-       "club": "VALLONS de VILAINE 1",
+       "club": "LAILLE 1",
        "pts": 3,
-       "j": 4,
+       "j": 5,
        "g": 1,
-       "p": 3
+       "p": 4
       },
       {
        "rang": 10,
@@ -3272,7 +3278,9 @@
        "heure": "18:30",
        "j": 5,
        "ext": "ST GREGOIRE 2",
-       "salle": "STADE CDT BOUGOUIN"
+       "sd": 3,
+       "se": 1,
+       "sets": "25-20 25-15 22-25 25-23"
       },
       {
        "date": "2026-11-21",
@@ -3280,7 +3288,9 @@
        "heure": "18:30",
        "j": 5,
        "ext": "LOUVIGNE DE BAIS 1",
-       "salle": "Beausoleil à Cesson"
+       "sd": 2,
+       "se": 3,
+       "sets": "25-20 16-25 25-17 14-25 11-15"
       },
       {
        "date": "2026-11-21",
@@ -3288,7 +3298,9 @@
        "heure": "21:00",
        "j": 5,
        "ext": "ORGERBLON 1",
-       "salle": "SALLE DU COSEC"
+       "sd": 0,
+       "se": 3,
+       "sets": "20-25 18-25 18-25"
       },
       {
        "date": "2026-11-21",
@@ -3296,7 +3308,9 @@
        "heure": "21:00",
        "j": 5,
        "ext": "LAILLE 1",
-       "salle": "jacques prévert"
+       "sd": 3,
+       "se": 1,
+       "sets": "25-23 19-25 25-23 25-23"
       },
       {
        "date": "2026-11-28",
@@ -3822,23 +3836,32 @@
     }
    ],
    "poule": "Pré-régionale masculine · ST GREGOIRE 2",
-   "rang": 1,
+   "rang": 2,
    "sur": 10,
    "pts": 12,
    "g": 4,
-   "p": 0,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "p": 1,
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "D1F",
    "prochain": {
-    "date": "2026-11-21",
-    "lieu": "D",
-    "adv": "UGS CCV 3",
-    "heure": "18:00",
-    "salle": "SALLE DU COSEC"
+    "date": "2026-11-28",
+    "lieu": "E",
+    "adv": "BRUZ JA 1",
+    "heure": "21:00",
+    "salle": "PIERRE BROSSOLETTE"
    },
    "resultats": [
+    {
+     "date": "2026-11-21",
+     "lieu": "D",
+     "adv": "UGS CCV 3",
+     "pour": 3,
+     "contre": 0,
+     "sets": "25-12 25-15 26-24",
+     "heure": "18:00"
+    },
     {
      "date": "2026-11-07",
      "lieu": "D",
@@ -3868,13 +3891,6 @@
     }
    ],
    "avenir": [
-    {
-     "date": "2026-11-21",
-     "lieu": "D",
-     "adv": "UGS CCV 3",
-     "heure": "18:00",
-     "salle": "SALLE DU COSEC"
-    },
     {
      "date": "2026-11-28",
      "lieu": "E",
@@ -3978,13 +3994,21 @@
       {
        "rang": 2,
        "club": "BRUZ JA 1",
-       "pts": 10,
+       "pts": 12,
+       "j": 5,
+       "g": 4,
+       "p": 1
+      },
+      {
+       "rang": 3,
+       "club": "BROCELIANDE 3",
+       "pts": 9,
        "j": 4,
        "g": 3,
        "p": 1
       },
       {
-       "rang": 3,
+       "rang": 4,
        "club": "JANZE CORPS NUDS 1",
        "pts": 8,
        "j": 5,
@@ -3992,16 +4016,8 @@
        "p": 2
       },
       {
-       "rang": 4,
-       "club": "BROCELIANDE 3",
-       "pts": 6,
-       "j": 3,
-       "g": 2,
-       "p": 1
-      },
-      {
        "rang": 5,
-       "club": "MAEN ROCH 1",
+       "club": "ST GREGOIRE 2",
        "pts": 6,
        "j": 4,
        "g": 2,
@@ -4009,6 +4025,14 @@
       },
       {
        "rang": 6,
+       "club": "MAEN ROCH 1",
+       "pts": 6,
+       "j": 5,
+       "g": 2,
+       "p": 3
+      },
+      {
+       "rang": 7,
        "club": "GUIGNEN 3",
        "pts": 3,
        "j": 4,
@@ -4016,28 +4040,20 @@
        "p": 3
       },
       {
-       "rang": 7,
-       "club": "ST GREGOIRE 2",
-       "pts": 3,
-       "j": 3,
-       "g": 1,
-       "p": 2
-      },
-      {
        "rang": 8,
        "club": "UGS CCV 3",
        "pts": 3,
-       "j": 4,
+       "j": 5,
        "g": 1,
-       "p": 3
+       "p": 4
       },
       {
        "rang": 9,
        "club": "RENNES JA 3",
-       "pts": 0,
-       "j": 3,
+       "pts": 1,
+       "j": 4,
        "g": 0,
-       "p": 3
+       "p": 4
       }
      ],
      "matchs": [
@@ -4237,7 +4253,9 @@
        "heure": "18:30",
        "j": 5,
        "ext": "MAEN ROCH 1",
-       "salle": "Treffendel"
+       "sd": 3,
+       "se": 0,
+       "sets": "25-14 25-23 25-22"
       },
       {
        "date": "2026-11-20",
@@ -4255,7 +4273,9 @@
        "heure": "18:00",
        "j": 5,
        "ext": "UGS CCV 3",
-       "salle": "SALLE DU COSEC"
+       "sd": 3,
+       "se": 0,
+       "sets": "25-12 25-15 26-24"
       },
       {
        "date": "2026-11-21",
@@ -4263,7 +4283,9 @@
        "heure": "18:00",
        "j": 5,
        "ext": "BRUZ JA 1",
-       "salle": "MARCEL PAGNOL"
+       "sd": 2,
+       "se": 3,
+       "sets": "18-25 15-25 25-23 25-17 10-15"
       },
       {
        "date": "2026-11-28",
@@ -4762,23 +4784,32 @@
     }
    ],
    "poule": "D1 feminine · ST GREGOIRE 2",
-   "rang": 7,
+   "rang": 5,
    "sur": 9,
-   "pts": 3,
-   "g": 1,
+   "pts": 6,
+   "g": 2,
    "p": 2,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "D2M",
    "prochain": {
-    "date": "2026-11-21",
-    "lieu": "D",
-    "adv": "RENNES TA 1",
+    "date": "2026-11-28",
+    "lieu": "E",
+    "adv": "ROMILLE 1",
     "heure": "21:00",
-    "salle": "SALLE DU COSEC"
+    "salle": "SALLE ANITA CONTI"
    },
    "resultats": [
+    {
+     "date": "2026-11-21",
+     "lieu": "D",
+     "adv": "RENNES TA 1",
+     "pour": 2,
+     "contre": 3,
+     "sets": "25-23 21-25 21-25 25-16 12-15",
+     "heure": "21:00"
+    },
     {
      "date": "2026-11-07",
      "lieu": "E",
@@ -4808,13 +4839,6 @@
     }
    ],
    "avenir": [
-    {
-     "date": "2026-11-21",
-     "lieu": "D",
-     "adv": "RENNES TA 1",
-     "heure": "21:00",
-     "salle": "SALLE DU COSEC"
-    },
     {
      "date": "2026-11-28",
      "lieu": "E",
@@ -4848,42 +4872,42 @@
       {
        "rang": 2,
        "club": "ROMILLE 1",
-       "pts": 6,
-       "j": 2,
-       "g": 2,
+       "pts": 9,
+       "j": 3,
+       "g": 3,
        "p": 0
       },
       {
        "rang": 3,
        "club": "ST GREGOIRE 3",
-       "pts": 6,
-       "j": 3,
+       "pts": 7,
+       "j": 4,
        "g": 2,
-       "p": 1
+       "p": 2
       },
       {
        "rang": 4,
-       "club": "RENNES TA 1",
-       "pts": 3,
-       "j": 2,
-       "g": 1,
-       "p": 1
+       "club": "LE RHEU 3",
+       "pts": 6,
+       "j": 4,
+       "g": 2,
+       "p": 2
       },
       {
        "rang": 5,
-       "club": "LE RHEU 3",
-       "pts": 3,
-       "j": 3,
-       "g": 1,
+       "club": "RENNES TA 1",
+       "pts": 5,
+       "j": 4,
+       "g": 2,
        "p": 2
       },
       {
        "rang": 6,
        "club": "MAEN ROCH 2",
        "pts": 3,
-       "j": 4,
+       "j": 5,
        "g": 1,
-       "p": 3
+       "p": 4
       },
       {
        "rang": 7,
@@ -4997,7 +5021,9 @@
        "heure": "14:00",
        "j": 3,
        "ext": "RENNES TA 1",
-       "salle": "SALLE ANITA CONTI"
+       "sd": 3,
+       "se": 1,
+       "sets": "26-24 25-18 18-25 25-13"
       },
       {
        "date": "2026-11-07",
@@ -5046,7 +5072,9 @@
        "heure": "21:00",
        "j": 5,
        "ext": "MAEN ROCH 2",
-       "salle": "GYMNASE DU COSEC"
+       "sd": 3,
+       "se": 0,
+       "sets": "25-19 25-22 25-17"
       },
       {
        "date": "2026-11-21",
@@ -5054,7 +5082,9 @@
        "heure": "21:00",
        "j": 5,
        "ext": "RENNES TA 1",
-       "salle": "SALLE DU COSEC"
+       "sd": 2,
+       "se": 3,
+       "sets": "25-23 21-25 21-25 25-16 12-15"
       },
       {
        "date": "2026-11-21",
@@ -5129,10 +5159,10 @@
    "poule": "Departementale 2 masculine A · ST GREGOIRE 3",
    "rang": 3,
    "sur": 7,
-   "pts": 6,
+   "pts": 7,
    "g": 2,
-   "p": 1,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "p": 2,
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "M18M région",
@@ -5403,7 +5433,7 @@
    "pts": 2,
    "g": 1,
    "p": 0,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "M18M départemental",
@@ -5459,6 +5489,14 @@
      "classement": [
       {
        "rang": 1,
+       "club": "LE RHEU 1",
+       "pts": 6,
+       "j": 2,
+       "g": 2,
+       "p": 0
+      },
+      {
+       "rang": 2,
        "club": "PLANCOET (22)",
        "pts": 3,
        "j": 1,
@@ -5466,20 +5504,12 @@
        "p": 0
       },
       {
-       "rang": 2,
+       "rang": 3,
        "club": "COMBOURG",
        "pts": 3,
-       "j": 1,
+       "j": 2,
        "g": 1,
-       "p": 0
-      },
-      {
-       "rang": 3,
-       "club": "LE RHEU 1",
-       "pts": 3,
-       "j": 1,
-       "g": 1,
-       "p": 0
+       "p": 1
       },
       {
        "rang": 4,
@@ -5560,7 +5590,10 @@
        "date": "2026-11-21",
        "dom": "COMBOURG",
        "j": 3,
-       "ext": "LE RHEU 1"
+       "ext": "LE RHEU 1",
+       "sd": 0,
+       "se": 3,
+       "sets": "17-25 26-28 21-25"
       },
       {
        "date": "2026-11-21",
@@ -5628,7 +5661,7 @@
    "pts": 0,
    "g": 0,
    "p": 2,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "M18F 1",
@@ -5880,7 +5913,7 @@
    "pts": 5,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "M18F 2",
@@ -5954,9 +5987,9 @@
       {
        "rang": 2,
        "club": "COMBOURG",
-       "pts": 3,
-       "j": 1,
-       "g": 1,
+       "pts": 6,
+       "j": 2,
+       "g": 2,
        "p": 0
       },
       {
@@ -5971,9 +6004,9 @@
        "rang": 4,
        "club": "DINARD 3",
        "pts": 0,
-       "j": 1,
+       "j": 2,
        "g": 0,
-       "p": 1
+       "p": 2
       },
       {
        "rang": 5,
@@ -6048,7 +6081,10 @@
        "date": "2026-11-21",
        "dom": "COMBOURG",
        "j": 3,
-       "ext": "DINARD 3"
+       "ext": "DINARD 3",
+       "sd": 3,
+       "se": 0,
+       "sets": "25-21 25-23 25-18"
       },
       {
        "date": "2026-11-21",
@@ -6116,7 +6152,7 @@
    "pts": 3,
    "g": 1,
    "p": 2,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "M15F",
@@ -6359,7 +6395,7 @@
    "pts": 0,
    "g": 0,
    "p": 2,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "M15M",
@@ -6534,17 +6570,16 @@
    "pts": 4,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "M13F",
    "prochain": {
-    "date": "2026-11-21",
+    "date": "2026-12-05",
     "lieu": "E",
-    "adv": "CHATEAUBOURG MARPIRE 35 V 2",
+    "adv": "LIFFRE US",
     "heure": null,
-    "salle": "LIFFRE",
-    "heure_saisie": "14:00"
+    "salle": "RENNES EC"
    },
    "resultats": [
     {
@@ -6558,14 +6593,6 @@
     }
    ],
    "avenir": [
-    {
-     "date": "2026-11-21",
-     "lieu": "E",
-     "adv": "CHATEAUBOURG MARPIRE 35 V 2",
-     "heure": null,
-     "salle": "LIFFRE",
-     "heure_saisie": "14:00"
-    },
     {
      "date": "2026-12-05",
      "lieu": "E",
@@ -6581,7 +6608,16 @@
      "salle": "RENNES EC"
     }
    ],
-   "attente": [],
+   "attente": [
+    {
+     "date": "2026-11-21",
+     "lieu": "E",
+     "adv": "CHATEAUBOURG MARPIRE 35 V 2",
+     "heure": null,
+     "salle": "LIFFRE",
+     "heure_saisie": "14:00"
+    }
+   ],
    "poules": [
     {
      "titre": "M13 féminines bronze poule C",
@@ -6798,7 +6834,7 @@
    "pts": 3,
    "g": 1,
    "p": 1,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "M13M",
@@ -7075,7 +7111,7 @@
    "pts": 2,
    "g": 1,
    "p": 0,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 1",
@@ -7314,7 +7350,7 @@
    "pts": 7,
    "g": 2,
    "p": 1,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "Loisir Compet'Lib 2",
@@ -7558,7 +7594,7 @@
    "pts": 4,
    "g": 1,
    "p": 3,
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   }
  ],
  "coupes": [
@@ -7794,7 +7830,7 @@
     }
    ],
    "equipe": "N3M",
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "Coupe de Bretagne M18M",
@@ -7882,7 +7918,7 @@
     }
    ],
    "equipe": "M18M région",
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   },
   {
    "nom": "Coupe CD35 masculine",
@@ -8012,7 +8048,7 @@
     }
    ],
    "equipe": "PRM",
-   "lu": "2026-11-21T17:36:17+01:00"
+   "lu": "2026-11-22T16:49:14+01:00"
   }
  ],
  "nonsuivies": [],
