@@ -281,7 +281,7 @@ function liPlateau(b,auj,h,sansCarte){
 const SEM_PROG={debut:null,dom:false}; // semaine affichée (null : celle d'aujourd'hui) et filtre « À domicile »
 function carteProgramme(d){
   const c=el("article","carte"),poule=el("p","poule"),nav=el("div","nav"),zone=el("div","jours");
-  const prec=el("button",null,"‹"),suiv=el("button",null,"›"),auj_b=el("button","aujourdhui","Aujourd'hui"),dom=el("button","bascule","À domicile");
+  const prec=el("button",null,"‹"),suiv=el("button",null,"›"),auj_b=el("button","aujourdhui","Cette semaine"),dom=el("button","bascule","À domicile");
   prec.setAttribute("aria-label","Semaine précédente");suiv.setAttribute("aria-label","Semaine suivante");
   nav.append(prec,auj_b,suiv);c.append(el("h2",null,"Programme"),poule,nav,dom,zone);
   let courant=null;

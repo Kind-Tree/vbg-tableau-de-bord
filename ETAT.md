@@ -17,7 +17,7 @@ Heure tolérante faite (19/11) : 9:30, 9h30, 9h, 14h00, 14 h 30, heure seule (13
 
 ## À vérifier sur l'iPhone (site en ligne)
 1. Au lancement : « Programme » s'ouvre, semaine du lundi au dimanche, aujourd'hui signalé.
-2. ‹ › parcourent la saison (bloqués au premier et au dernier match) ; « Aujourd'hui » ramène ; pas de défilement horizontal.
+2. ‹ › parcourent la saison (bloqués au premier et au dernier match) ; « Cette semaine » ramène (renommé le 26/11, pas encore en ligne) ; pas de défilement horizontal.
 3. Plateau (M13) : une seule ligne « Plateau », « VBG » si c'est chez nous, sans domicile/extérieur match par match.
 4. Heures absentes : « Heure à confirmer ». Exempt : ligne « Exempt » ou « exempte d'un tour » sur le plateau. Jamais « xxxxx ».
 5. Filtre « À domicile » : bouton orange quand actif ; les matchs à l'extérieur disparaissent.
@@ -29,7 +29,7 @@ Heure tolérante faite (19/11) : 9:30, 9h30, 9h, 14h00, 14 h 30, heure seule (13
 
 ## En attente / à surveiller
 - Passages du 20/11 (18 h) et du 22/11 : voir « Reste à faire ».
-- Non vérifiés : e-mail d'échec réel (y compris « ECHEC contrôle »), rendu iPhone des nouvelles vues.
+- Non vérifiés : e-mail d'échec réel (y compris « ECHEC contrôle »), rendu iPhone des nouvelles vues. À CORRIGER (vu le 28/11) : test Node « match de coupe passé ou à plus de 7 jours » en échec (Node 120/121), même sans changement de la page ; il lit les vraies données `docs/data.json`.
 - Janvier : changement de phase des poules jeunes (SAISON.md, section « Changement de phase »).
 - Décisions ouvertes : historique Git de `main` (vrais noms d'arbitres dans `ebf790f`), dépôt GitHub PUBLIC (vérifié le 19/11) donc ebf790f est lisible de tous, adresse et propriétaire du dépôt, rappel d'agenda fin août 2027.
 - Défauts mineurs connus : plafond de 5 résultats par carte, ordre à égalité de date, page ouverte non recalculée avant retour au premier plan.
