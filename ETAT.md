@@ -17,7 +17,7 @@ Heure tolérante faite (19/11) : 9:30, 9h30, 9h, 14h00, 14 h 30, heure seule (13
 
 ## À vérifier sur l'iPhone (site en ligne)
 1. Au lancement : « Programme » s'ouvre, semaine du lundi au dimanche, aujourd'hui signalé.
-2. ‹ › parcourent la saison (bloqués au premier et au dernier match) ; « Cette semaine » ramène (renommé le 26/11, pas encore en ligne) ; pas de défilement horizontal.
+2. ‹ › parcourent la saison (bloqués au premier et au dernier match) ; « Cette semaine » ramène (renommé, en ligne le 28/11) ; pas de défilement horizontal.
 3. Plateau (M13) : une seule ligne « Plateau », « VBG » si c'est chez nous, sans domicile/extérieur match par match.
 4. Heures absentes : « Heure à confirmer ». Exempt : ligne « Exempt » ou « exempte d'un tour » sur le plateau. Jamais « xxxxx ».
 5. Filtre « À domicile » : bouton orange quand actif ; les matchs à l'extérieur disparaissent.
